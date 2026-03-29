@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="planet-shell" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(116 96) rotate(42.5) scale(174.5)">
+      <stop offset="0" stop-color="#F7FDFF"/>
+      <stop offset="0.18" stop-color="#BBEAFF"/>
+      <stop offset="0.44" stop-color="#71B6FF"/>
+      <stop offset="0.74" stop-color="#2852A6"/>
+      <stop offset="1" stop-color="#111D4B"/>
+    </radialGradient>
+    <radialGradient id="planet-aura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(128 106) rotate(90) scale(154)">
+      <stop offset="0" stop-color="#DAF6FF" stop-opacity="0.92"/>
+      <stop offset="0.35" stop-color="#8ED5FF" stop-opacity="0.48"/>
+      <stop offset="0.76" stop-color="#4D86FF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#4D86FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shadow-sweep" x1="78" y1="82" x2="244" y2="244" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#07122C" stop-opacity="0"/>
+      <stop offset="0.52" stop-color="#07122C" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#040916" stop-opacity="0.58"/>
+    </linearGradient>
+    <radialGradient id="ice-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(114 100) rotate(59.2) scale(80.5 74.7)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.92"/>
+      <stop offset="0.44" stop-color="#DDF5FF" stop-opacity="0.44"/>
+      <stop offset="1" stop-color="#DDF5FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="planet-shadow" x="0.5" y="5.5" width="319" height="309" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dx="-4" dy="10"/>
+      <feGaussianBlur stdDeviation="10"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0352941 0 0 0 0 0.0823529 0 0 0 0 0.184314 0 0 0 0.36 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_hero"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_hero" result="shape"/>
+    </filter>
+    <clipPath id="planet-clip">
+      <circle cx="160" cy="160" r="122"/>
+    </clipPath>
+  </defs>
+
+  <g filter="url(#planet-shadow)">
+    <circle cx="160" cy="160" r="138" fill="url(#planet-aura)" opacity="0.72"/>
+    <circle cx="160" cy="160" r="122" fill="url(#planet-shell)"/>
+
+    <g clip-path="url(#planet-clip)">
+      <ellipse cx="120" cy="102" rx="82" ry="68" fill="url(#ice-glow)"/>
+      <ellipse cx="118" cy="102" rx="52" ry="46" fill="#FFFFFF" fill-opacity="0.18"/>
+      <ellipse cx="214" cy="214" rx="146" ry="120" fill="#0D1C49" fill-opacity="0.28"/>
+
+      <path d="M34 124C57 88 96 66 142 70C171 72 197 67 218 53C245 35 284 43 303 68C311 79 315 91 316 106C296 132 267 147 232 149C206 150 184 140 161 132C137 123 111 118 86 125C69 129 51 137 34 124Z" fill="#8FC2FF" fill-opacity="0.44"/>
+      <path d="M26 172C52 149 90 135 126 142C147 146 164 155 183 155C205 156 223 145 243 140C270 133 296 141 316 163C313 184 304 201 288 217C266 239 236 251 205 254C175 258 145 252 117 245C89 239 58 237 37 220C24 209 17 191 26 172Z" fill="#67E4D1" fill-opacity="0.42"/>
+      <path d="M70 204C90 192 114 190 132 200C149 209 160 226 179 232C198 239 222 233 242 240C253 244 261 252 266 264C239 279 207 287 173 288C123 289 76 272 42 241C47 223 55 213 70 204Z" fill="#B6FFD6" fill-opacity="0.34"/>
+
+      <path d="M82 96C111 86 148 87 183 98" stroke="#FCFFFF" stroke-opacity="0.2" stroke-width="7" stroke-linecap="round"/>
+      <path d="M70 122C110 111 165 116 209 133" stroke="#F7FFFF" stroke-opacity="0.14" stroke-width="9" stroke-linecap="round"/>
+      <path d="M66 156C115 145 180 154 230 176" stroke="#EEF8FF" stroke-opacity="0.14" stroke-width="10" stroke-linecap="round"/>
+      <path d="M78 198C119 194 167 206 205 227" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="8" stroke-linecap="round"/>
+
+      <circle cx="160" cy="160" r="122" fill="url(#shadow-sweep)"/>
+    </g>
+
+    <circle cx="160" cy="160" r="122" stroke="#DBF7FF" stroke-opacity="0.42" stroke-width="2"/>
+    <path d="M78 101C93 61 132 35 177 34" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="7" stroke-linecap="round"/>
+    <path d="M82 114C97 75 131 49 171 47" stroke="#C9ECFF" stroke-opacity="0.34" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>

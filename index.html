@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <title>hackPHS 2026 | Into the Skies</title>
+    <meta
+        name="description"
+        content="hackPHS 2026 is Princeton High School's student-run 24-hour hackathon for high school students across New Jersey."
+    />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Tektur:wght@700;900&display=swap"
+            rel="stylesheet"
+        />
+    <link rel="stylesheet" href="/styles.css?v=20260329i" />
+    <script src="/main.js?v=20260329j" defer></script>
+</head>
+<body>
+        <div class="background-stack" aria-hidden="true">
+            <div class="space-wash"></div>
+            <div class="sky-wash"></div>
+            <div class="aurora aurora--one"></div>
+            <div class="aurora aurora--two"></div>
+        <div class="paint-ribbon paint-ribbon--one"></div>
+        <div class="paint-ribbon paint-ribbon--two"></div>
+        <div class="paint-ribbon paint-ribbon--three"></div>
+        <div class="paint-ribbon paint-ribbon--four"></div>
+        <div class="galaxy-ring"></div>
+        <div class="signal-grid"></div>
+        <div class="signal-arc signal-arc--one"></div>
+        <div class="signal-arc signal-arc--two"></div>
+        <div class="star-field" data-star-field></div>
+        <div class="sun-glow"></div>
+            <div class="sky-flight">
+                <svg class="sky-flight__mural" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <linearGradient id="mural-cloud-cool" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fefefe" />
+                            <stop offset="38%" stop-color="#eff8ff" />
+                            <stop offset="72%" stop-color="#d6eaff" />
+                            <stop offset="100%" stop-color="#9fc8ff" />
+                        </linearGradient>
+                        <linearGradient id="mural-cloud-shadow" x1="20%" y1="20%" x2="80%" y2="100%">
+                            <stop offset="0%" stop-color="#fcefc7" />
+                            <stop offset="40%" stop-color="#d9ebff" />
+                            <stop offset="100%" stop-color="#84b8ff" />
+                        </linearGradient>
+                        <radialGradient id="mural-halo" cx="28%" cy="24%" r="46%">
+                            <stop offset="0%" stop-color="rgba(255,248,196,0.95)" />
+                            <stop offset="38%" stop-color="rgba(255,237,174,0.42)" />
+                            <stop offset="100%" stop-color="rgba(255,237,174,0)" />
+                        </radialGradient>
+                    </defs>
+                    <ellipse cx="330" cy="150" rx="250" ry="120" fill="url(#mural-halo)" opacity="0.7" />
+                    <ellipse cx="316" cy="540" rx="248" ry="34" fill="#4c75bb" opacity="0.11" />
+                    <ellipse cx="904" cy="554" rx="220" ry="28" fill="#4c75bb" opacity="0.1" />
+
+                    <g opacity="0.98">
+                        <ellipse cx="248" cy="414" rx="104" ry="82" fill="url(#mural-cloud-cool)" />
+                        <ellipse cx="390" cy="350" rx="150" ry="124" fill="url(#mural-cloud-cool)" />
+                        <ellipse cx="520" cy="422" rx="154" ry="94" fill="url(#mural-cloud-cool)" />
+                        <ellipse cx="382" cy="446" rx="270" ry="96" fill="url(#mural-cloud-shadow)" opacity="0.96" />
+                        <ellipse cx="430" cy="314" rx="98" ry="42" fill="#fff6d1" opacity="0.26" />
+                        <ellipse cx="286" cy="380" rx="72" ry="34" fill="#ffffff" opacity="0.3" />
+                    </g>
+
+                    <g opacity="0.9">
+                        <ellipse cx="824" cy="458" rx="116" ry="68" fill="url(#mural-cloud-cool)" />
+                        <ellipse cx="944" cy="412" rx="132" ry="88" fill="url(#mural-cloud-cool)" />
+                        <ellipse cx="1052" cy="462" rx="104" ry="62" fill="url(#mural-cloud-shadow)" />
+                        <ellipse cx="934" cy="486" rx="214" ry="70" fill="#eaf6ff" opacity="0.86" />
+                        <ellipse cx="968" cy="398" rx="82" ry="28" fill="#fff4cc" opacity="0.24" />
+                    </g>
+
+                    <g opacity="0.7" fill="none" stroke="#f5fbff" stroke-linecap="round" stroke-width="5">
+                        <path d="M824 208C840 194 856 194 872 208" />
+                        <path d="M868 188C880 176 894 176 906 188" />
+                        <path d="M928 226C942 212 958 212 972 226" />
+                    </g>
+                </svg>
+
+                <div class="sky-flight__plane-path">
+                    <div class="sky-flight__plane-jitter">
+                        <div class="sky-flight__trail"></div>
+                        <svg class="sky-flight__plane" viewBox="0 0 260 160">
+                            <defs>
+                                <linearGradient id="sky-plane-shell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffffff" />
+                                    <stop offset="48%" stop-color="#e5f2ff" />
+                                    <stop offset="100%" stop-color="#8dbaff" />
+                                </linearGradient>
+                                <linearGradient id="sky-plane-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6da9ff" />
+                                    <stop offset="100%" stop-color="#2d65cf" />
+                                </linearGradient>
+                            </defs>
+                            <ellipse cx="128" cy="122" rx="78" ry="13" fill="#31548f" opacity="0.12" />
+                            <path d="M28 92L122 74L214 32L230 42L170 82L236 92L232 106L160 98L118 132L100 130L120 96L38 104Z" fill="url(#sky-plane-shell)" />
+                            <path d="M118 96L84 146L66 144L96 98Z" fill="url(#sky-plane-wing)" />
+                            <path d="M138 74L102 30L120 32L156 68Z" fill="#cfe7ff" />
+                            <path d="M198 40L216 32L230 42L212 49Z" fill="#5f95f6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="sky-line"></div>
+        </div>
+
+    <main class="hero-page" id="top">
+        <header class="top-strip">
+            <a class="brand" href="#top" aria-label="hackPHS home">
+                <img class="brand__mark" src="/favicon.svg" alt="hackPHS logo" />
+                <span>hackPHS 2026</span>
+            </a>
+
+            <div class="top-strip__right">
+                <div class="past-years-menu" data-past-years-menu>
+                    <button
+                        class="past-years-menu__trigger"
+                        type="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        data-past-years-trigger
+                    >
+                        Past Years
+                    </button>
+
+                    <div class="past-years-menu__panel" data-past-years-panel>
+                        <a href="https://hackphs.tech/" target="_blank" rel="noreferrer">2025</a>
+                        <a href="https://hackprincetonhs.github.io/hackphs2022/" target="_blank" rel="noreferrer">2022</a>
+                        <a href="http://2021.hackphs.tech/" target="_blank" rel="noreferrer">2021</a>
+                        <a href="http://2020.hackphs.tech/" target="_blank" rel="noreferrer">2020</a>
+                        <a href="http://2019.hackphs.tech/" target="_blank" rel="noreferrer">2019</a>
+                        <a href="https://2018.hackphs.tech/" target="_blank" rel="noreferrer">2018</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <a class="mlh-badge" href="https://mlh.io/" target="_blank" rel="noreferrer" aria-label="MLH trust badge">
+            <img
+                src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg"
+                alt="Major League Hacking 2026 hackathon season badge"
+            />
+        </a>
+
+        <section class="hero">
+            <div class="hero__copy">
+                <p class="hero__eyebrow">Princeton High School's Seventh Annual Hackathon</p>
+
+                <div class="hero__masthead">
+                    <img class="hero__logo" src="/favicon-96x96.png" alt="hackPHS tiger logo" />
+                    <div class="hero__wordmark">
+                        <div class="hero__circuit hero__circuit--top" aria-hidden="true"></div>
+                        <h1 class="hero__title">hackPHS 2026</h1>
+                        <div class="hero__circuit hero__circuit--bottom" aria-hidden="true"></div>
+                    </div>
+                </div>
+
+                <p class="hero__tagline">into the sk<span class="tagline-i">i</span>es...</p>
+
+                <p class="hero__lede">
+                    hackPHS brings high school students from across New Jersey together for 24 hours of building,
+                    learning, meeting new people, and making something awesome.
+                </p>
+
+                <div class="hero__actions" id="interest">
+                    <button class="submit-button" type="button" data-register-trigger>Register</button>
+                    <a href="https://hackphs.tech/" target="_blank" rel="noreferrer">View 2025</a>
+                </div>
+
+                <p class="interest-form__feedback" data-form-feedback aria-live="polite"></p>
+            </div>
+
+            <div class="hero__space-scene" aria-hidden="true" data-orbit-scene>
+                <div class="scene-dust scene-dust--one"></div>
+                <div class="scene-dust scene-dust--two"></div>
+                <div class="space-planet">
+                    <div class="space-planet__wake"></div>
+                    <div class="space-planet__body">
+                        <img class="space-planet__art" src="/assets/space-planet-texture.svg?v=20260329g" alt="" />
+                    </div>
+                </div>
+                <div class="scene-orbit-guide"></div>
+
+                <div
+                    class="orbit-body orbit-body--rocket"
+                    data-orbit-body
+                    data-orbit-radius-x="172"
+                    data-orbit-radius-y="92"
+                    data-orbit-speed="0.00038"
+                    data-orbit-phase="0.7"
+                    data-orbit-tilt="18"
+                >
+                    <div class="orbit-body__glow" data-orbit-shadow></div>
+                    <svg class="orbit-body__sprite orbit-body__sprite--rocket" viewBox="0 0 230 150">
+                        <defs>
+                            <linearGradient id="rocket-shell" x1="8%" y1="10%" x2="92%" y2="90%">
+                                <stop offset="0%" stop-color="#fbfdff" />
+                                <stop offset="45%" stop-color="#bdd7ff" />
+                                <stop offset="100%" stop-color="#6797f7" />
+                            </linearGradient>
+                            <linearGradient id="rocket-side" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#234c98" />
+                                <stop offset="100%" stop-color="#0f2652" />
+                            </linearGradient>
+                            <linearGradient id="rocket-flame" x1="0%" y1="50%" x2="100%" y2="50%">
+                                <stop offset="0%" stop-color="#ff6c55" />
+                                <stop offset="55%" stop-color="#ffb16d" />
+                                <stop offset="100%" stop-color="#fff3c5" />
+                            </linearGradient>
+                        </defs>
+                        <ellipse cx="116" cy="112" rx="74" ry="12" fill="#24436f" opacity="0.14" />
+                        <path d="M38 72C55 45 91 30 145 36C173 39 197 55 208 76C197 97 173 113 145 116C91 122 55 107 38 80Z" fill="url(#rocket-shell)" />
+                        <path d="M49 72C62 54 95 44 145 48C165 50 182 60 189 76C182 92 165 102 145 104C95 108 62 98 49 80Z" fill="url(#rocket-side)" opacity="0.26" />
+                        <path d="M24 62L55 72L24 91C16 82 16 70 24 62Z" fill="#3a6bd0" />
+                        <path d="M72 36L98 56L58 60C60 49 65 40 72 36Z" fill="#7aa7ff" />
+                        <path d="M72 116L98 96L58 92C60 103 65 112 72 116Z" fill="#4d76d8" />
+                        <path d="M145 36C177 40 199 56 210 76C199 96 177 112 145 116C168 105 184 91 191 76C184 61 168 47 145 36Z" fill="#eff7ff" opacity="0.95" />
+                        <circle cx="150" cy="76" r="15" fill="#12366b" />
+                        <circle cx="150" cy="76" r="8.5" fill="#9ce2ff" />
+                        <path d="M10 76C4 63 6 49 18 39C19 54 31 63 46 68C31 74 19 85 18 114C6 103 4 89 10 76Z" fill="url(#rocket-flame)" />
+                    </svg>
+                </div>
+
+                <div class="blackhole">
+                    <div class="blackhole__halo"></div>
+                    <div class="blackhole__disk blackhole__disk--back"></div>
+                    <div class="blackhole__core"></div>
+                    <div class="blackhole__lensing"></div>
+                    <div class="blackhole__disk blackhole__disk--front"></div>
+                </div>
+
+            </div>
+
+            <div class="hero__coming-soon" aria-label="Coming soon">
+                <span class="hero__coming-soon-copy">COMING SOON ...</span>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <div class="about-section__header">
+                <div>
+                    <p class="about-section__eyebrow">About</p>
+                    <h2>What is hackPHS?</h2>
+                </div>
+                <p class="about-section__deck">
+                    A student-run all-nighter built for high school students who want to make things, meet people, and
+                    try something ambitious in a day.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <aside class="about-rail" aria-label="Event facts">
+                    <p>100+ students</p>
+                    <p>24 hours</p>
+                    <p>151 Moore St</p>
+                    <p>Date TBD</p>
+                    <p>Free to attend</p>
+                </aside>
+
+                <div class="faq-list">
+                    <article class="faq-item">
+                        <h3>What is hackPHS?</h3>
+                        <p>
+                            hackPHS hosts over 100 high school students from across New Jersey to collaborate,
+                            innovate, and create in a 24-hour, student-organized hackathon based at Princeton High
+                            School. Whether you're a complete beginner or an experienced hacker, hackPHS will have
+                            something for you. hackPHS's goal is to provide a space for young and eager minds to
+                            collaborate with others, form new bonds, and create meaningful projects.
+                        </p>
+                    </article>
+
+                    <article class="faq-item">
+                        <h3>When and where is hackPHS?</h3>
+                        <p>
+                            hackPHS will be held in the cafeteria of Princeton High School, located at 151 Moore St,
+                            Princeton, NJ. Limited parking will be available around the school. The 2026 date and
+                            exact timing are still TBD, and we'll share those details once they're finalized.
+                        </p>
+                    </article>
+
+                    <article class="faq-item">
+                        <h3>Who pays for all of this?</h3>
+                        <p>hackPHS is completely free for everyone, thanks to our amazing sponsors.</p>
+                    </article>
+
+                    <article class="faq-item">
+                        <h3>What is a hackathon?</h3>
+                        <p>
+                            Hackathons are where creative and enthusiastic people come together to build awesome
+                            projects in a single all-nighter. With awesome workshops and incredible prizes, hackers
+                            will learn about new tech, build innovative solutions to real-world problems, and share
+                            their creation with the community, all in one event. If you are looking for a competition,
+                            a place to meet fellow hackers, or even just a place to learn how to code, hackathons are
+                            for you. If you want to learn more, see the
+                            <a class="inline-link" href="https://mlh.io/faq" target="_blank" rel="noreferrer">
+                                MLH Hackathon FAQ
+                            </a>.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

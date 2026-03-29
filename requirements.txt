@@ -1,0 +1,2 @@
+# No third-party packages are required for local development.
+# This file is kept so the repo has a standard Python app layout.
