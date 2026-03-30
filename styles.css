@@ -1346,6 +1346,16 @@ img {
     text-shadow: 0 1px 6px rgba(6, 15, 33, 0.1);
 }
 
+/** cut planet from mobile FOR NOW bc its muy muy goofy lookin*/
+@media screen and (max-width:700px) {
+   div.hero__space-scene {
+       display:none;
+       
+   }
+
+    
+}
+
 @keyframes twinkle {
     0%,
     100% {
