@@ -1,12 +1,17 @@
 from pathlib import Path
+from socketserver import ThreadingMixIn
 from urllib.parse import unquote
-from wsgiref.simple_server import make_server
+from wsgiref.simple_server import WSGIServer, make_server
 import mimetypes
 import os
 
 
 PORT = 3000
 ROOT = Path(__file__).resolve().parent
+
+
+class ThreadingWSGIServer(ThreadingMixIn, WSGIServer):
+    daemon_threads = True
 
 
 def application(environ, start_response):
@@ -49,5 +54,5 @@ if __name__ == "__main__":
     print(f"Serving {ROOT} at {url}")
     print("Run: python wsgi.py")
     print("Press Ctrl+C to stop.")
-    with make_server("127.0.0.1", PORT, application) as httpd:
+    with make_server("127.0.0.1", PORT, application, server_class=ThreadingWSGIServer) as httpd:
         httpd.serve_forever()
