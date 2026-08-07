@@ -1027,7 +1027,7 @@ body.nav-open .nav-toggle span:last-child {
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr);
     align-items: center;
-    gap: 0.9rem;
+    gap: 0.65rem;
     width: 100%;
     max-width: 60rem;
     margin: 2rem 0 0 auto;
@@ -1040,21 +1040,12 @@ body.nav-open .nav-toggle span:last-child {
 .sponsor-invite__lead {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
     color: #102a52;
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     white-space: nowrap;
-}
-
-.sponsor-invite__lead::after {
-    content: "";
-    width: 1.75rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.42;
 }
 
 .sponsor-invite a {
@@ -1330,10 +1321,6 @@ body.nav-open .nav-toggle span:last-child {
         grid-template-columns: 1fr;
         gap: 0.45rem;
         text-align: left;
-    }
-
-    .sponsor-invite__lead::after {
-        display: none;
     }
 
     .site-footer__inner {
