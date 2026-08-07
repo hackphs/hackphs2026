@@ -3,7 +3,7 @@
 
 python wsgi.py
 
-<<<<<<< Updated upstream
+
 Open:
 http://localhost:3000
 
