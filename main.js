@@ -130,6 +130,10 @@ function setupRevealObserver() {
 }
 
 function setupNavigation() {
+    if (window.location.hash === "#top") {
+        window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+
     siteNav?.querySelectorAll("a[href^='#']").forEach((link) => {
         link.addEventListener("click", () => yearsMenu?.removeAttribute("open"));
     });
@@ -159,28 +163,285 @@ function setupNavigation() {
     });
 }
 
+function cubicPoint(start, controlOne, controlTwo, end, progress) {
+    const inverse = 1 - progress;
+
+    return {
+        x:
+            (inverse ** 3 * start.x) +
+            (3 * inverse ** 2 * progress * controlOne.x) +
+            (3 * inverse * progress ** 2 * controlTwo.x) +
+            (progress ** 3 * end.x),
+        y:
+            (inverse ** 3 * start.y) +
+            (3 * inverse ** 2 * progress * controlOne.y) +
+            (3 * inverse * progress ** 2 * controlTwo.y) +
+            (progress ** 3 * end.y),
+    };
+}
+
+function cubicDerivative(start, controlOne, controlTwo, end, progress) {
+    const inverse = 1 - progress;
+
+    return {
+        x:
+            (3 * inverse ** 2 * (controlOne.x - start.x)) +
+            (6 * inverse * progress * (controlTwo.x - controlOne.x)) +
+            (3 * progress ** 2 * (end.x - controlTwo.x)),
+        y:
+            (3 * inverse ** 2 * (controlOne.y - start.y)) +
+            (6 * inverse * progress * (controlTwo.y - controlOne.y)) +
+            (3 * progress ** 2 * (end.y - controlTwo.y)),
+    };
+}
+
+function cubicSecondDerivative(start, controlOne, controlTwo, end, progress) {
+    return {
+        x: 6 * (
+            ((1 - progress) * (controlTwo.x - (2 * controlOne.x) + start.x)) +
+            (progress * (end.x - (2 * controlTwo.x) + controlOne.x))
+        ),
+        y: 6 * (
+            ((1 - progress) * (controlTwo.y - (2 * controlOne.y) + start.y)) +
+            (progress * (end.y - (2 * controlTwo.y) + controlOne.y))
+        ),
+    };
+}
+
+function quinticPoint(
+    start,
+    startVelocity,
+    startAcceleration,
+    end,
+    endVelocity,
+    endAcceleration,
+    duration,
+    progress,
+) {
+    const square = progress ** 2;
+    const cube = progress ** 3;
+    const fourth = progress ** 4;
+    const fifth = progress ** 5;
+    const startPositionBasis = 1 - (10 * cube) + (15 * fourth) - (6 * fifth);
+    const startVelocityBasis = progress - (6 * cube) + (8 * fourth) - (3 * fifth);
+    const startAccelerationBasis = (square - (3 * cube) + (3 * fourth) - fifth) / 2;
+    const endPositionBasis = (10 * cube) - (15 * fourth) + (6 * fifth);
+    const endVelocityBasis = (-4 * cube) + (7 * fourth) - (3 * fifth);
+    const endAccelerationBasis = (cube - (2 * fourth) + fifth) / 2;
+    const durationSquared = duration ** 2;
+
+    return {
+        x:
+            (startPositionBasis * start.x) +
+            (startVelocityBasis * startVelocity.x * duration) +
+            (startAccelerationBasis * startAcceleration.x * durationSquared) +
+            (endPositionBasis * end.x) +
+            (endVelocityBasis * endVelocity.x * duration) +
+            (endAccelerationBasis * endAcceleration.x * durationSquared),
+        y:
+            (startPositionBasis * start.y) +
+            (startVelocityBasis * startVelocity.y * duration) +
+            (startAccelerationBasis * startAcceleration.y * durationSquared) +
+            (endPositionBasis * end.y) +
+            (endVelocityBasis * endVelocity.y * duration) +
+            (endAccelerationBasis * endAcceleration.y * durationSquared),
+    };
+}
+
+function quinticDerivative(
+    start,
+    startVelocity,
+    startAcceleration,
+    end,
+    endVelocity,
+    endAcceleration,
+    duration,
+    progress,
+) {
+    const square = progress ** 2;
+    const cube = progress ** 3;
+    const fourth = progress ** 4;
+    const startPositionBasis = (-30 * square) + (60 * cube) - (30 * fourth);
+    const startVelocityBasis = 1 - (18 * square) + (32 * cube) - (15 * fourth);
+    const startAccelerationBasis = ((2 * progress) - (9 * square) + (12 * cube) - (5 * fourth)) / 2;
+    const endPositionBasis = (30 * square) - (60 * cube) + (30 * fourth);
+    const endVelocityBasis = (-12 * square) + (28 * cube) - (15 * fourth);
+    const endAccelerationBasis = ((3 * square) - (8 * cube) + (5 * fourth)) / 2;
+    const durationSquared = duration ** 2;
+
+    return {
+        x:
+            (startPositionBasis * start.x) +
+            (startVelocityBasis * startVelocity.x * duration) +
+            (startAccelerationBasis * startAcceleration.x * durationSquared) +
+            (endPositionBasis * end.x) +
+            (endVelocityBasis * endVelocity.x * duration) +
+            (endAccelerationBasis * endAcceleration.x * durationSquared),
+        y:
+            (startPositionBasis * start.y) +
+            (startVelocityBasis * startVelocity.y * duration) +
+            (startAccelerationBasis * startAcceleration.y * durationSquared) +
+            (endPositionBasis * end.y) +
+            (endVelocityBasis * endVelocity.y * duration) +
+            (endAccelerationBasis * endAcceleration.y * durationSquared),
+    };
+}
+
 function setupRocket() {
-    if (!rocket) {
+    const orbit = rocket?.closest(".rocket-orbit");
+
+    if (!rocket || !orbit) {
         return;
     }
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        rocket.classList.remove("is-intro");
-        rocket.classList.add("is-orbiting");
-        return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const chaosDuration = 4000;
+    const landingDuration = 1800;
+    const approachDuration = chaosDuration + landingDuration;
+    const orbitDuration = 10000;
+    const angularVelocity = (Math.PI * 2) / orbitDuration;
+    let startTime = 0;
+
+    function getOrbitGeometry() {
+        const width = orbit.clientWidth;
+        const height = orbit.clientHeight;
+
+        return {
+            centerX: width / 2,
+            centerY: height / 2,
+            radiusX: (width / 2) - 10,
+            radiusY: (height / 2) - 8,
+        };
     }
 
-    function finishRocketEntry(event) {
-        if (event.target !== rocket || event.animationName !== "rocket-entry") {
+    function placeRocket(point, tangent) {
+        const angle = Math.atan2(tangent.y, tangent.x) * (180 / Math.PI);
+        const x = point.x - (rocket.offsetWidth / 2);
+        const y = point.y - (rocket.offsetHeight / 2);
+
+        rocket.style.opacity = "1";
+        rocket.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${angle.toFixed(2)}deg)`;
+    }
+
+    function renderRocket(time) {
+        if (!startTime) {
+            startTime = time;
+        }
+
+        const elapsed = time - startTime;
+        const geometry = getOrbitGeometry();
+
+        if (reducedMotion) {
+            const angle = Math.PI;
+            placeRocket(
+                {
+                    x: geometry.centerX + (geometry.radiusX * Math.cos(angle)),
+                    y: geometry.centerY + (geometry.radiusY * Math.sin(angle)),
+                },
+                {
+                    x: -geometry.radiusX * Math.sin(angle),
+                    y: geometry.radiusY * Math.cos(angle),
+                },
+            );
             return;
         }
 
-        rocket.classList.remove("is-intro");
-        rocket.classList.add("is-orbiting");
-        rocket.removeEventListener("animationend", finishRocketEntry);
+        if (elapsed < approachDuration) {
+            const scaleX = orbit.clientWidth / 368;
+            const scaleY = orbit.clientHeight / 224;
+            const start = { x: -720 * scaleX, y: -250 * scaleY };
+            const chaosControlOne = { x: -560 * scaleX, y: 390 * scaleY };
+            const chaosControlTwo = { x: -180 * scaleX, y: -360 * scaleY };
+            const chaosEnd = { x: 320 * scaleX, y: -170 * scaleY };
+
+            if (elapsed < chaosDuration) {
+                const progress = clamp(elapsed / chaosDuration);
+
+                placeRocket(
+                    cubicPoint(start, chaosControlOne, chaosControlTwo, chaosEnd, progress),
+                    cubicDerivative(start, chaosControlOne, chaosControlTwo, chaosEnd, progress),
+                );
+            } else {
+                const progress = clamp((elapsed - chaosDuration) / landingDuration);
+                const landingEnd = {
+                    x: geometry.centerX - geometry.radiusX,
+                    y: geometry.centerY,
+                };
+                const landingStartVelocity = cubicDerivative(
+                    start,
+                    chaosControlOne,
+                    chaosControlTwo,
+                    chaosEnd,
+                    1,
+                );
+                const landingStartAcceleration = cubicSecondDerivative(
+                    start,
+                    chaosControlOne,
+                    chaosControlTwo,
+                    chaosEnd,
+                    1,
+                );
+                const orbitVelocity = {
+                    x: 0,
+                    y: -geometry.radiusY * angularVelocity,
+                };
+                const orbitAcceleration = {
+                    x: geometry.radiusX * angularVelocity ** 2,
+                    y: 0,
+                };
+                const normalizedStartVelocity = {
+                    x: landingStartVelocity.x / chaosDuration,
+                    y: landingStartVelocity.y / chaosDuration,
+                };
+                const normalizedStartAcceleration = {
+                    x: landingStartAcceleration.x / chaosDuration ** 2,
+                    y: landingStartAcceleration.y / chaosDuration ** 2,
+                };
+
+                placeRocket(
+                    quinticPoint(
+                        chaosEnd,
+                        normalizedStartVelocity,
+                        normalizedStartAcceleration,
+                        landingEnd,
+                        orbitVelocity,
+                        orbitAcceleration,
+                        landingDuration,
+                        progress,
+                    ),
+                    quinticDerivative(
+                        chaosEnd,
+                        normalizedStartVelocity,
+                        normalizedStartAcceleration,
+                        landingEnd,
+                        orbitVelocity,
+                        orbitAcceleration,
+                        landingDuration,
+                        progress,
+                    ),
+                );
+            }
+
+            rocket.style.opacity = `${clamp(elapsed / 280).toFixed(3)}`;
+        } else {
+            const angle = Math.PI + ((elapsed - approachDuration) * angularVelocity);
+
+            placeRocket(
+                {
+                    x: geometry.centerX + (geometry.radiusX * Math.cos(angle)),
+                    y: geometry.centerY + (geometry.radiusY * Math.sin(angle)),
+                },
+                {
+                    x: -geometry.radiusX * Math.sin(angle),
+                    y: geometry.radiusY * Math.cos(angle),
+                },
+            );
+        }
+
+        window.requestAnimationFrame(renderRocket);
     }
 
-    rocket.addEventListener("animationend", finishRocketEntry);
+    window.requestAnimationFrame(renderRocket);
 }
 
 buildStars();

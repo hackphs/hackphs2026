@@ -17,8 +17,8 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=20260807m" />
-    <script src="/main.js?v=20260807e" defer></script>
+    <link rel="stylesheet" href="/styles.css?v=20260809b" />
+    <script src="/main.js?v=20260809d" defer></script>
 </head>
 <body>
     <div class="journey-background" aria-hidden="true">
@@ -28,8 +28,30 @@
         <div class="journey-background__twilight"></div>
         <div class="journey-stars" data-star-field></div>
         <div class="journey-sun"></div>
+        <div class="journey-mountains">
+            <svg viewBox="0 0 1600 520" preserveAspectRatio="none" role="presentation">
+                <path class="journey-mountains__far" d="M0 520V398L150 318L264 372L420 205L554 332L720 174L862 316L1035 228L1172 351L1350 208L1600 390V520Z" />
+                <path class="journey-mountains__snow" d="M374 255L420 205L468 261L442 249L427 269L411 247L394 261ZM670 226L720 174L773 232L746 219L728 242L712 217L691 235ZM1301 257L1350 208L1402 267L1375 252L1357 275L1341 249L1322 266Z" />
+                <path class="journey-mountains__near" d="M0 520V468L220 354L361 435L520 298L692 430L891 318L1054 451L1260 304L1420 420L1600 348V520Z" />
+                <path class="journey-mountains__ridge" d="M220 354L361 435M520 298L692 430M891 318L1054 451M1260 304L1420 420" />
+            </svg>
+        </div>
         <div class="journey-clouds journey-clouds--far"></div>
         <div class="journey-clouds journey-clouds--near"></div>
+        <div class="journey-birds">
+            <span class="journey-bird journey-bird--one"><svg viewBox="0 0 52 24" role="presentation"><path d="M2 17C10 7 18 8 26 16C34 8 42 7 50 17" /></svg></span>
+            <span class="journey-bird journey-bird--two"><svg viewBox="0 0 52 24" role="presentation"><path d="M2 17C10 7 18 8 26 16C34 8 42 7 50 17" /></svg></span>
+            <span class="journey-bird journey-bird--three"><svg viewBox="0 0 52 24" role="presentation"><path d="M2 17C10 7 18 8 26 16C34 8 42 7 50 17" /></svg></span>
+            <span class="journey-bird journey-bird--four"><svg viewBox="0 0 52 24" role="presentation"><path d="M2 17C10 7 18 8 26 16C34 8 42 7 50 17" /></svg></span>
+        </div>
+        <div class="journey-wind">
+            <span class="wind-streak wind-streak--one"></span>
+            <span class="wind-streak wind-streak--two"></span>
+            <span class="wind-streak wind-streak--three"></span>
+            <span class="wind-streak wind-streak--four"></span>
+            <span class="wind-streak wind-streak--five"></span>
+            <span class="wind-streak wind-streak--six"></span>
+        </div>
         <div class="journey-horizon"></div>
         <div class="journey-plane" data-journey-plane>
             <span class="journey-plane__trail"></span>
@@ -42,7 +64,7 @@
 
     <header class="site-header" data-site-header>
         <div class="site-header__inner">
-            <a class="brand" href="#top" aria-label="hackPHS 2026 home">
+            <a class="brand" href="/" aria-label="hackPHS 2026 home">
                 <img src="/assets/branding/favicon-96x96.png" alt="" />
                 <strong>hackPHS 2026</strong>
             </a>
@@ -102,7 +124,7 @@
                     </div>
 
                     <div class="rocket-orbit">
-                        <div class="rocket-orbit__body is-intro" data-rocket>
+                        <div class="rocket-orbit__body" data-rocket>
                             <span class="rocket-flame"></span>
                             <svg viewBox="0 0 230 150">
                                 <defs>

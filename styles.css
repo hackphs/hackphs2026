@@ -136,6 +136,195 @@ img {
     opacity: clamp(0, calc((var(--journey) - 0.08) * 5), 0.88);
 }
 
+.journey-mountains {
+    inset: auto 0 -7vh !important;
+    height: 58vh;
+    opacity: clamp(0, calc((var(--journey) - 0.12) * 5), 0.86);
+    transform: translate3d(
+        calc(var(--journey) * -3vw),
+        calc(4vh - (var(--journey) * 6vh)),
+        0
+    ) scale(1.04);
+    transform-origin: bottom center;
+}
+
+.journey-mountains svg {
+    width: 103%;
+    height: 100%;
+    overflow: visible;
+}
+
+.journey-mountains__far {
+    fill: rgba(38, 76, 112, 0.25);
+}
+
+.journey-mountains__near {
+    fill: rgba(24, 55, 88, 0.4);
+}
+
+.journey-mountains__snow {
+    fill: rgba(244, 250, 255, 0.36);
+}
+
+.journey-mountains__ridge {
+    fill: none;
+    stroke: rgba(223, 239, 250, 0.17);
+    stroke-width: 2;
+}
+
+.journey-birds {
+    color: rgba(17, 47, 74, 0.62);
+    opacity: clamp(0, calc((var(--journey) - 0.19) * 7), 0.82);
+    transform: translate3d(calc(var(--journey) * 8vw), calc(var(--journey) * -3vh), 0);
+    transition: color 500ms ease, opacity 500ms ease;
+}
+
+.journey-bird {
+    position: absolute;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(25, 55, 83, 0.1));
+    animation: bird-drift 4.8s ease-in-out infinite alternate;
+}
+
+.journey-bird svg {
+    width: 100%;
+    overflow: visible;
+    animation: bird-wing 2.4s ease-in-out infinite alternate;
+}
+
+.journey-bird path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+}
+
+.journey-bird--one {
+    top: 21%;
+    left: 57%;
+    width: clamp(2.6rem, 4.4vw, 4.3rem);
+}
+
+.journey-bird--two {
+    top: 29%;
+    left: 66%;
+    width: clamp(1.9rem, 3.2vw, 3.1rem);
+    animation-delay: -1.3s;
+}
+
+.journey-bird--two svg {
+    animation-delay: -0.8s;
+}
+
+.journey-bird--three {
+    top: 17%;
+    left: 73%;
+    width: clamp(1.5rem, 2.5vw, 2.5rem);
+    animation-delay: -2.7s;
+}
+
+.journey-bird--three svg {
+    animation-delay: -1.5s;
+}
+
+.journey-bird--four {
+    top: 34%;
+    left: 79%;
+    width: clamp(1.25rem, 2vw, 2rem);
+    animation-delay: -3.4s;
+}
+
+.journey-wind {
+    overflow: hidden;
+    color: rgba(244, 250, 255, 0.62);
+    opacity: clamp(0, calc((var(--journey) - 0.14) * 5.5), 0.72);
+    transition: color 500ms ease, opacity 500ms ease;
+}
+
+.wind-streak {
+    position: absolute;
+    left: -32vw;
+    display: block;
+    width: clamp(8rem, 17vw, 17rem);
+    height: clamp(1.2rem, 2.4vw, 2.4rem);
+    border-top: 1px solid currentColor;
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 5px rgba(33, 72, 102, 0.08));
+    opacity: 0.76;
+    animation: wind-sweep var(--wind-speed, 10s) linear var(--wind-delay, 0s) infinite;
+}
+
+.wind-streak::after {
+    content: "";
+    position: absolute;
+    top: 0.48rem;
+    right: 9%;
+    width: 58%;
+    height: 58%;
+    border-top: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.46;
+}
+
+.wind-streak--one {
+    top: 14%;
+    --wind-speed: 9.5s;
+    --wind-delay: -3.5s;
+}
+
+.wind-streak--two {
+    top: 31%;
+    width: clamp(6rem, 13vw, 13rem);
+    --wind-speed: 12s;
+    --wind-delay: -8.2s;
+}
+
+.wind-streak--three {
+    top: 48%;
+    width: clamp(10rem, 21vw, 20rem);
+    --wind-speed: 10.8s;
+    --wind-delay: -1.7s;
+}
+
+.wind-streak--four {
+    top: 64%;
+    width: clamp(7rem, 15vw, 15rem);
+    --wind-speed: 13.4s;
+    --wind-delay: -10.1s;
+}
+
+.wind-streak--five {
+    top: 77%;
+    width: clamp(9rem, 18vw, 18rem);
+    --wind-speed: 11.6s;
+    --wind-delay: -6.4s;
+}
+
+.wind-streak--six {
+    top: 88%;
+    width: clamp(5rem, 11vw, 11rem);
+    --wind-speed: 14.2s;
+    --wind-delay: -12.6s;
+}
+
+body[data-stage="day"] .journey-wind {
+    color: rgba(25, 74, 108, 0.3);
+}
+
+body[data-stage="twilight"] .journey-birds {
+    color: rgba(229, 236, 247, 0.5);
+    opacity: 0.34;
+}
+
+body[data-stage="twilight"] .journey-mountains {
+    filter: saturate(0.74) brightness(0.68);
+}
+
+body[data-stage="twilight"] .journey-wind {
+    color: rgba(225, 236, 248, 0.34);
+    opacity: 0.38;
+}
+
 .journey-clouds {
     top: auto !important;
     height: 52vh;
@@ -1114,6 +1303,23 @@ body.nav-open .nav-toggle span:last-child {
     }
 }
 
+@keyframes bird-wing {
+    from { transform: scaleY(0.72) rotate(-1deg); }
+    to { transform: scaleY(1.08) rotate(1deg); }
+}
+
+@keyframes bird-drift {
+    from { transform: translate3d(0, -0.2rem, 0); }
+    to { transform: translate3d(0.8rem, 0.35rem, 0); }
+}
+
+@keyframes wind-sweep {
+    from { transform: translate3d(0, 0, 0) scaleX(0.82); }
+    18% { opacity: 0.82; }
+    82% { opacity: 0.68; }
+    to { transform: translate3d(164vw, -1.2vh, 0) scaleX(1.08); opacity: 0; }
+}
+
 @keyframes scroll-line {
     0% {
         transform: translateY(-110%);
@@ -1600,19 +1806,10 @@ body.nav-open .nav-toggle span:last-child {
     left: 0;
     z-index: 5;
     width: 6.6rem;
-    offset-anchor: center;
-    offset-rotate: auto;
+    opacity: 0;
+    transform-origin: center;
+    will-change: transform;
     filter: drop-shadow(0 12px 20px rgba(3, 11, 29, 0.28));
-}
-
-.rocket-orbit__body.is-intro {
-    offset-path: path("M -720 -250 C -560 390 -180 -360 320 -170 C 540 -45 10 240 10 112");
-    animation: rocket-entry 5.8s linear forwards;
-}
-
-.rocket-orbit__body.is-orbiting {
-    offset-path: path("M 10 112 C 10 52 88 8 184 8 C 280 8 358 52 358 112 C 358 172 280 216 184 216 C 88 216 10 172 10 112 Z");
-    animation: rocket-flight 10s linear infinite;
 }
 
 .rocket-orbit__body svg {
@@ -1787,18 +1984,6 @@ body.nav-open .nav-toggle span:last-child {
     color: #163653;
 }
 
-@keyframes rocket-flight {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
-}
-
-@keyframes rocket-entry {
-    from { offset-distance: 0%; opacity: 0; }
-    4% { opacity: 1; }
-    68% { opacity: 1; }
-    to { offset-distance: 100%; opacity: 1; }
-}
-
 @keyframes flame-pulse {
     from { opacity: 0.58; transform: translateY(-50%) scaleX(0.78); }
     to { opacity: 1; transform: translateY(-50%) scaleX(1.08); }
@@ -1920,6 +2105,15 @@ body.nav-open .nav-toggle span:last-child {
         gap: 0.45rem 0.9rem;
         font-size: 0.74rem;
     }
+
+    .journey-wind {
+        opacity: clamp(0, calc((var(--journey) - 0.16) * 4.5), 0.5);
+    }
+
+    .wind-streak--two,
+    .wind-streak--six {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1940,7 +2134,8 @@ body.nav-open .nav-toggle span:last-child {
         transform: none;
     }
 
-    .journey-plane {
+    .journey-plane,
+    .journey-wind {
         display: none;
     }
 }
