@@ -1208,8 +1208,9 @@ body.nav-open .nav-toggle span:last-child {
     object-fit: contain;
 }
 
-.sponsor-field__aops img {
-    filter: brightness(0) invert(1);
+.sponsor-field__hrt img {
+    width: 7rem;
+    max-height: 5.5rem;
 }
 
 .sponsor-invite {
