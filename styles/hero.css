@@ -1,0 +1,356 @@
+/* the opening scene keeps the original hackphs personality */
+.hero-section {
+    isolation: isolate;
+    min-height: 100svh;
+    padding-top: 8rem;
+    overflow: hidden;
+}
+
+.hero-section::before,
+.hero-section::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-section::before {
+    inset: -12% auto -12% 10%;
+    width: 25%;
+    background: linear-gradient(180deg, rgba(184, 215, 255, 0.25), rgba(107, 161, 232, 0.08));
+    transform: skewX(-19deg);
+}
+
+.hero-section::after {
+    top: 24%;
+    right: -4rem;
+    width: min(32vw, 27rem);
+    aspect-ratio: 1.15;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124, 92, 170, 0.16), rgba(152, 104, 182, 0.38));
+    transform: rotate(-18deg);
+}
+
+.hero-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+}
+
+.hero-copy {
+    max-width: 49rem;
+}
+
+.hero-copy .section-kicker {
+    margin-bottom: 1.1rem;
+    color: #fff1c4;
+}
+
+.hero-masthead {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(0.8rem, 1.8vw, 1.35rem);
+}
+
+.hero-logo {
+    width: clamp(88px, 10vw, 122px);
+    margin-top: 0.6rem;
+    filter: drop-shadow(0 12px 24px rgba(4, 10, 28, 0.24));
+}
+
+.hero-wordmark {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    padding: 0.55rem 0 0.7rem;
+}
+
+.hero-copy h1 {
+    margin: 0;
+    color: #9ec2ff;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(4rem, 9vw, 7rem);
+    font-weight: 500;
+    line-height: 0.86;
+    letter-spacing: -0.08em;
+    text-shadow: 0 0 26px rgba(124, 167, 255, 0.15);
+}
+
+.hero-copy h1 span {
+    display: block;
+}
+
+.hero-copy h1 span:last-child {
+    width: fit-content;
+}
+
+.hero-circuit {
+    position: absolute;
+    left: -0.2rem;
+    width: min(100%, 34rem);
+    height: 0.9rem;
+    color: #8eb7ff;
+    background-repeat: no-repeat;
+}
+
+.hero-circuit--top {
+    top: -0.15rem;
+    background-image:
+        linear-gradient(90deg, currentColor 0 88%, transparent 88%),
+        radial-gradient(circle, currentColor 0 0.32rem, transparent 0.36rem),
+        radial-gradient(circle, currentColor 0 0.32rem, transparent 0.36rem),
+        radial-gradient(circle, #d8ecff 0 0.31rem, transparent 0.35rem);
+    background-size: 100% 2px, 0.7rem 0.7rem, 0.7rem 0.7rem, 0.68rem 0.68rem;
+    background-position: 0 50%, 36% 50%, 70% 50%, 100% 50%;
+}
+
+.hero-circuit--bottom {
+    bottom: -0.2rem;
+    color: #5f9eff;
+    background-image:
+        linear-gradient(90deg, currentColor 0 90%, transparent 90%),
+        radial-gradient(circle, currentColor 0 0.32rem, transparent 0.36rem),
+        radial-gradient(circle, currentColor 0 0.32rem, transparent 0.36rem),
+        radial-gradient(circle, #b9d8ff 0 0.31rem, transparent 0.35rem);
+    background-size: 100% 2px, 0.7rem 0.7rem, 0.7rem 0.7rem, 0.68rem 0.68rem;
+    background-position: 0 50%, 24% 50%, 64% 50%, 98% 50%;
+}
+
+.hero-tagline {
+    margin: 1.2rem 0 0 clamp(0rem, 11vw, 8.8rem);
+    color: #c5defe;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+}
+
+.hero-date {
+    margin: 1.4rem 0 0;
+    color: #fff1c4;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.hero-summary {
+    max-width: 38rem;
+    margin: 0.8rem 0 0;
+    color: var(--soft-white);
+    font-size: clamp(1rem, 1.5vw, 1.16rem);
+    line-height: 1.8;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem 1.8rem;
+    margin-top: 2rem;
+}
+
+.primary-action {
+    display: inline-flex;
+    align-items: center;
+    min-height: 4.1rem;
+    padding: 1rem 2.5rem 1rem 2rem;
+    color: var(--ink);
+    background: linear-gradient(135deg, #ffd36e, #ff9a68);
+    clip-path: polygon(0 0, calc(100% - 1.45rem) 0, 100% 50%, calc(100% - 1.45rem) 100%, 0 100%);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: filter 180ms ease, transform 180ms ease;
+}
+
+.primary-action:hover,
+.primary-action:focus-visible {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+}
+
+.route-link {
+    padding: 0.45rem 0;
+    color: rgba(248, 251, 255, 0.88);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.64);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.hero-space-scene {
+    position: relative;
+    align-self: center;
+    min-height: 34rem;
+}
+
+.space-planet {
+    position: absolute;
+    top: 4%;
+    left: 0;
+    z-index: 2;
+    width: clamp(8rem, 13vw, 11rem);
+    animation: planet-float 7s ease-in-out infinite;
+}
+
+.space-planet img {
+    width: 100%;
+    filter: drop-shadow(0 18px 30px rgba(4, 10, 28, 0.25));
+}
+
+.space-planet__wake {
+    position: absolute;
+    top: 42%;
+    right: 62%;
+    width: 8rem;
+    height: 2.5rem;
+    border: 1px solid rgba(157, 207, 255, 0.28);
+    border-right: 0;
+    border-radius: 50%;
+    transform: rotate(-12deg);
+}
+
+.rocket-orbit {
+    position: absolute;
+    top: 49%;
+    left: 54%;
+    z-index: 5;
+    width: 23rem;
+    height: 14rem;
+    border: 1px solid rgba(165, 211, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-13deg);
+}
+
+.rocket-orbit__body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 6.6rem;
+    opacity: 0;
+    transform-origin: center;
+    will-change: transform;
+    filter: drop-shadow(0 12px 20px rgba(3, 11, 29, 0.28));
+}
+
+.rocket-orbit__body svg {
+    width: 100%;
+}
+
+.rocket-flame {
+    position: absolute;
+    top: 48%;
+    right: 82%;
+    width: 2.7rem;
+    height: 0.82rem;
+    border-radius: 50% 0 0 50%;
+    background: linear-gradient(90deg, transparent, #ff8060 34%, #ffd170 72%, #fff3c5);
+    filter: blur(1px);
+    transform: translateY(-50%);
+    animation: flame-pulse 260ms ease-in-out infinite alternate;
+}
+
+.blackhole {
+    position: absolute;
+    top: 49%;
+    left: 54%;
+    width: 10.5rem;
+    height: 10.5rem;
+    transform: translate(-50%, -50%) rotate(-13deg);
+}
+
+.blackhole__halo,
+.blackhole__core,
+.blackhole__lensing,
+.blackhole__disk {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.blackhole__halo {
+    width: 145%;
+    height: 145%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(146, 205, 255, 0.3), rgba(112, 93, 255, 0.13) 38%, transparent 70%);
+    filter: blur(10px);
+}
+
+.blackhole__core {
+    z-index: 4;
+    width: 48%;
+    height: 48%;
+    border-radius: 50%;
+    background: #010207;
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.95);
+}
+
+.blackhole__lensing {
+    z-index: 3;
+    width: 76%;
+    height: 76%;
+    border: 2px solid rgba(199, 228, 255, 0.62);
+    border-radius: 50%;
+    box-shadow: 0 0 1.5rem rgba(107, 162, 255, 0.6);
+}
+
+.blackhole__disk {
+    width: 160%;
+    height: 30%;
+    border-radius: 50%;
+    background: linear-gradient(90deg, transparent 2%, #698dff 22%, #f0f7ff 48%, #8b69ff 72%, transparent 98%);
+    filter: blur(1px);
+}
+
+.blackhole__disk--back { z-index: 2; }
+.blackhole__disk--front { z-index: 5; clip-path: inset(50% 0 0); }
+
+.scroll-cue {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 50%;
+    display: grid;
+    justify-items: center;
+    gap: 0.6rem;
+    color: rgba(248, 251, 255, 0.58);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+}
+
+.scroll-cue i {
+    width: 1px;
+    height: 2rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.scroll-cue i::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 55%;
+    background: #ffffff;
+    animation: scroll-line 1.8s ease-in-out infinite;
+}
+
+@keyframes flame-pulse {
+    from { opacity: 0.58; transform: translateY(-50%) scaleX(0.78); }
+    to { opacity: 1; transform: translateY(-50%) scaleX(1.08); }
+}
+
+@keyframes planet-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-0.75rem) rotate(2deg); }
+}
+
+@keyframes scroll-line {
+    from { transform: translateY(-110%); }
+    to { transform: translateY(200%); }
+}

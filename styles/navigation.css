@@ -1,0 +1,145 @@
+/* the header stays light so the hero can do the talking */
+.site-header {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 100;
+    color: var(--white);
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--page-width);
+    min-height: 4.75rem;
+    margin: 0 auto;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.68rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+}
+
+.brand img {
+    width: 2.9rem;
+    height: 2.9rem;
+    filter: drop-shadow(0 8px 18px rgba(3, 10, 29, 0.2));
+}
+
+.brand strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.85rem, 1.7vw, 1.55rem);
+    color: rgba(248, 251, 255, 0.86);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.site-nav > a,
+.years-menu > summary {
+    position: relative;
+    padding: 0.35rem 0;
+    cursor: pointer;
+}
+
+.site-nav > a::after,
+.years-menu > summary::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 180ms ease;
+}
+
+.site-nav > a:hover::after,
+.site-nav > a:focus-visible::after,
+.years-menu > summary:hover::after,
+.years-menu > summary:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.years-menu {
+    position: relative;
+}
+
+.years-menu > summary {
+    list-style: none;
+}
+
+.years-menu > summary::-webkit-details-marker {
+    display: none;
+}
+
+.years-menu > summary::before {
+    content: "";
+    display: inline-block;
+    width: 0.48rem;
+    height: 0.48rem;
+    margin-right: 0.6rem;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: translateY(-0.12rem) rotate(45deg);
+    transition: transform 180ms ease;
+}
+
+.years-menu[open] > summary::before {
+    transform: translateY(0.14rem) rotate(225deg);
+}
+
+.years-menu[open]::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 8.5rem;
+    height: 0.65rem;
+}
+
+.years-menu__links {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    right: 0;
+    display: grid;
+    min-width: 8.5rem;
+    padding: 0.55rem 0.7rem;
+    background: rgba(7, 11, 30, 0.94);
+    backdrop-filter: blur(16px);
+}
+
+.years-menu__links a {
+    padding: 0.45rem 0.2rem;
+    color: rgba(248, 251, 255, 0.76);
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+.years-menu__links a::after {
+    content: "";
+    display: block;
+    width: 0.75rem;
+    height: 1px;
+    margin-top: 0.32rem;
+    background: rgba(255, 255, 255, 0.44);
+}
+
+.years-menu__links a:hover,
+.years-menu__links a:focus-visible {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}

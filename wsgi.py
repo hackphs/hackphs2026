@@ -1,9 +1,9 @@
+import mimetypes
+import os
 from pathlib import Path
 from socketserver import ThreadingMixIn
 from urllib.parse import unquote
 from wsgiref.simple_server import WSGIServer, make_server
-import mimetypes
-import os
 
 
 PORT = 3000
@@ -21,15 +21,7 @@ def application(environ, start_response):
 
     file_path = (ROOT / path.lstrip("/")).resolve()
 
-    if ROOT not in file_path.parents and file_path != ROOT:
-        body = b"Not found"
-        start_response(
-            "404 Not Found",
-            [("Content-Type", "text/plain; charset=utf-8"), ("Content-Length", str(len(body)))],
-        )
-        return [body]
-
-    if not file_path.is_file():
+    if not file_path.is_relative_to(ROOT) or not file_path.is_file():
         body = b"Not found"
         start_response(
             "404 Not Found",
