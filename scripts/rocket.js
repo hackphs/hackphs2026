@@ -101,7 +101,6 @@ export function startRocket() {
         return;
     }
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const flightTime = 4000;
     const landingTime = 1800;
     const orbitTime = 10000;
@@ -123,7 +122,7 @@ export function startRocket() {
         let velocity;
         let flight;
 
-        if (!reducedMotion && elapsed < flightTime + landingTime) {
+        if (elapsed < flightTime + landingTime) {
             const scaleX = orbit.clientWidth / 368;
             const scaleY = orbit.clientHeight / 224;
 
@@ -135,10 +134,7 @@ export function startRocket() {
             };
         }
 
-        if (reducedMotion) {
-            point = { x: geometry.centerX - geometry.radiusX, y: geometry.centerY };
-            velocity = { x: 0, y: -geometry.radiusY };
-        } else if (elapsed < flightTime) {
+        if (elapsed < flightTime) {
             const progress = Math.min(elapsed / flightTime, 1);
 
             point = cubicBezier.point(flight.start, flight.firstControl, flight.secondControl, flight.end, progress);
@@ -182,12 +178,10 @@ export function startRocket() {
         const y = point.y - rocket.offsetHeight / 2;
         const angle = Math.atan2(velocity.y, velocity.x) * 180 / Math.PI;
 
-        rocket.style.opacity = reducedMotion ? "1" : `${Math.min(elapsed / 280, 1).toFixed(3)}`;
+        rocket.style.opacity = `${Math.min(elapsed / 280, 1).toFixed(3)}`;
         rocket.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${angle.toFixed(2)}deg)`;
 
-        if (!reducedMotion) {
-            window.requestAnimationFrame(render);
-        }
+        window.requestAnimationFrame(render);
     };
 
     window.requestAnimationFrame(render);

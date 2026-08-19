@@ -45,22 +45,6 @@
         border-top: 1px solid var(--line-light);
     }
 
-    .itinerary {
-        grid-template-columns: 1fr;
-    }
-
-    .itinerary-route {
-        min-height: 5rem;
-    }
-
-    .itinerary-stop--arrival {
-        text-align: left;
-    }
-
-    .itinerary-stop--arrival > p:last-child {
-        margin-left: 0;
-    }
-
     .sponsor-field > a {
         flex-basis: 9rem;
     }
@@ -168,10 +152,6 @@
         gap: 0.6rem;
     }
 
-    .itinerary-stop time {
-        font-size: clamp(3.5rem, 19vw, 5.5rem);
-    }
-
     .faq-list summary {
         grid-template-columns: 2.25rem 1fr 1.25rem;
     }
@@ -220,30 +200,6 @@
 
     .wind-streak--two,
     .wind-streak--six {
-        display: none;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-
-    .reveal {
-        opacity: 1;
-        transform: none;
-    }
-
-    .journey-plane,
-    .journey-wind {
         display: none;
     }
 }
