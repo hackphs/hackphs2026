@@ -14,6 +14,7 @@ export function startEventDialog() {
     const duration = dialog.querySelector("[data-dialog-duration]");
     const room = dialog.querySelector("[data-dialog-room]");
     const closeButton = dialog.querySelector("[data-dialog-close]");
+    let closeTimer;
 
     const showEvent = (eventSlug) => {
         const event = events[eventSlug];
@@ -32,19 +33,38 @@ export function startEventDialog() {
         duration.textContent = `(${event.duration})`;
         room.textContent = event.room;
 
+        window.clearTimeout(closeTimer);
+        dialog.classList.remove("is-closing");
+
         if (!dialog.open) {
             dialog.showModal();
         }
+
+        window.requestAnimationFrame(() => dialog.classList.add("is-open"));
     };
 
-    const returnToSchedule = () => {
-        if (window.history.state?.eventSlug) {
-            dialog.close();
-            window.history.back();
+    const hideEvent = (afterClose) => {
+        if (!dialog.open || dialog.classList.contains("is-closing")) {
             return;
         }
 
-        dialog.close();
+        dialog.classList.remove("is-open");
+        dialog.classList.add("is-closing");
+        closeTimer = window.setTimeout(() => {
+            dialog.close();
+            dialog.classList.remove("is-closing");
+            afterClose?.();
+        }, 220);
+    };
+
+    const returnToSchedule = () => {
+        const shouldGoBack = Boolean(window.history.state?.eventSlug);
+
+        hideEvent(() => {
+            if (shouldGoBack) {
+                window.history.back();
+            }
+        });
     };
 
     document.addEventListener("click", (clickEvent) => {
@@ -81,7 +101,7 @@ export function startEventDialog() {
         if (eventSlug && events[eventSlug]) {
             showEvent(eventSlug);
         } else if (dialog.open) {
-            dialog.close();
+            hideEvent();
         }
     });
 }
