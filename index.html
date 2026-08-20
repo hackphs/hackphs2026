@@ -22,9 +22,9 @@
     <link rel="stylesheet" href="/styles/navigation.css?v=20260817" />
     <link rel="stylesheet" href="/styles/hero.css?v=20260817" />
     <link rel="stylesheet" href="/styles/content.css?v=20260818" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20260818d" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20260820g" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20260818b" />
-    <script type="module" src="/scripts/main.js?v=20260818"></script>
+    <script type="module" src="/scripts/main.js?v=20260820c"></script>
 </head>
 <body>
     <div class="journey-background" aria-hidden="true">
@@ -214,207 +214,323 @@
                     </p>
                 </div>
 
-                <div class="schedule-route reveal">
-                    <section class="schedule-day" aria-labelledby="schedule-saturday">
-                        <header class="schedule-day__header">
-                            <div>
-                                <p>Day one</p>
-                                <h3 id="schedule-saturday">Saturday</h3>
-                            </div>
-                            <time datetime="2026-10-03">October 3</time>
-                        </header>
+                <div class="schedule-views" data-schedule data-active-view="table">
+                    <div class="schedule-view-toolbar reveal">
+                        <p class="schedule-duration-note">
+                            <span class="schedule-duration-note__desktop">Longer blocks mean longer events</span>
+                            <span class="schedule-duration-note__mobile">Swipe sideways to see every activity track</span>
+                        </p>
 
-                        <ol class="schedule-list">
-                            <li class="schedule-stop schedule-stop--milestone">
-                                <time datetime="2026-10-03T09:00:00-04:00">9:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--milestone"><span>Arrival</span>Check-in begins</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop schedule-stop--milestone">
-                                <time datetime="2026-10-03T10:00:00-04:00">10:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--milestone"><span>Everyone together</span>Opening ceremony</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T11:00:00-04:00">11:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--hacking"><span>Main event</span>Hacking begins</p>
-                                    <p class="schedule-event schedule-event--activity"><span>Meet people</span>Team building</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T11:30:00-04:00">11:30 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--guest"><span>Guest talk</span>Potential guest talk(s)</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T12:00:00-04:00">12:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to JavaScript</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to Python</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T13:00:00-04:00">1:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Data analytics with Python</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T14:00:00-04:00">2:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--meal"><span>Food</span>Lunch</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T15:00:00-04:00">3:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to neural networks</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T16:00:00-04:00">4:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--hacking"><span>Main event</span>Hacking continues</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to web design</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to 3D design and CAD</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T17:00:00-04:00">5:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Web design for awareness</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Implementing AI/ML for environmental action</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T17:30:00-04:00">5:30 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--guest"><span>Guest talk</span>Potential guest talk(s)</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T18:30:00-04:00">6:30 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Prompt engineering</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T19:00:00-04:00">7:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--meal"><span>Food</span>Dinner</p>
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>AI-generated art contest</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T20:00:00-04:00">8:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to AI ethics</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T21:00:00-04:00">9:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--hacking"><span>Main event</span>Hacking continues</p>
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Preparation for AI ethics mock panel</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to Java</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T22:00:00-04:00">10:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Panel discussion and voting for the winner!</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-03T23:00:00-04:00">11:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--hacking"><span>Main event</span>Hacking continues</p>
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Karaoke</p>
-                                    <p class="schedule-event schedule-event--tbd"><span>More to come</span>Late-night activities TBD</p>
-                                </div>
-                            </li>
-                        </ol>
-                    </section>
+                        <div class="schedule-view-switcher" aria-label="Choose a schedule view">
+                            <button type="button" data-schedule-view-button="simple" aria-controls="schedule-simple" aria-pressed="false">Simple view</button>
+                            <button type="button" data-schedule-view-button="table" aria-controls="schedule-table" aria-pressed="true">Four-column view</button>
+                        </div>
+                    </div>
 
-                    <section class="schedule-day" aria-labelledby="schedule-sunday">
-                        <header class="schedule-day__header">
-                            <div>
-                                <p>Day two</p>
-                                <h3 id="schedule-sunday">Sunday</h3>
-                            </div>
-                            <time datetime="2026-10-04">October 4</time>
-                        </header>
+                    <div class="schedule-simple" id="schedule-simple" data-schedule-simple aria-label="Simple schedule view"></div>
 
-                        <ol class="schedule-list">
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T00:00:00-04:00">12:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--meal"><span>Food</span>Midnight snack</p>
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Chess tournament</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T01:00:00-04:00">1:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Movie night</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T02:00:00-04:00">2:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--rest"><span>Rest</span>Sleep</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T03:00:00-04:00">3:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to vibe coding</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T04:00:00-04:00">4:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Vibe-coded video game contest</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T06:00:00-04:00">6:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to HTML and CSS + React</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T07:00:00-04:00">7:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to advanced algorithms</p>
-                                    <p class="schedule-event schedule-event--meal"><span>Food</span>Breakfast</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop">
-                                <time datetime="2026-10-04T08:00:00-04:00">8:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--activity"><span>Activity</span>Programming tournament</p>
-                                    <p class="schedule-event schedule-event--workshop"><span>Workshop</span>Intro to Swift and SwiftUI</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop schedule-stop--milestone">
-                                <time datetime="2026-10-04T10:00:00-04:00">10:00 <span>AM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--milestone"><span>Deadline</span>Projects due and judging begins</p>
-                                </div>
-                            </li>
-                            <li class="schedule-stop schedule-stop--milestone">
-                                <time datetime="2026-10-04T12:00:00-04:00">12:00 <span>PM</span></time>
-                                <div class="schedule-events">
-                                    <p class="schedule-event schedule-event--milestone"><span>Everyone together</span>Closing ceremony</p>
-                                </div>
-                            </li>
-                        </ol>
-                    </section>
+                    <div class="schedule-table-wrap reveal" id="schedule-table" data-schedule-table>
+                    <table class="schedule-table">
+                        <caption class="visually-hidden">hackPHS 2026 schedule with event durations</caption>
+                        <colgroup>
+                            <col class="schedule-table__time-column" />
+                            <col span="4" class="schedule-table__activity-column" />
+                        </colgroup>
+                        <thead class="visually-hidden">
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col" colspan="4">Activities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="schedule-table__date">
+                                <th colspan="5">
+                                    <div class="schedule-table__date-inner">
+                                        <div><span>Day one</span><strong>Saturday</strong></div>
+                                        <time datetime="2026-10-03">October 3</time>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr class="schedule-table__milestone">
+                                <th scope="row"><time datetime="2026-10-03T09:00:00-04:00">9:00 AM</time></th>
+                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Arrival">
+                                    <strong>Check-in begins</strong>
+                                    <small>9:00–10:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__milestone">
+                                <th scope="row"><time datetime="2026-10-03T10:00:00-04:00">10:00 AM</time></th>
+                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                    <strong>Opening ceremony</strong>
+                                    <small>10:00–11:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T11:00:00-04:00">11:00 AM</time></th>
+                                <td rowspan="4" class="schedule-block schedule-block--hacking">
+                                    <strong>Hacking</strong>
+                                    <small>11:00 AM–2:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Team building</strong>
+                                    <small>11:00–11:30 AM</small>
+                                </td>
+                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                <td class="schedule-block schedule-block--empty"></td>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T11:30:00-04:00">11:30 AM</time></th>
+                                <td class="schedule-block schedule-block--empty"></td>
+                                <td rowspan="3" class="schedule-block schedule-block--guest">
+                                    <strong>Potential guest talk(s)</strong>
+                                    <small>11:30 AM–2:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T12:00:00-04:00">12:00 PM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to JavaScript</strong>
+                                    <small>12:00–2:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to Python</strong>
+                                    <small>12:00–1:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T13:00:00-04:00">1:00 PM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                    <strong>Data analytics with Python</strong>
+                                    <small>1:00–3:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T14:00:00-04:00">2:00 PM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--meal">
+                                    <strong>Lunch</strong>
+                                    <small>2:00–4:00 PM</small>
+                                </td>
+                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T15:00:00-04:00">3:00 PM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to neural networks</strong>
+                                    <small>3:00–5:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T16:00:00-04:00">4:00 PM</time></th>
+                                <td rowspan="5" class="schedule-block schedule-block--hacking">
+                                    <strong>Hacking</strong>
+                                    <small>4:00–7:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to web design</strong>
+                                    <small>4:00–5:00 PM</small>
+                                </td>
+                                <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to 3D design and CAD</strong>
+                                    <small>4:00–5:30 PM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T17:00:00-04:00">5:00 PM</time></th>
+                                <td rowspan="3" class="schedule-block schedule-block--advanced">
+                                    <strong>Web design for awareness</strong>
+                                    <small>5:00–6:30 PM</small>
+                                </td>
+                                <td rowspan="5" class="schedule-block schedule-block--advanced">
+                                    <strong>Implementing AI/ML for environmental action</strong>
+                                    <small>5:00–8:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T17:30:00-04:00">5:30 PM</time></th>
+                                <td rowspan="3" class="schedule-block schedule-block--guest">
+                                    <strong>Potential guest talk(s)</strong>
+                                    <small>5:30–7:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T18:00:00-04:00">6:00 PM</time></th>
+                            </tr>
+                            <tr class="schedule-table__half-hour">
+                                <th scope="row"><time datetime="2026-10-03T18:30:00-04:00">6:30 PM</time></th>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Prompt engineering</strong>
+                                    <small>6:30–7:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T19:00:00-04:00">7:00 PM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--meal">
+                                    <strong>Dinner</strong>
+                                    <small>7:00–9:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--advanced">
+                                    <strong>AI-generated art contest</strong>
+                                    <small>7:00–8:00 PM</small>
+                                </td>
+                                <td rowspan="3" class="schedule-block schedule-block--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T20:00:00-04:00">8:00 PM</time></th>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to AI ethics</strong>
+                                    <small>8:00–9:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T21:00:00-04:00">9:00 PM</time></th>
+                                <td class="schedule-block schedule-block--hacking">
+                                    <strong>Hacking</strong>
+                                    <small>9:00–10:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--advanced">
+                                    <strong>Preparation for AI ethics mock panel</strong>
+                                    <small>9:00–10:00 PM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to Java</strong>
+                                    <small>9:00–10:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T22:00:00-04:00">10:00 PM</time></th>
+                                <td colspan="4" class="schedule-block schedule-block--advanced schedule-block--wide">
+                                    <strong>Panel discussion and voting for the winner!</strong>
+                                    <small>10:00–11:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-03T23:00:00-04:00">11:00 PM</time></th>
+                                <td class="schedule-block schedule-block--hacking">
+                                    <strong>Hacking</strong>
+                                    <small>continues overnight</small>
+                                </td>
+                                <td class="schedule-block schedule-block--evening">
+                                    <strong>TBD</strong>
+                                    <small>11:00 PM–12:00 AM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--evening">
+                                    <strong>Karaoke</strong>
+                                    <small>11:00 PM–12:00 AM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>TBD</strong>
+                                    <small>11:00 PM–12:00 AM</small>
+                                </td>
+                            </tr>
+
+                            <tr class="schedule-table__date schedule-table__date--second">
+                                <th colspan="5">
+                                    <div class="schedule-table__date-inner">
+                                        <div><span>Day two</span><strong>Sunday</strong></div>
+                                        <time datetime="2026-10-04">October 4</time>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T00:00:00-04:00">12:00 AM</time></th>
+                                <td rowspan="10" class="schedule-block schedule-block--hacking">
+                                    <strong>Hacking</strong>
+                                    <small>12:00–10:00 AM</small>
+                                </td>
+                                <td class="schedule-block schedule-block--evening">
+                                    <strong>Midnight snack</strong>
+                                    <small>12:00–1:00 AM</small>
+                                </td>
+                                <td rowspan="2" class="schedule-block schedule-block--evening">
+                                    <strong>Chess tournament</strong>
+                                    <small>12:00–2:00 AM</small>
+                                </td>
+                                <td rowspan="8" class="schedule-block schedule-block--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T01:00:00-04:00">1:00 AM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--evening">
+                                    <strong>Movie night</strong>
+                                    <small>1:00–3:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T02:00:00-04:00">2:00 AM</time></th>
+                                <td rowspan="5" class="schedule-block schedule-block--meal">
+                                    <strong>Sleep</strong>
+                                    <small>2:00–7:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T03:00:00-04:00">3:00 AM</time></th>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to vibe coding</strong>
+                                    <small>3:00–4:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T04:00:00-04:00">4:00 AM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                    <strong>Vibe-coded video game contest</strong>
+                                    <small>4:00–6:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T05:00:00-04:00">5:00 AM</time></th>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T06:00:00-04:00">6:00 AM</time></th>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to HTML and CSS + React</strong>
+                                    <small>6:00–7:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T07:00:00-04:00">7:00 AM</time></th>
+                                <td class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to advanced algorithms</strong>
+                                    <small>7:00–8:00 AM</small>
+                                </td>
+                                <td rowspan="3" class="schedule-block schedule-block--meal">
+                                    <strong>Breakfast</strong>
+                                    <small>7:00–10:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T08:00:00-04:00">8:00 AM</time></th>
+                                <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                    <strong>Programming tournament</strong>
+                                    <small>8:00–10:00 AM</small>
+                                </td>
+                                <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                    <strong>Intro to Swift <em>(beginner)</em> and intro to SwiftUI <em>(advanced)</em></strong>
+                                    <small>8:00–10:00 AM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><time datetime="2026-10-04T09:00:00-04:00">9:00 AM</time></th>
+                            </tr>
+                            <tr class="schedule-table__milestone">
+                                <th scope="row"><time datetime="2026-10-04T10:00:00-04:00">10:00 AM</time></th>
+                                <td rowspan="2" colspan="4" class="schedule-block schedule-block--milestone" data-label="Deadline">
+                                    <strong>Projects due and judging begins</strong>
+                                    <small>10:00 AM–12:00 PM</small>
+                                </td>
+                            </tr>
+                            <tr class="schedule-table__milestone">
+                                <th scope="row"><time datetime="2026-10-04T11:00:00-04:00">11:00 AM</time></th>
+                            </tr>
+                            <tr class="schedule-table__milestone">
+                                <th scope="row"><time datetime="2026-10-04T12:00:00-04:00">12:00 PM</time></th>
+                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                    <strong>Closing ceremony</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -555,6 +671,7 @@
                     <a href="https://incogni.com/" target="_blank" rel="noreferrer" aria-label="Visit Incogni"><img src="/assets/sponsors/incogni.png" alt="Incogni" /></a>
                     <a href="https://saily.com/" target="_blank" rel="noreferrer" aria-label="Visit Saily"><img src="/assets/sponsors/saily.png" alt="Saily" /></a>
                     <a href="https://nexos.ai/" target="_blank" rel="noreferrer" aria-label="Visit nexos.ai"><img src="/assets/sponsors/nexos-ai.png" alt="nexos.ai" /></a>
+                    <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img src="/assets/sponsors/windscribe.png?v=20260820" alt="Windscribe" /></a>
                     <a class="sponsor-field__hrt" href="https://www.hudsonrivertrading.com/" target="_blank" rel="noreferrer" aria-label="Visit Hudson River Trading"><img src="/assets/sponsors/hrt.png?v=20260810b" alt="Hudson River Trading (HRT)" /></a>
                     <a href="https://fly.io/" target="_blank" rel="noreferrer" aria-label="Visit Fly.io"><img src="/assets/sponsors/fly.svg?v=20260810b" alt="Fly.io" /></a>
                     <a href="https://riseresearch.com/" target="_blank" rel="noreferrer" aria-label="Visit RISE Research"><img src="/assets/sponsors/rise.png?v=20260817" alt="RISE Research" /></a>
