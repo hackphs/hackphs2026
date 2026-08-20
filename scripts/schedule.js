@@ -1,3 +1,5 @@
+import { scheduleEventSlugs } from "./events.js?v=20260820b";
+
 const categoryNames = {
     hacking: "Main event",
     workshop: "Workshop",
@@ -17,6 +19,39 @@ export function startSchedule() {
 
     if (!schedule || !table || !simpleView || !buttons.length) {
         return;
+    }
+
+    // only events from the official event list get detail pages
+    for (const block of table.querySelectorAll("td.schedule-block:not(.schedule-block--empty)")) {
+        const title = block.querySelector("strong")?.textContent.trim();
+
+        if (!title || block.querySelector(".schedule-block__link")) {
+            continue;
+        }
+
+        let eventSlug = scheduleEventSlugs[title.toLowerCase()];
+
+        if (title === "TBD") {
+            eventSlug = block.classList.contains("schedule-block--workshop")
+                ? "tbd-workshop"
+                : "tbd-fun-activity";
+        }
+
+        if (!eventSlug) {
+            continue;
+        }
+
+        const eventLink = document.createElement("a");
+
+        block.classList.add("schedule-block--linked");
+        eventLink.className = "schedule-block__link";
+        eventLink.href = `/events.html?event=${eventSlug}`;
+
+        while (block.firstChild) {
+            eventLink.append(block.firstChild);
+        }
+
+        block.append(eventLink);
     }
 
     // the simple view is built from the table so the two versions never drift apart
@@ -63,6 +98,7 @@ export function startSchedule() {
             const tone = Object.keys(categoryNames).find((name) => (
                 block.classList.contains(`schedule-block--${name}`)
             )) ?? "advanced";
+            const sourceLink = block.querySelector(".schedule-block__link");
             const title = block.querySelector("strong")?.textContent.trim();
             const range = block.querySelector("small")?.textContent.trim();
 
@@ -70,7 +106,7 @@ export function startSchedule() {
                 continue;
             }
 
-            const event = document.createElement("article");
+            const event = document.createElement(sourceLink ? "a" : "article");
             const eventCopy = document.createElement("div");
             const category = document.createElement("span");
             const eventTitle = document.createElement("strong");
@@ -78,6 +114,11 @@ export function startSchedule() {
             event.className = "schedule-simple__event";
             eventCopy.className = "schedule-simple__event-copy";
             event.dataset.tone = tone;
+
+            if (sourceLink) {
+                event.href = sourceLink.href;
+            }
+
             category.textContent = block.dataset.label || categoryNames[tone];
             eventTitle.textContent = title;
             eventCopy.append(category, eventTitle);
@@ -85,31 +126,7 @@ export function startSchedule() {
 
             if (range && tone !== "milestone") {
                 const duration = document.createElement("small");
-                const [startText, endText] = range.split("–");
-                const startMatch = startText?.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
-                const endMatch = endText?.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-
-                if (startMatch && endMatch) {
-                    const startPeriod = (startMatch[3] || endMatch[3]).toUpperCase();
-                    const endPeriod = endMatch[3].toUpperCase();
-                    const startHour = (Number(startMatch[1]) % 12) + (startPeriod === "PM" ? 12 : 0);
-                    const endHour = (Number(endMatch[1]) % 12) + (endPeriod === "PM" ? 12 : 0);
-                    const startMinutes = (startHour * 60) + Number(startMatch[2]);
-                    let endMinutes = (endHour * 60) + Number(endMatch[2]);
-
-                    if (endMinutes <= startMinutes) {
-                        endMinutes += 24 * 60;
-                    }
-
-                    const totalMinutes = endMinutes - startMinutes;
-                    const hours = totalMinutes / 60;
-
-                    duration.textContent = totalMinutes < 60
-                        ? `~${totalMinutes} min`
-                        : `~${Number.isInteger(hours) ? hours : hours.toFixed(1)} hr`;
-                } else {
-                    duration.textContent = range;
-                }
+                duration.textContent = range;
 
                 event.append(duration);
             }
@@ -131,7 +148,7 @@ export function startSchedule() {
 
         if (desktopDurationNote) {
             desktopDurationNote.textContent = view === "simple"
-                ? "Durations are approximate"
+                ? "Estimated durations"
                 : "Longer blocks mean longer events";
         }
 

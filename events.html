@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event | hackPHS 2026</title>
+    <meta name="description" content="Event details for hackPHS 2026." />
+    <link rel="icon" type="image/png" href="/assets/branding/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/branding/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/base.css?v=20260817" />
+    <link rel="stylesheet" href="/styles/event.css?v=20260820d" />
+    <script type="module" src="/scripts/event-page.js?v=20260820c"></script>
+</head>
+<body class="event-page">
+    <div class="event-sky" aria-hidden="true">
+        <span class="event-sky__sun"></span>
+        <span class="event-sky__bird event-sky__bird--one"></span>
+        <span class="event-sky__bird event-sky__bird--two"></span>
+        <svg class="event-sky__mountains" viewBox="0 0 1600 430" preserveAspectRatio="none" role="presentation">
+            <path class="event-sky__mountains-far" d="M0 430V330L180 226L315 318L498 164L650 314L835 210L1010 338L1210 192L1390 305L1600 238V430Z" />
+            <path class="event-sky__mountains-near" d="M0 430V382L240 280L410 372L620 246L804 371L1034 271L1215 378L1432 261L1600 344V430Z" />
+        </svg>
+    </div>
+
+    <header class="event-header">
+        <a class="event-brand" href="/" aria-label="hackPHS 2026 home">
+            <img src="/assets/branding/favicon-96x96.png" alt="" />
+            <strong>hackPHS 2026</strong>
+        </a>
+        <a class="event-back" href="/#schedule"><span aria-hidden="true">←</span> Back to schedule</a>
+    </header>
+
+    <main class="event-main">
+        <article class="event-sheet" data-event-sheet>
+            <p class="event-kicker">hackPHS 2026 / Event</p>
+            <h1 data-event-title>Loading event...</h1>
+            <time class="event-date" data-event-date></time>
+            <p class="event-description" data-event-description></p>
+
+            <dl class="event-details">
+                <div>
+                    <dt>Time <span data-event-duration></span></dt>
+                    <dd data-event-time></dd>
+                </div>
+                <div>
+                    <dt>Room</dt>
+                    <dd data-event-room></dd>
+                </div>
+                <div>
+                    <dt>Registration link</dt>
+                    <dd><span class="event-coming-soon">Coming soon</span></dd>
+                </div>
+            </dl>
+        </article>
+    </main>
+</body>
+</html>
