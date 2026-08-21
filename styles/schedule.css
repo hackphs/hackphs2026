@@ -45,13 +45,15 @@
 .schedule-view-switcher {
     display: flex;
     flex: 0 0 auto;
-    gap: 1.6rem;
 }
 
 .schedule-view-switcher button {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     padding: 0.4rem 0 0.5rem;
-    color: rgba(8, 24, 47, 0.48);
+    color: #183c66;
     background: transparent;
     border: 0;
     font: inherit;
@@ -62,6 +64,45 @@
     transition: color 180ms ease;
 }
 
+.schedule-view-switcher__icon {
+    position: relative;
+    display: inline-block;
+    width: 1.15rem;
+    height: 0.7rem;
+}
+
+.schedule-view-switcher__icon::before,
+.schedule-view-switcher__icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 0.38rem;
+    height: 0.38rem;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    transition: left 260ms var(--ease), right 260ms var(--ease), transform 260ms var(--ease);
+}
+
+.schedule-view-switcher__icon::before {
+    left: 0.02rem;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.schedule-view-switcher__icon::after {
+    right: 0.02rem;
+    transform: translateY(-50%) rotate(225deg);
+}
+
+.schedule-views[data-active-view="simple"] .schedule-view-switcher__icon::before {
+    left: -0.05rem;
+    transform: translateY(-50%) rotate(225deg);
+}
+
+.schedule-views[data-active-view="simple"] .schedule-view-switcher__icon::after {
+    right: -0.05rem;
+    transform: translateY(-50%) rotate(45deg);
+}
+
 .schedule-view-switcher button::after {
     content: "";
     position: absolute;
@@ -70,22 +111,19 @@
     left: 0;
     height: 1px;
     background: #183c66;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 180ms ease;
-}
-
-.schedule-view-switcher button[aria-pressed="true"] {
-    color: #183c66;
-}
-
-.schedule-view-switcher button[aria-pressed="true"]::after {
     transform: scaleX(1);
     transform-origin: left;
+    opacity: 0.42;
+    transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .schedule-view-switcher button:hover {
     color: #163252;
+}
+
+.schedule-view-switcher button:hover::after,
+.schedule-view-switcher button:focus-visible::after {
+    opacity: 1;
 }
 
 .schedule-view-switcher button:focus-visible {
@@ -93,14 +131,43 @@
     outline: none;
 }
 
-.schedule-view-switcher button:focus-visible::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
 .schedule-views[data-active-view="simple"] .schedule-table-wrap,
 .schedule-views[data-active-view="table"] .schedule-simple {
     display: none;
+}
+
+.schedule-simple,
+.schedule-table-wrap {
+    view-transition-name: schedule-view;
+    transition: opacity 140ms ease, transform 220ms var(--ease);
+}
+
+.schedule-views.is-switching .schedule-simple,
+.schedule-views.is-switching .schedule-table-wrap {
+    opacity: 0;
+    transform: translateY(0.45rem);
+}
+
+::view-transition-old(schedule-view) {
+    animation: schedule-view-out 160ms ease both;
+}
+
+::view-transition-new(schedule-view) {
+    animation: schedule-view-in 260ms var(--ease) both;
+}
+
+@keyframes schedule-view-out {
+    to {
+        opacity: 0;
+        transform: translateY(-0.35rem);
+    }
+}
+
+@keyframes schedule-view-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.55rem);
+    }
 }
 
 .schedule-simple__day + .schedule-simple__day {
@@ -184,7 +251,7 @@
 .schedule-simple__event > small {
     display: block;
     margin-top: 0.5rem;
-    color: rgba(var(--block-tint), 0.78);
+    color: rgba(8, 24, 47, 0.5);
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.025em;
@@ -562,7 +629,6 @@ a.schedule-simple__event::after {
     .schedule-view-switcher {
         width: 100%;
         justify-content: center;
-        gap: 1.5rem;
     }
 
     .schedule-view-switcher button {

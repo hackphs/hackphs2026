@@ -15,9 +15,9 @@ export function startSchedule() {
     const table = schedule?.querySelector(".schedule-table");
     const simpleView = schedule?.querySelector("[data-schedule-simple]");
     const desktopDurationNote = schedule?.querySelector(".schedule-duration-note__desktop");
-    const buttons = [...(schedule?.querySelectorAll("[data-schedule-view-button]") ?? [])];
+    const viewToggle = schedule?.querySelector("[data-schedule-view-toggle]");
 
-    if (!schedule || !table || !simpleView || !buttons.length) {
+    if (!schedule || !table || !simpleView || !viewToggle) {
         return;
     }
 
@@ -142,6 +142,7 @@ export function startSchedule() {
 
     const mobileLayout = window.matchMedia("(max-width: 720px)");
     let viewWasChosen = false;
+    let isSwitching = false;
 
     const showView = (view) => {
         schedule.dataset.activeView = view;
@@ -152,16 +153,39 @@ export function startSchedule() {
                 : "Longer blocks mean longer events";
         }
 
-        buttons.forEach((button) => {
-            button.setAttribute("aria-pressed", String(button.dataset.scheduleViewButton === view));
-        });
+        const nextView = view === "simple" ? "four-column" : "simple";
+        viewToggle.setAttribute("aria-label", `Switch to ${nextView} schedule view`);
+        viewToggle.title = `Switch to ${nextView} view`;
     };
 
-    buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-            viewWasChosen = true;
-            showView(button.dataset.scheduleViewButton);
-        });
+    viewToggle.addEventListener("click", () => {
+        if (isSwitching) {
+            return;
+        }
+
+        viewWasChosen = true;
+        isSwitching = true;
+        const nextView = schedule.dataset.activeView === "simple" ? "table" : "simple";
+
+        if (document.startViewTransition) {
+            const transition = document.startViewTransition(() => showView(nextView));
+            transition.finished.finally(() => {
+                isSwitching = false;
+            });
+            return;
+        }
+
+        // a small fallback for browsers without the view transition api
+        schedule.classList.add("is-switching");
+        window.setTimeout(() => {
+            showView(nextView);
+            window.requestAnimationFrame(() => {
+                schedule.classList.remove("is-switching");
+                window.setTimeout(() => {
+                    isSwitching = false;
+                }, 220);
+            });
+        }, 140);
     });
 
     mobileLayout.addEventListener("change", () => {

@@ -21,11 +21,11 @@
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260817" />
     <link rel="stylesheet" href="/styles/navigation.css?v=20260817" />
     <link rel="stylesheet" href="/styles/hero.css?v=20260817" />
-    <link rel="stylesheet" href="/styles/content.css?v=20260818" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20260820n" />
+    <link rel="stylesheet" href="/styles/content.css?v=20260821" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20260821b" />
     <link rel="stylesheet" href="/styles/event.css?v=20260820e" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20260818b" />
-    <script type="module" src="/scripts/main.js?v=20260820l"></script>
+    <script type="module" src="/scripts/main.js?v=20260821c"></script>
 </head>
 <body>
     <div class="journey-background" aria-hidden="true">
@@ -222,9 +222,11 @@
                             <span class="schedule-duration-note__mobile">Swipe sideways to see every activity track</span>
                         </p>
 
-                        <div class="schedule-view-switcher" aria-label="Choose a schedule view">
-                            <button type="button" data-schedule-view-button="simple" aria-controls="schedule-simple" aria-pressed="false">Simple view</button>
-                            <button type="button" data-schedule-view-button="table" aria-controls="schedule-table" aria-pressed="true">Four-column view</button>
+                        <div class="schedule-view-switcher">
+                            <button type="button" data-schedule-view-toggle aria-controls="schedule-simple schedule-table">
+                                <span>Switch view</span>
+                                <span class="schedule-view-switcher__icon" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </div>
 

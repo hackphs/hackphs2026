@@ -350,3 +350,40 @@
 .site-footer a:focus-visible {
     color: #163653;
 }
+
+.copy-email {
+    position: relative;
+    cursor: copy;
+}
+
+.copy-email::before {
+    content: attr(data-copy-message);
+    position: absolute;
+    z-index: 8;
+    left: 50%;
+    bottom: calc(100% + 0.55rem);
+    padding: 0.3rem 0.55rem;
+    color: #f7fbff;
+    background: rgba(8, 24, 47, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 0.4rem;
+    box-shadow: 0 0.35rem 1rem rgba(8, 24, 47, 0.16);
+    font-size: 0.66rem;
+    font-weight: 750;
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 0.3rem);
+    transition: opacity 160ms ease, transform 200ms var(--ease);
+}
+
+.copy-email.is-copied::before,
+.copy-email.copy-email--failed::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.copy-email.copy-email--failed::before {
+    background: rgba(104, 40, 48, 0.92);
+}
