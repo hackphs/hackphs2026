@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donate | hackPHS 2026</title>
+    <meta name="description" content="Support hackPHS 2026 and help keep our student-run hackathon free for every hacker." />
+    <link rel="icon" type="image/png" href="/assets/branding/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/branding/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/base.css?v=20260817" />
+    <link rel="stylesheet" href="/styles/content.css?v=20260824" />
+    <link rel="stylesheet" href="/styles/donate.css?v=20260824b" />
+    <script type="module" src="/scripts/donate.js?v=20260824"></script>
+</head>
+<body class="donate-page">
+    <div class="donate-sky" aria-hidden="true">
+        <span class="donate-sky__glow"></span>
+        <span class="donate-sky__cloud donate-sky__cloud--one"></span>
+        <span class="donate-sky__cloud donate-sky__cloud--two"></span>
+        <svg class="donate-sky__mountains" viewBox="0 0 1600 380" preserveAspectRatio="none" role="presentation">
+            <path class="donate-sky__mountains-far" d="M0 380V305L188 216L342 306L530 154L704 307L900 208L1082 315L1290 170L1460 294L1600 224V380Z" />
+            <path class="donate-sky__mountains-near" d="M0 380V342L250 266L432 348L646 224L834 349L1060 255L1248 350L1450 246L1600 326V380Z" />
+        </svg>
+    </div>
+
+    <header class="donate-header">
+        <a class="donate-brand" href="/" aria-label="hackPHS 2026 home">
+            <img src="/assets/branding/favicon-96x96.png" alt="" />
+            <strong>hackPHS 2026</strong>
+        </a>
+        <a class="donate-back" href="/"><span aria-hidden="true">←</span> Back home</a>
+    </header>
+
+    <main class="donate-main">
+        <section class="donate-hero">
+            <div class="donate-copy">
+                <p class="donate-kicker">Support hackPHS</p>
+                <h1>Help us keep the weekend free.</h1>
+                <p class="donate-lead">
+                    hackPHS is built by students and free for every hacker. Your donation helps cover meals,
+                    event supplies, workshops, prizes, and the little things that make the weekend special.
+                </p>
+                <div class="donate-actions">
+                    <a class="donate-action" href="https://hcb.hackclub.com/donations/start/hackphs" target="_blank" rel="noreferrer">
+                        Donate through HCB <span aria-hidden="true">↗</span>
+                    </a>
+                    <a class="donate-question" href="mailto:team@hackphs.tech">Questions? Copy our email</a>
+                </div>
+            </div>
+
+            <aside class="fiscal-note" aria-labelledby="fiscal-note-title">
+                <p class="fiscal-note__label" id="fiscal-note-title">Fiscal sponsorship</p>
+                <p>
+                    hackPHS is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3)
+                    nonprofit (EIN: 81-2908499).
+                </p>
+                <p>
+                    Donations made through HCB are tax-deductible to the extent permitted by law, and donors
+                    receive a receipt automatically.
+                </p>
+                <p class="fiscal-note__fee">
+                    For transparency, HCB deducts a flat 7% fiscal-sponsorship fee from incoming funds.
+                </p>
+            </aside>
+        </section>
+
+        <section class="donation-impact" aria-labelledby="donation-impact-title">
+            <div class="donation-impact__heading">
+                <p class="donate-kicker">Where it goes</p>
+                <h2 id="donation-impact-title">A better weekend for every hacker.</h2>
+            </div>
+            <ol class="donation-impact__list">
+                <li><span>01</span><strong>Meals</strong><p>Keeping everyone fueled for all 24 hours.</p></li>
+                <li><span>02</span><strong>Build supplies</strong><p>Giving hackers more tools to bring ideas to life.</p></li>
+                <li><span>03</span><strong>Workshops</strong><p>Making it easier for beginners to learn something new.</p></li>
+                <li><span>04</span><strong>Prizes</strong><p>Celebrating the projects hackers are proud to share.</p></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="site-footer donate-footer">
+        <div class="section-inner site-footer__inner">
+            <span>&copy; hackPHS 2026</span>
+            <div class="site-footer__contact">
+                <strong>Contact us:</strong>
+                <a href="mailto:team@hackphs.tech">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+                    <span>team@hackphs.tech</span>
+                </a>
+                <a href="https://www.instagram.com/hackphs/" target="_blank" rel="noreferrer">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                    <span>@hackphs</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

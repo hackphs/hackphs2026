@@ -1,0 +1,323 @@
+.donate-page {
+    min-height: 100vh;
+    color: var(--ink);
+    background: #b8d7eb;
+}
+
+.donate-sky {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    overflow: hidden;
+    background:
+        linear-gradient(115deg, rgba(255, 220, 182, 0.3), transparent 40%),
+        linear-gradient(180deg, #608fc2 0%, #a8cee7 52%, #edf2f4 100%);
+}
+
+.donate-sky::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.34;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.88) 0 1px, transparent 1.4px);
+    background-position: 4rem 5rem;
+    background-size: 19rem 19rem;
+}
+
+.donate-sky__glow {
+    position: absolute;
+    top: 9%;
+    right: 8%;
+    width: clamp(10rem, 20vw, 18rem);
+    aspect-ratio: 1;
+    background: rgba(255, 238, 188, 0.68);
+    border-radius: 50%;
+    box-shadow: 0 0 6rem rgba(255, 235, 181, 0.42);
+}
+
+.donate-sky__cloud {
+    position: absolute;
+    height: 5rem;
+    background: rgba(250, 253, 255, 0.34);
+    border-radius: 50%;
+    filter: blur(1.2rem);
+}
+
+.donate-sky__cloud--one {
+    top: 34%;
+    left: -5%;
+    width: 28rem;
+}
+
+.donate-sky__cloud--two {
+    top: 48%;
+    right: -8%;
+    width: 34rem;
+}
+
+.donate-sky__mountains {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 42vh;
+}
+
+.donate-sky__mountains-far {
+    fill: rgba(237, 243, 247, 0.62);
+}
+
+.donate-sky__mountains-near {
+    fill: rgba(208, 219, 231, 0.7);
+}
+
+.donate-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--page-width);
+    margin: 0 auto;
+    padding: 1.3rem 0;
+    border-bottom: 1px solid rgba(8, 24, 47, 0.15);
+}
+
+.donate-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.96rem;
+    letter-spacing: -0.03em;
+}
+
+.donate-brand img {
+    width: 2.6rem;
+    height: 2.6rem;
+}
+
+.donate-back,
+.donate-question {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    padding-bottom: 0.28rem;
+    border-bottom: 1px solid rgba(8, 24, 47, 0.4);
+    font-size: 0.76rem;
+    font-weight: 750;
+}
+
+.donate-main {
+    width: var(--page-width);
+    margin: 0 auto;
+    padding: clamp(4.5rem, 10vh, 8rem) 0 clamp(6rem, 12vh, 10rem);
+}
+
+.donate-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(19rem, 0.65fr);
+    gap: clamp(3rem, 9vw, 9rem);
+    align-items: end;
+}
+
+.donate-kicker {
+    margin: 0 0 1rem;
+    color: rgba(8, 24, 47, 0.58);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.donate-copy h1 {
+    max-width: 10ch;
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(3.5rem, 7.4vw, 6.9rem);
+    font-weight: 500;
+    line-height: 0.88;
+    letter-spacing: -0.075em;
+}
+
+.donate-lead {
+    max-width: 42rem;
+    margin: 2rem 0 0;
+    color: rgba(8, 24, 47, 0.75);
+    font-size: clamp(1rem, 1.5vw, 1.18rem);
+    line-height: 1.75;
+}
+
+.donate-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 2.2rem;
+}
+
+.donate-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    color: #08182f;
+    background: #ffbd74;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    box-shadow: 0 0.7rem 2rem rgba(44, 76, 104, 0.14);
+    font-size: 0.79rem;
+    font-weight: 850;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: transform 180ms var(--ease), box-shadow 180ms ease;
+}
+
+.donate-action:hover,
+.donate-action:focus-visible {
+    outline: none;
+    transform: translateY(-0.18rem);
+    box-shadow: 0 1rem 2.4rem rgba(44, 76, 104, 0.2);
+}
+
+.fiscal-note {
+    padding: 1.8rem 0 0 1.8rem;
+    border-top: 1px solid rgba(8, 24, 47, 0.24);
+    border-left: 1px solid rgba(8, 24, 47, 0.18);
+}
+
+.fiscal-note__label {
+    color: rgba(8, 24, 47, 0.55);
+    font-size: 0.64rem;
+    font-weight: 850;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.fiscal-note p:not(.fiscal-note__label) {
+    margin: 1rem 0 0;
+    color: rgba(8, 24, 47, 0.77);
+    font-size: 0.86rem;
+    line-height: 1.7;
+}
+
+.fiscal-note .fiscal-note__fee {
+    color: rgba(8, 24, 47, 0.58);
+    font-size: 0.76rem;
+}
+
+.donation-impact {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.58fr) minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+    margin-top: clamp(7rem, 14vh, 11rem);
+    padding-top: 2rem;
+    border-top: 1px solid rgba(8, 24, 47, 0.2);
+}
+
+.donation-impact__heading h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+}
+
+.donation-impact__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.donation-impact__list li {
+    display: grid;
+    grid-template-columns: 2.2rem minmax(8rem, 0.65fr) minmax(12rem, 1fr);
+    gap: 1.2rem;
+    align-items: baseline;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid rgba(8, 24, 47, 0.16);
+}
+
+.donation-impact__list span {
+    color: rgba(8, 24, 47, 0.42);
+    font-size: 0.62rem;
+    font-weight: 800;
+}
+
+.donation-impact__list strong {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.05rem;
+}
+
+.donation-impact__list p {
+    margin: 0;
+    color: rgba(8, 24, 47, 0.66);
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+.donate-footer {
+    margin-top: auto;
+}
+
+@media (max-width: 780px) {
+    .donate-main {
+        padding-top: 3.5rem;
+    }
+
+    .donate-hero,
+    .donation-impact {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .donate-copy h1 {
+        font-size: clamp(3.15rem, 15vw, 5rem);
+    }
+
+    .donate-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .fiscal-note {
+        max-width: 34rem;
+    }
+
+    .donation-impact__list li {
+        grid-template-columns: 2rem 1fr;
+    }
+
+    .donation-impact__list p {
+        grid-column: 2;
+    }
+
+    .donate-footer .site-footer__inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 0.8rem 0;
+    }
+
+    .donate-footer .site-footer__contact {
+        flex-wrap: wrap;
+        gap: 0.5rem 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .donate-header {
+        padding: 0.95rem 0;
+    }
+
+    .donate-brand strong {
+        display: none;
+    }
+
+    .donate-main {
+        padding-bottom: 5rem;
+    }
+
+    .fiscal-note {
+        padding-left: 1.2rem;
+    }
+}
