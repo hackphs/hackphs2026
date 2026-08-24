@@ -216,10 +216,16 @@
     max-width: 11ch;
     margin: 0;
     font-family: "Space Grotesk", sans-serif;
-    font-size: clamp(2.3rem, 4vw, 4rem);
+    font-size: clamp(2.05rem, 3.45vw, 3.4rem);
     font-weight: 500;
     line-height: 0.98;
     letter-spacing: -0.06em;
+}
+
+@media (min-width: 781px) {
+    .donation-impact__heading h2 {
+        margin-left: clamp(1.5rem, 2.8vw, 2.75rem);
+    }
 }
 
 .donation-impact__list {
