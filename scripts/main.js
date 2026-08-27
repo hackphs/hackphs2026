@@ -1,6 +1,6 @@
-import { startJourney } from "./journey.js";
+import { startJourney } from "./journey.js?v=20260827b";
 import { startNavigation } from "./navigation.js";
-import { startReveals } from "./reveals.js?v=20260818";
+import { startReveals } from "./reveals.js?v=20260827";
 import { startRocket } from "./rocket.js?v=20260818";
 import { startSchedule } from "./schedule.js?v=20260821b";
 import { startEventDialog } from "./event-dialog.js?v=20260820e";

@@ -10,8 +10,8 @@ export function startReveals() {
             }
         });
     }, {
-        rootMargin: "0px 0px -12%",
-        threshold: 0.12,
+        rootMargin: "0px 0px -8%",
+        threshold: 0.08,
     });
 
     items.forEach((item) => observer.observe(item));

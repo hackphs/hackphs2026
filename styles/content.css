@@ -159,7 +159,7 @@
     max-width: 48rem;
     margin: -0.2rem 0 0;
     padding: 0 0 1.7rem 3.8rem;
-    color: rgba(8, 24, 47, 0.72);
+    color: rgba(8, 24, 47, 0.8);
     line-height: 1.78;
 }
 
@@ -180,7 +180,12 @@
 }
 
 .sponsors-section .section-number {
-    color: rgba(248, 251, 255, 0.62);
+    color: rgba(248, 251, 255, 0.76);
+}
+
+.sponsors-section .section-heading h2,
+.sponsors-section .section-heading--split > p {
+    text-shadow: 0 0.2rem 1.5rem rgba(3, 8, 20, 0.2);
 }
 
 .sponsor-field {
@@ -220,6 +225,15 @@
 .sponsor-field__hrt img {
     width: 7rem;
     max-height: 5.5rem;
+}
+
+.sponsor-field__elevenlabs {
+    max-width: 11rem;
+}
+
+.sponsor-field__elevenlabs img {
+    width: 10.5rem;
+    max-height: 3.6rem;
 }
 
 .sponsor-invite {

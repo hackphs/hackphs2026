@@ -6,7 +6,7 @@
     --ink: #0a1a31;
     --paper: #f7fbff;
     --white: #f8fbff;
-    --soft-white: rgba(248, 251, 255, 0.76);
+    --soft-white: rgba(248, 251, 255, 0.86);
     --line-light: rgba(255, 255, 255, 0.2);
     --line-dark: rgba(8, 24, 47, 0.2);
     --ice: #a9e1ff;
@@ -102,7 +102,7 @@ img {
 }
 
 .section-number {
-    color: rgba(248, 251, 255, 0.66);
+    color: rgba(248, 251, 255, 0.74);
 }
 
 .light-stage .section-number {
@@ -145,8 +145,8 @@ img {
 
 .reveal {
     opacity: 0;
-    transform: translateY(2.5rem);
-    transition: opacity 850ms var(--ease), transform 850ms var(--ease);
+    transform: translateY(1.75rem);
+    transition: opacity 650ms var(--ease), transform 650ms var(--ease);
 }
 
 .reveal.is-visible {
