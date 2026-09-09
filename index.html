@@ -28,6 +28,20 @@
     <script type="module" src="/scripts/main.js?v=20260827b"></script>
 </head>
 <body>
+
+    <a
+        id="mlh-trust-badge"
+        style="display:block;max-width:100px;min-width:60px;position:fixed;right:30px;top:20px;width:10%;z-index:10000"
+        href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=blue"
+        target="_blank"
+    >
+        <img
+            src="https://logged-assets.s3.amazonaws.com/trust-badge/2027/mlh-trust-badge-2027-blue.svg"
+            alt="Major League Hacking 2026 Hackathon Season"
+            style="width:100%"
+        >
+    </a>
+
     <div class="journey-background" aria-hidden="true">
         <div class="journey-background__night"></div>
         <div class="journey-background__dawn"></div>
@@ -234,306 +248,337 @@
                     <div class="schedule-simple" id="schedule-simple" data-schedule-simple aria-label="Simple schedule view"></div>
 
                     <div class="schedule-table-wrap reveal" id="schedule-table" data-schedule-table>
-                    <table class="schedule-table">
-                        <caption class="visually-hidden">hackPHS 2026 schedule with event durations</caption>
-                        <colgroup>
-                            <col class="schedule-table__time-column" />
-                            <col span="4" class="schedule-table__activity-column" />
-                        </colgroup>
-                        <thead class="visually-hidden">
-                            <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col" colspan="4">Activities</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="schedule-table__date">
-                                <th colspan="5">
-                                    <div class="schedule-table__date-inner">
-                                        <div><span>Day one</span><strong>Saturday</strong></div>
-                                        <time datetime="2026-10-10">October 10</time>
-                                    </div>
-                                </th>
-                            </tr>
-                            <tr class="schedule-table__milestone">
-                                <th scope="row"><time datetime="2026-10-10T09:00:00-04:00">9:00 AM</time></th>
-                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Arrival">
-                                    <strong>Check-in begins</strong>
-                                    <small>9:00–10:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__milestone">
-                                <th scope="row"><time datetime="2026-10-10T10:00:00-04:00">10:00 AM</time></th>
-                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
-                                    <strong>Opening ceremony</strong>
-                                    <small>10:00–11:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T11:00:00-04:00">11:00 AM</time></th>
-                                <td rowspan="4" class="schedule-block schedule-block--hacking">
-                                    <strong>Hacking</strong>
-                                    <small>11:00 AM–2:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Team building</strong>
-                                    <small>11:00–11:30 AM</small>
-                                </td>
-                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
-                                <td class="schedule-block schedule-block--empty"></td>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T11:30:00-04:00">11:30 AM</time></th>
-                                <td class="schedule-block schedule-block--empty"></td>
-                                <td rowspan="3" class="schedule-block schedule-block--guest">
-                                    <strong>Potential guest talk(s)</strong>
-                                    <small>11:30 AM–2:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T12:00:00-04:00">12:00 PM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to JavaScript</strong>
-                                    <small>12:00–2:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to Python</strong>
-                                    <small>12:00–1:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T13:00:00-04:00">1:00 PM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--advanced">
-                                    <strong>Data analytics with Python</strong>
-                                    <small>1:00–3:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T14:00:00-04:00">2:00 PM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--meal">
-                                    <strong>Lunch</strong>
-                                    <small>2:00–4:00 PM</small>
-                                </td>
-                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
-                                <td rowspan="2" class="schedule-block schedule-block--empty"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T15:00:00-04:00">3:00 PM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to neural networks</strong>
-                                    <small>3:00–5:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T16:00:00-04:00">4:00 PM</time></th>
-                                <td rowspan="5" class="schedule-block schedule-block--hacking">
-                                    <strong>Hacking</strong>
-                                    <small>4:00–7:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to web design</strong>
-                                    <small>4:00–5:00 PM</small>
-                                </td>
-                                <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to 3D design and CAD</strong>
-                                    <small>4:00–5:30 PM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T17:00:00-04:00">5:00 PM</time></th>
-                                <td rowspan="3" class="schedule-block schedule-block--advanced">
-                                    <strong>Web design for awareness</strong>
-                                    <small>5:00–6:30 PM</small>
-                                </td>
-                                <td rowspan="5" class="schedule-block schedule-block--advanced">
-                                    <strong>Implementing AI/ML for environmental action</strong>
-                                    <small>5:00–8:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T17:30:00-04:00">5:30 PM</time></th>
-                                <td rowspan="3" class="schedule-block schedule-block--guest">
-                                    <strong>Potential guest talk(s)</strong>
-                                    <small>5:30–7:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T18:00:00-04:00">6:00 PM</time></th>
-                            </tr>
-                            <tr class="schedule-table__half-hour">
-                                <th scope="row"><time datetime="2026-10-10T18:30:00-04:00">6:30 PM</time></th>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Prompt engineering</strong>
-                                    <small>6:30–7:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T19:00:00-04:00">7:00 PM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--meal">
-                                    <strong>Dinner</strong>
-                                    <small>7:00–9:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--advanced">
-                                    <strong>AI-generated art contest</strong>
-                                    <small>7:00–8:00 PM</small>
-                                </td>
-                                <td rowspan="3" class="schedule-block schedule-block--empty"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T20:00:00-04:00">8:00 PM</time></th>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to AI ethics</strong>
-                                    <small>8:00–9:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--empty"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T21:00:00-04:00">9:00 PM</time></th>
-                                <td class="schedule-block schedule-block--hacking">
-                                    <strong>Hacking</strong>
-                                    <small>9:00–10:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--advanced">
-                                    <strong>Preparation for AI ethics mock panel</strong>
-                                    <small>9:00–10:00 PM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to Java</strong>
-                                    <small>9:00–10:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T22:00:00-04:00">10:00 PM</time></th>
-                                <td colspan="4" class="schedule-block schedule-block--advanced schedule-block--wide">
-                                    <strong>Panel discussion and voting for the winner!</strong>
-                                    <small>10:00–11:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-10T23:00:00-04:00">11:00 PM</time></th>
-                                <td class="schedule-block schedule-block--hacking">
-                                    <strong>Hacking</strong>
-                                    <small>continues overnight</small>
-                                </td>
-                                <td class="schedule-block schedule-block--evening">
-                                    <strong>TBD</strong>
-                                    <small>11:00 PM–12:00 AM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--evening">
-                                    <strong>Karaoke</strong>
-                                    <small>11:00 PM–12:00 AM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>TBD</strong>
-                                    <small>11:00 PM–12:00 AM</small>
-                                </td>
-                            </tr>
+                        <table class="schedule-table">
+                            <caption class="visually-hidden">hackPHS 2026 schedule with event durations</caption>
+                            <colgroup>
+                                <col class="schedule-table__time-column" />
+                                <col span="4" class="schedule-table__activity-column" />
+                            </colgroup>
+                            <thead class="visually-hidden">
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col" colspan="4">Activities</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="schedule-table__date">
+                                    <th colspan="5">
+                                        <div class="schedule-table__date-inner">
+                                            <div><span>Day one</span><strong>Saturday</strong></div>
+                                            <time datetime="2026-10-10">October 10</time>
+                                        </div>
+                                    </th>
+                                </tr>
 
-                            <tr class="schedule-table__date schedule-table__date--second">
-                                <th colspan="5">
-                                    <div class="schedule-table__date-inner">
-                                        <div><span>Day two</span><strong>Sunday</strong></div>
-                                        <time datetime="2026-10-11">October 11</time>
-                                    </div>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T00:00:00-04:00">12:00 AM</time></th>
-                                <td rowspan="10" class="schedule-block schedule-block--hacking">
-                                    <strong>Hacking</strong>
-                                    <small>12:00–10:00 AM</small>
-                                </td>
-                                <td class="schedule-block schedule-block--evening">
-                                    <strong>Midnight snack</strong>
-                                    <small>12:00–1:00 AM</small>
-                                </td>
-                                <td rowspan="2" class="schedule-block schedule-block--evening">
-                                    <strong>Chess tournament</strong>
-                                    <small>12:00–2:00 AM</small>
-                                </td>
-                                <td rowspan="8" class="schedule-block schedule-block--empty"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T01:00:00-04:00">1:00 AM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--evening">
-                                    <strong>Movie night</strong>
-                                    <small>1:00–3:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T02:00:00-04:00">2:00 AM</time></th>
-                                <td rowspan="5" class="schedule-block schedule-block--meal">
-                                    <strong>Sleep</strong>
-                                    <small>2:00–7:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T03:00:00-04:00">3:00 AM</time></th>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to vibe coding</strong>
-                                    <small>3:00–4:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T04:00:00-04:00">4:00 AM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--advanced">
-                                    <strong>Vibe-coded video game contest</strong>
-                                    <small>4:00–6:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T05:00:00-04:00">5:00 AM</time></th>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T06:00:00-04:00">6:00 AM</time></th>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to HTML and CSS + React</strong>
-                                    <small>6:00–7:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T07:00:00-04:00">7:00 AM</time></th>
-                                <td class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to advanced algorithms</strong>
-                                    <small>7:00–8:00 AM</small>
-                                </td>
-                                <td rowspan="3" class="schedule-block schedule-block--meal">
-                                    <strong>Breakfast</strong>
-                                    <small>7:00–10:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T08:00:00-04:00">8:00 AM</time></th>
-                                <td rowspan="2" class="schedule-block schedule-block--advanced">
-                                    <strong>Programming tournament</strong>
-                                    <small>8:00–10:00 AM</small>
-                                </td>
-                                <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                    <strong>Intro to Swift <em>(beginner)</em> and intro to SwiftUI <em>(advanced)</em></strong>
-                                    <small>8:00–10:00 AM</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><time datetime="2026-10-11T09:00:00-04:00">9:00 AM</time></th>
-                            </tr>
-                            <tr class="schedule-table__milestone">
-                                <th scope="row"><time datetime="2026-10-11T10:00:00-04:00">10:00 AM</time></th>
-                                <td rowspan="2" colspan="4" class="schedule-block schedule-block--milestone" data-label="Deadline">
-                                    <strong>Projects due and judging begins</strong>
-                                    <small>10:00 AM–12:00 PM</small>
-                                </td>
-                            </tr>
-                            <tr class="schedule-table__milestone">
-                                <th scope="row"><time datetime="2026-10-11T11:00:00-04:00">11:00 AM</time></th>
-                            </tr>
-                            <tr class="schedule-table__milestone">
-                                <th scope="row"><time datetime="2026-10-11T12:00:00-04:00">12:00 PM</time></th>
-                                <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
-                                    <strong>Closing ceremony</strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr class="schedule-table__milestone">
+                                    <th scope="row"><time datetime="2026-10-10T09:00:00-04:00">9:00 AM</time></th>
+                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Arrival">
+                                        <strong>Check-in begins</strong>
+                                        <small>9:00–10:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__milestone">
+                                    <th scope="row"><time datetime="2026-10-10T10:00:00-04:00">10:00 AM</time></th>
+                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                        <strong>Opening ceremony</strong>
+                                        <small>10:00–11:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T11:00:00-04:00">11:00 AM</time></th>
+                                    <td rowspan="4" class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>11:00 AM–2:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Team building</strong>
+                                        <small>11:00–11:30 AM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T11:30:00-04:00">11:30 AM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td rowspan="3" class="schedule-block schedule-block--guest">
+                                        <strong>Potential guest talk(s)</strong>
+                                        <small>11:30 AM–2:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T12:00:00-04:00">12:00 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to JavaScript</strong>
+                                        <small>12:00–2:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to Python</strong>
+                                        <small>12:00–1:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T13:00:00-04:00">1:00 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                        <strong>Data analytics with Python</strong>
+                                        <small>1:00–3:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T14:00:00-04:00">2:00 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--meal">
+                                        <strong>Lunch</strong>
+                                        <small>2:00–4:00 PM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T15:00:00-04:00">3:00 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to neural networks</strong>
+                                        <small>3:00–5:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T16:00:00-04:00">4:00 PM</time></th>
+                                    <td rowspan="5" class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>4:00–7:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to web design</strong>
+                                        <small>4:00–5:00 PM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to 3D design and CAD</strong>
+                                        <small>4:00–5:30 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T17:00:00-04:00">5:00 PM</time></th>
+                                    <td rowspan="3" class="schedule-block schedule-block--advanced">
+                                        <strong>Web design for awareness</strong>
+                                        <small>5:00–6:30 PM</small>
+                                    </td>
+                                    <td rowspan="5" class="schedule-block schedule-block--advanced">
+                                        <strong>Implementing AI/ML for environmental action</strong>
+                                        <small>5:00–8:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T17:30:00-04:00">5:30 PM</time></th>
+                                    <td rowspan="3" class="schedule-block schedule-block--guest">
+                                        <strong>Potential guest talk(s)</strong>
+                                        <small>5:30–7:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T18:00:00-04:00">6:00 PM</time></th>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T18:30:00-04:00">6:30 PM</time></th>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Prompt engineering</strong>
+                                        <small>6:30–7:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T19:00:00-04:00">7:00 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--meal">
+                                        <strong>Dinner</strong>
+                                        <small>7:00–9:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--advanced">
+                                        <strong>AI-generated art contest</strong>
+                                        <small>7:00–8:00 PM</small>
+                                    </td>
+                                    <td rowspan="3" class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T20:00:00-04:00">8:00 PM</time></th>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to AI ethics</strong>
+                                        <small>8:00–9:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T21:00:00-04:00">9:00 PM</time></th>
+                                    <td class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>9:00–10:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--advanced">
+                                        <strong>Preparation for AI ethics mock panel</strong>
+                                        <small>9:00–10:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to Java</strong>
+                                        <small>9:00–10:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T22:00:00-04:00">10:00 PM</time></th>
+                                    <td colspan="4" class="schedule-block schedule-block--advanced schedule-block--wide">
+                                        <strong>Panel discussion and voting for the winner!</strong>
+                                        <small>10:00–11:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T23:00:00-04:00">11:00 PM</time></th>
+                                    <td class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>continues overnight</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--evening">
+                                        <strong>TBD</strong>
+                                        <small>11:00 PM–12:00 AM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--evening">
+                                        <strong>Karaoke</strong>
+                                        <small>11:00 PM–12:00 AM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>TBD</strong>
+                                        <small>11:00 PM–12:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__date schedule-table__date--second">
+                                    <th colspan="5">
+                                        <div class="schedule-table__date-inner">
+                                            <div><span>Day two</span><strong>Sunday</strong></div>
+                                            <time datetime="2026-10-11">October 11</time>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T00:00:00-04:00">12:00 AM</time></th>
+                                    <td rowspan="10" class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>12:00–10:00 AM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--evening">
+                                        <strong>Midnight snack</strong>
+                                        <small>12:00–1:00 AM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--evening">
+                                        <strong>Chess tournament</strong>
+                                        <small>12:00–2:00 AM</small>
+                                    </td>
+                                    <td rowspan="8" class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T01:00:00-04:00">1:00 AM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--evening">
+                                        <strong>Movie night</strong>
+                                        <small>1:00–3:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T02:00:00-04:00">2:00 AM</time></th>
+                                    <td rowspan="5" class="schedule-block schedule-block--meal">
+                                        <strong>Sleep</strong>
+                                        <small>2:00–7:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T03:00:00-04:00">3:00 AM</time></th>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to vibe coding</strong>
+                                        <small>3:00–4:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T04:00:00-04:00">4:00 AM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                        <strong>Vibe-coded video game contest</strong>
+                                        <small>4:00–6:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T05:00:00-04:00">5:00 AM</time></th>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T06:00:00-04:00">6:00 AM</time></th>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to HTML and CSS + React</strong>
+                                        <small>6:00–7:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T07:00:00-04:00">7:00 AM</time></th>
+                                    <td class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to advanced algorithms</strong>
+                                        <small>7:00–8:00 AM</small>
+                                    </td>
+                                    <td rowspan="3" class="schedule-block schedule-block--meal">
+                                        <strong>Breakfast</strong>
+                                        <small>7:00–10:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T08:00:00-04:00">8:00 AM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                        <strong>Programming tournament</strong>
+                                        <small>8:00–10:00 AM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                        <strong>Intro to Swift <em>(beginner)</em> and intro to SwiftUI <em>(advanced)</em></strong>
+                                        <small>8:00–10:00 AM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-11T09:00:00-04:00">9:00 AM</time></th>
+                                </tr>
+
+                                <tr class="schedule-table__milestone">
+                                    <th scope="row"><time datetime="2026-10-11T10:00:00-04:00">10:00 AM</time></th>
+                                    <td rowspan="2" colspan="4" class="schedule-block schedule-block--milestone" data-label="Deadline">
+                                        <strong>Projects due and judging begins</strong>
+                                        <small>10:00 AM–12:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__milestone">
+                                    <th scope="row"><time datetime="2026-10-11T11:00:00-04:00">11:00 AM</time></th>
+                                </tr>
+
+                                <tr class="schedule-table__milestone">
+                                    <th scope="row"><time datetime="2026-10-11T12:00:00-04:00">12:00 PM</time></th>
+                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                        <strong>Closing ceremony</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
