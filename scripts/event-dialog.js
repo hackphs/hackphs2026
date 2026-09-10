@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20260820c";
+import { events } from "./events.js?v=20260910";
 
 export function startEventDialog() {
     const dialog = document.querySelector("[data-event-dialog]");

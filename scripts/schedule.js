@@ -1,4 +1,4 @@
-import { scheduleEventSlugs } from "./events.js?v=20260820b";
+import { scheduleEventSlugs } from "./events.js?v=20260910";
 
 const categoryNames = {
     hacking: "Main event",
@@ -29,9 +29,9 @@ export function startSchedule() {
             continue;
         }
 
-        let eventSlug = scheduleEventSlugs[title.toLowerCase()];
+        let eventSlug = block.dataset.event || scheduleEventSlugs[title.toLowerCase()];
 
-        if (title === "TBD") {
+        if (title === "TBD" && !eventSlug) {
             eventSlug = block.classList.contains("schedule-block--workshop")
                 ? "tbd-workshop"
                 : "tbd-fun-activity";

@@ -1,3 +1,39 @@
+#mlh-trust-badge {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: clamp(4.5rem, 7vw, 7rem);
+    width: clamp(60px, 10vw, 100px);
+    z-index: 10000;
+    animation: mlh-slide-down 1s cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+}
+
+@keyframes mlh-slide-down {
+    from { transform: translateY(-110%); }
+    to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #mlh-trust-badge { animation: none; }
+}
+
+#mlh-trust-badge ~ .site-header .site-header__inner {
+    padding-right: clamp(9rem, 17vw, 14rem);
+}
+
+@media (max-width: 600px) {
+    #mlh-trust-badge { right: 3rem; }
+
+    #mlh-trust-badge ~ .site-header .site-header__inner {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
+        padding-right: 8rem;
+    }
+
+    #mlh-trust-badge ~ main .hero-section { padding-top: 8rem; }
+}
+
 /* the header stays light so the hero can do the talking */
 .site-header {
     position: absolute;

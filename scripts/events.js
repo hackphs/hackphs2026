@@ -64,12 +64,12 @@ export const events = {
         room: roomNotice,
         description: "An introductory experience on how to craft effective prompts for AI image generation tools, covering techniques for guiding AI models toward creative and intentional results.",
     },
-    "ai-generated-art-contest": {
-        title: "AI-Generated Art Contest",
+    "tbd-evening-activity": {
+        title: "TBD",
         time: "Saturday, October 10 · 7:00-8:00 PM",
         duration: "~1 hour",
         room: roomNotice,
-        description: "Design a unique AI-generated image centered around the theme Into the Skies. You may use any AI image generation platform to create a visually striking work that showcases creativity, originality, and artistic storytelling. This event is just for fun, so points awarded for it are halved.",
+        description: "Details for this activity will be announced soon.",
     },
     "intro-to-ai-ethics": {
         title: "Intro to AI Ethics",
@@ -188,7 +188,6 @@ export const scheduleEventSlugs = {
     "web design for awareness": "web-design-for-awareness",
     "implementing ai/ml for environmental action": "environmental-ai-ml",
     "prompt engineering": "prompt-engineering",
-    "ai-generated art contest": "ai-generated-art-contest",
     "intro to ai ethics": "intro-to-ai-ethics",
     "intro to java": "intro-to-java",
     "preparation for ai ethics mock panel": "ai-ethics-panel",

@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20260820c";
+import { events } from "./events.js?v=20260910";
 
 const eventSlug = new URLSearchParams(window.location.search).get("event");
 const event = events[eventSlug];
