@@ -188,13 +188,45 @@
     text-shadow: 0 0.2rem 1.5rem rgba(3, 8, 20, 0.2);
 }
 
+.sponsor-featured {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(3rem, 8vw, 8rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding: 3rem 0;
+    border-top: 1px solid var(--line-light);
+}
+
+.sponsor-featured > a {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    min-height: 13rem;
+    transition: transform 180ms ease;
+}
+
+.sponsor-featured > a:hover,
+.sponsor-featured > a:focus-visible {
+    transform: translateY(-0.25rem);
+}
+
+.sponsor-featured img {
+    width: min(100%, 27rem);
+    height: auto;
+}
+
+.sponsor-featured__burgerrunn img {
+    width: min(100%, 16rem);
+}
+
 .sponsor-field {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: clamp(2.4rem, 5.5vw, 5.5rem);
-    margin-top: clamp(4rem, 8vw, 7rem);
+    margin-top: 0;
     padding: 3rem 0;
     border-top: 1px solid var(--line-light);
     border-bottom: 1px solid var(--line-light);

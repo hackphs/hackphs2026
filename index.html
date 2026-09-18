@@ -21,11 +21,12 @@
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260827" />
     <link rel="stylesheet" href="/styles/navigation.css?v=20260910" />
     <link rel="stylesheet" href="/styles/hero.css?v=20260817" />
-    <link rel="stylesheet" href="/styles/content.css?v=20260827" />
+    <link rel="stylesheet" href="/styles/content.css?v=20260917" />
+    <link rel="stylesheet" href="/styles/prizes.css?v=20260917d" />
     <link rel="stylesheet" href="/styles/schedule.css?v=20260821b" />
     <link rel="stylesheet" href="/styles/event.css?v=20260820e" />
-    <link rel="stylesheet" href="/styles/responsive.css?v=20260818b" />
-    <script type="module" src="/scripts/main.js?v=20260910"></script>
+    <link rel="stylesheet" href="/styles/responsive.css?v=20260917" />
+    <script type="module" src="/scripts/main.js?v=20260917"></script>
 </head>
 <body>
 
@@ -90,6 +91,7 @@
             </a>
             <nav class="site-nav" id="site-navigation" aria-label="Main navigation" data-site-nav>
                 <a href="#schedule">Schedule</a>
+                <a href="#prizes">Prizes</a>
                 <a href="#faqs">FAQs</a>
                 <details class="years-menu">
                     <summary>Past years</summary>
@@ -583,11 +585,100 @@
             </div>
         </section>
 
+        <section class="journey-section prizes-section light-stage" id="prizes" data-stage="day" aria-labelledby="prizes-title">
+            <div class="section-inner">
+                <div class="section-heading section-heading--split reveal">
+                    <div>
+                        <p class="section-number">03 / Prizes</p>
+                        <h2 id="prizes-title">Make something.<br />Win something!</h2>
+                    </div>
+                    <p>Learning something new is already a win. But we also have a few things to send you home with, from new gear to tools for your next project.</p>
+                </div>
+
+                <div class="prize-podium reveal" aria-label="Overall awards">
+                    <article class="prize-place">
+                        <p class="prize-place__rank">01 <span>First place</span></p>
+                        <button class="prize-preview" type="button" data-prize-preview disabled aria-label="Tilt the gaming monitor preview" aria-describedby="prize-preview-help">
+                            <img src="/assets/prizes/gaming-monitor.png?v=2" alt="Black AOC gaming monitor with its stand" width="1399" height="1124" loading="lazy" draggable="false" />
+                            <span aria-hidden="true">Drag to tilt</span>
+                        </button>
+                        <h3>A new gaming monitor</h3>
+                        <p class="prize-place__value">$600 <span>total for all</span></p>
+                        <p class="prize-place__description">A 24-inch Full HD display with a smooth 200Hz refresh rate and 0.3ms response time. More frames, less blur.</p>
+                        <p class="prize-place__note">One for each team member</p>
+                        <div class="prize-extras">
+                            <p class="prize-eyebrow">First place extras</p>
+                            <ul>
+                                <li>3 months of ElevenLabs Pro per member</li>
+                                <li>1 year of NordVPN Prime, NordPass Premium, NordProtect/Coveron, and Incogni</li>
+                                <li>1 GB of Saily eSIM data</li>
+                                <li>3 months of nexos.ai access and &euro;200 in credits</li>
+                                <li>Four $25 AoPS coupons for the team</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="prize-place">
+                        <p class="prize-place__rank">02 <span>Second place</span></p>
+                        <button class="prize-preview prize-preview--keyboard" type="button" data-prize-preview disabled aria-label="Tilt the gaming keyboard preview" aria-describedby="prize-preview-help">
+                            <img src="/assets/prizes/aula-win68-he.png" alt="Black gaming keyboard with RGB lighting and a wrist strap" width="1774" height="887" loading="lazy" draggable="false" />
+                            <span aria-hidden="true">Drag to tilt</span>
+                        </button>
+                        <h3>A new gaming keyboard</h3>
+                        <p class="prize-place__value">$350 <span>total for four keyboards</span></p>
+                        <p class="prize-place__description">Magnetic switches with rapid trigger, an 8,000Hz polling rate, and customizable RGB lighting.</p>
+                        <p class="prize-place__note">One for each team member</p>
+                    </article>
+                    <article class="prize-place">
+                        <p class="prize-place__rank">03 <span>Third place</span></p>
+                        <button class="prize-preview prize-preview--mouse" type="button" data-prize-preview disabled aria-label="Tilt the VXE mouse preview" aria-describedby="prize-preview-help">
+                            <img src="/assets/prizes/vxe-dragonfly-r1.png" alt="Black VXE Dragon Fly R1 wireless gaming mouse" width="1254" height="1254" loading="lazy" draggable="false" />
+                            <span aria-hidden="true">Drag to tilt</span>
+                        </button>
+                        <h3>A new gaming mouse</h3>
+                        <p class="prize-place__value">$100 <span>total for all 4 mice</span></p>
+                        <p class="prize-place__description"><a href="https://www.atk.store/products/vxe-dragonfly-r1-series-wireless-mouse?variant=44857375391962&amp;country=CA&amp;currency=USD" target="_blank" rel="noreferrer">VXE Dragon Fly R1</a>. A lightweight 55g mouse with adjustable sensitivity and buttons. Connect over Bluetooth, 2.4GHz wireless, or USB.</p>
+                        <p class="prize-place__note">One for each team member</p>
+                    </article>
+                </div>
+
+                <p class="prize-preview-help" id="prize-preview-help">Drag a product image sideways to tilt it. You can also use the arrow keys when focused. Click or press Home to reset.</p>
+
+                <div class="prize-shared reveal">
+                    <div>
+                        <p class="prize-eyebrow">All three winning teams</p>
+                        <h3>There’s more in the bag</h3>
+                        <p>Each member of the top three teams also receives:</p>
+                    </div>
+                    <ul>
+                        <li><strong>$1,000 scholarship</strong> toward the RISE Research Program</li>
+                        <li><strong>1 year of Windscribe Pro</strong></li>
+                        <li><strong>4 years of TI-84 Plus CE Online Calculator</strong> access</li>
+                        <li><strong>3 months of Codeset Fellow</strong></li>
+                    </ul>
+                </div>
+
+                <div class="prize-perks reveal">
+                    <div>
+                        <p class="prize-eyebrow">For everyone</p>
+                        <h3>You don’t have to win to take something home</h3>
+                    </div>
+                    <ul>
+                        <li><strong>1 month of Codeset Learner</strong> with 5,000 credits</li>
+                        <li><strong>1 month of ElevenLabs Creator</strong></li>
+                        <li><strong>HRT shirts and playing cards</strong></li>
+                        <li><strong>PREA frisbees, playing cards, and pens</strong></li>
+                        <li><strong>MLH swag and stickers</strong></li>
+                    </ul>
+                </div>
+                <p class="prize-footnote">Scholarships apply toward program tuition; software prizes are subscriptions or credits. For competition details, visit our <a href="https://hackphs2026.devpost.com/" target="_blank" rel="noreferrer">Devpost</a>.</p>
+            </div>
+        </section>
+
         <section class="journey-section faq-section light-stage" id="faqs" data-stage="day">
             <div class="section-inner">
                 <div class="section-heading section-heading--split reveal">
                     <div>
-                        <p class="section-number">03 / FAQs</p>
+                        <p class="section-number">04 / FAQs</p>
                         <h2>Before you<br />pack your bag!</h2>
                     </div>
                     <p>
@@ -665,8 +756,8 @@
                         <p>
                             hackPHS hopes to emphasize learning and collaboration more so than competition—nonetheless,
                             there will be awesome prizes to be won for some of the best hacks made during the event!
-                            The full prize list will be available on our
-                            <a href="https://hackphs2026.devpost.com/" target="_blank" rel="noreferrer">Devpost</a>.
+                            Check out the <a href="#prizes">prizes</a>, including gear,
+                            research scholarships, and subscriptions. There are also perks for every participant!
                         </p>
                     </details>
 
@@ -703,7 +794,7 @@
             <div class="section-inner">
                 <div class="section-heading section-heading--split reveal">
                     <div>
-                        <p class="section-number">04 / Sponsors</p>
+                        <p class="section-number">05 / Sponsors</p>
                         <h2>The sponsors<br />behind this weekend!!</h2>
                     </div>
                     <p>
@@ -713,14 +804,18 @@
                     </p>
                 </div>
 
-                <div class="sponsor-field reveal" aria-label="hackPHS 2026 sponsors">
+                <div class="sponsor-featured reveal" aria-label="Featured hackPHS 2026 sponsors">
+                    <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img src="/assets/sponsors/windscribe.svg" alt="Windscribe" /></a>
+                    <a class="sponsor-featured__burgerrunn" href="https://burgerrunn.com/" target="_blank" rel="noreferrer" aria-label="Visit BurgerRunn"><img src="/assets/sponsors/burgerrunn.png" alt="BurgerRunn" loading="lazy" /></a>
+                </div>
+
+                <div class="sponsor-field reveal" aria-label="More hackPHS 2026 sponsors">
                     <a href="https://nordvpn.com/" target="_blank" rel="noreferrer" aria-label="Visit NordVPN"><img src="/assets/sponsors/nordvpn.svg?v=20260807" alt="NordVPN" /></a>
                     <a href="https://nordpass.com/" target="_blank" rel="noreferrer" aria-label="Visit NordPass"><img src="/assets/sponsors/nordpass.png" alt="NordPass" /></a>
                     <a href="https://coveron.com/" target="_blank" rel="noreferrer" aria-label="Visit Coveron"><img src="/assets/sponsors/coveron.svg" alt="Coveron" /></a>
                     <a href="https://incogni.com/" target="_blank" rel="noreferrer" aria-label="Visit Incogni"><img src="/assets/sponsors/incogni.png" alt="Incogni" /></a>
                     <a href="https://saily.com/" target="_blank" rel="noreferrer" aria-label="Visit Saily"><img src="/assets/sponsors/saily.png" alt="Saily" /></a>
                     <a href="https://nexos.ai/" target="_blank" rel="noreferrer" aria-label="Visit nexos.ai"><img src="/assets/sponsors/nexos-ai.png" alt="nexos.ai" /></a>
-                    <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img src="/assets/sponsors/windscribe.png?v=20260820" alt="Windscribe" /></a>
                     <a class="sponsor-field__hrt" href="https://www.hudsonrivertrading.com/" target="_blank" rel="noreferrer" aria-label="Visit Hudson River Trading"><img src="/assets/sponsors/hrt.png?v=20260810b" alt="Hudson River Trading (HRT)" /></a>
                     <a href="https://fly.io/" target="_blank" rel="noreferrer" aria-label="Visit Fly.io"><img src="/assets/sponsors/fly.svg?v=20260810b" alt="Fly.io" /></a>
                     <a href="https://riseresearch.com/" target="_blank" rel="noreferrer" aria-label="Visit RISE Research"><img src="/assets/sponsors/rise.png?v=20260817" alt="RISE Research" /></a>

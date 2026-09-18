@@ -63,6 +63,9 @@
 
     .site-header__inner {
         min-height: 4rem;
+        flex-wrap: wrap;
+        gap: 0.35rem 1rem;
+        padding: 0.55rem 0;
     }
 
     .brand {
@@ -162,6 +165,24 @@
 
     .sponsor-field {
         gap: 2rem 2.5rem;
+    }
+
+    .sponsor-featured {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 2.5rem 0;
+    }
+
+    .sponsor-featured > a {
+        min-height: auto;
+    }
+
+    .sponsor-featured img {
+        width: min(100%, 20rem);
+    }
+
+    .sponsor-featured__burgerrunn img {
+        width: 13rem;
     }
 
     .sponsor-field > a {
