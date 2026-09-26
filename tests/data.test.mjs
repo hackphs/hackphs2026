@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseCsv, parseStandings, fetchStandings, standingsUrl } from "../scripts/leaderboard-data.js";
-import { registrationClosesAt, registrationState, registrationUrls } from "../scripts/registration.js";
+import { registrationClosesAt, registrationState, registrationUrls, registrationCountdown } from "../scripts/registration.js";
 import { events, scheduleRooms } from "../scripts/events.js";
 
 test("CSV handles escaped quotes, commas, line breaks, BOM and CRLF", () => {
@@ -52,6 +52,18 @@ test("registration switches after September 29 ends in Eastern time", () => {
     assert.equal(registrationState(registrationClosesAt - 1).url, registrationUrls.registration);
     assert.equal(registrationState(registrationClosesAt).url, registrationUrls.waitlist);
     assert.equal(registrationState(registrationClosesAt + 1).label, "Join the waitlist");
+});
+
+test("registration countdown handles days, final hours and the waitlist cutoff", () => {
+    for (const [remaining, ending] of [
+        [3 * 86_400_000, "3 days"], [86_400_000, "1 day"],
+        [2 * 3_600_000, "2 hours"], [3_600_000, "1 hour"],
+        [120_000, "2 minutes"], [60_000, "1 minute"], [1, "less than a minute"],
+    ]) {
+        assert.equal(registrationCountdown(registrationClosesAt - remaining), `Registration closes in ${ending}`);
+    }
+    assert.equal(registrationCountdown(registrationClosesAt), "Registration closed. Waitlist open.");
+    assert.equal(registrationCountdown(registrationClosesAt + 1000), "Registration closed. Waitlist open.");
 });
 
 test("updated event details and public rooms match the new schedule", () => {

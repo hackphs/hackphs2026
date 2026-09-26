@@ -17,24 +17,54 @@ export function registrationState(now = Date.now()) {
     };
 }
 
+export function registrationCountdown(now = Date.now()) {
+    const remaining = registrationClosesAt - now;
+    if (remaining <= 0) return "Registration closed. Waitlist open.";
+    if (remaining < 60_000) return "Registration closes in less than a minute";
+    const unit = remaining >= 86_400_000 ? "day" : remaining >= 3_600_000 ? "hour" : "minute";
+    const duration = { day: 86_400_000, hour: 3_600_000, minute: 60_000 }[unit];
+    const count = Math.ceil(remaining / duration);
+    return `Registration closes in ${count} ${unit}${count === 1 ? "" : "s"}`;
+}
+
 export function startRegistration() {
     let deadlineTimer;
+    const links = document.querySelectorAll("[data-registration-link]");
+    const notes = document.querySelectorAll("[data-registration-status]");
+    const countdown = document.querySelector("[data-registration-countdown]");
+    const bar = document.querySelector("[data-registration-bar]");
+    const hero = document.querySelector(".hero-section");
+
+    if (bar && hero) {
+        const observer = new IntersectionObserver(([entry]) => {
+            const visible = entry.boundingClientRect.bottom <= 0;
+            bar.classList.toggle("is-visible", visible);
+            bar.inert = !visible;
+            bar.setAttribute("aria-hidden", String(!visible));
+        });
+        observer.observe(hero);
+    }
 
     const update = () => {
         window.clearTimeout(deadlineTimer);
-        const state = registrationState();
-        for (const link of document.querySelectorAll("[data-registration-link]")) {
+        const now = Date.now();
+        const state = registrationState(now);
+        for (const link of links) {
             link.href = state.url;
-            link.textContent = link.classList.contains("primary-action") ? state.label : state.formLabel;
+            const isAction = link.classList.contains("primary-action") || link.hasAttribute("data-registration-action");
+            const label = isAction ? state.label : state.formLabel;
+            if (link.textContent !== label) link.textContent = label;
         }
-        for (const note of document.querySelectorAll("[data-registration-status]")) {
-            note.textContent = state.message;
+        for (const note of notes) {
+            if (note.textContent !== state.message) note.textContent = state.message;
         }
+        const countdownText = registrationCountdown(now);
+        if (countdown && countdown.textContent !== countdownText) countdown.textContent = countdownText;
 
-        // Also switch for anyone who leaves the page open over the deadline.
-        const remaining = registrationClosesAt - Date.now();
-        if (remaining > 0) {
-            deadlineTimer = window.setTimeout(update, Math.min(remaining, 2_147_483_647));
+        // Keep the countdown fresh without running a timer in a hidden tab.
+        const remaining = registrationClosesAt - now;
+        if (remaining > 0 && !document.hidden) {
+            deadlineTimer = window.setTimeout(update, Math.min(remaining, 60_000));
         }
     };
 
@@ -42,7 +72,7 @@ export function startRegistration() {
     document.addEventListener("visibilitychange", update);
     window.addEventListener("pageshow", update);
     window.addEventListener("focus", update);
-    for (const link of document.querySelectorAll("[data-registration-link]")) {
+    for (const link of links) {
         link.addEventListener("click", update);
     }
 }

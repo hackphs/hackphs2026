@@ -151,6 +151,17 @@
     margin-top: 2rem;
 }
 
+.hero-merch {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .35rem 1rem;
+    margin: 1.2rem 0 0;
+    color: var(--soft-white);
+    font-size: .85rem;
+    line-height: 1.6;
+}
+
 .primary-action {
     display: inline-flex;
     align-items: center;

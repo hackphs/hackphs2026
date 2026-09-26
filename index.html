@@ -19,14 +19,14 @@
     />
     <link rel="stylesheet" href="/styles/base.css?v=20260827" />
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260925" />
-    <link rel="stylesheet" href="/styles/navigation.css?v=20260925" />
-    <link rel="stylesheet" href="/styles/hero.css?v=20260925b" />
+    <link rel="stylesheet" href="/styles/navigation.css?v=20260926d" />
+    <link rel="stylesheet" href="/styles/hero.css?v=20260926" />
     <link rel="stylesheet" href="/styles/content.css?v=20260925j" />
     <link rel="stylesheet" href="/styles/prizes.css?v=20260925b" />
     <link rel="stylesheet" href="/styles/schedule.css?v=20260925f" />
     <link rel="stylesheet" href="/styles/event.css?v=20260925c" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20260925d" />
-    <script type="module" src="/scripts/main.js?v=20260925i"></script>
+    <script type="module" src="/scripts/main.js?v=20260926"></script>
 </head>
 <body>
 
@@ -109,6 +109,20 @@
         </div>
     </header>
 
+    <aside class="registration-bar" data-registration-bar aria-label="Registration reminder" aria-hidden="true" inert>
+        <div class="registration-bar__inner">
+            <a class="registration-bar__brand" href="#top" aria-label="hackPHS 2026, back to top">
+                <img src="/assets/branding/favicon-96x96.png" width="40" height="40" alt="" />
+                <span>hackPHS <small>2026</small></span>
+            </a>
+            <p data-registration-countdown></p>
+            <div class="registration-bar__actions">
+                <a class="registration-bar__link" data-registration-link data-registration-action href="https://docs.google.com/forms/d/e/1FAIpQLSeebNRWyDxMRbN6KEoL7pdFbbd_xj2PjGi6kFLQ0ATAhoarzQ/viewform?usp=publish-editor" target="_blank" rel="noreferrer">Register</a>
+                <a class="registration-bar__merch" href="https://forms.gle/xHiPQQyVb7PakdKs5" target="_blank" rel="noreferrer" aria-label="Preorder hackPHS merch" title="Merch preorders close September 30">Merch</a>
+            </div>
+        </div>
+    </aside>
+
     <main>
         <section class="journey-section hero-section" id="top" data-stage="night">
             <div class="section-inner hero-layout">
@@ -141,6 +155,10 @@
                         <a class="route-link" href="https://2025.hackphs.tech/" target="_blank" rel="noreferrer">View 2025</a>
                         <a class="route-link" href="/donate.html">Donate</a>
                     </div>
+                    <p class="hero-merch">
+                        <a class="route-link" href="https://forms.gle/xHiPQQyVb7PakdKs5" target="_blank" rel="noreferrer" aria-describedby="merch-deadline">Preorder merch</a>
+                        <span id="merch-deadline">Preorders close September 30.</span>
+                    </p>
                 </div>
 
                 <div class="hero-space-scene reveal" aria-hidden="true">
