@@ -56,7 +56,7 @@ test("registration switches after September 29 ends in Eastern time", () => {
 
 test("registration countdown handles days, final hours and the waitlist cutoff", () => {
     for (const [remaining, ending] of [
-        [3 * 86_400_000, "3 days"], [86_400_000, "1 day"],
+        [3 * 86_400_000, "2 days"], [86_400_000, "24 hours"],
         [2 * 3_600_000, "2 hours"], [3_600_000, "1 hour"],
         [120_000, "2 minutes"], [60_000, "1 minute"], [1, "less than a minute"],
     ]) {
@@ -64,6 +64,18 @@ test("registration countdown handles days, final hours and the waitlist cutoff",
     }
     assert.equal(registrationCountdown(registrationClosesAt), "Registration closed. Waitlist open.");
     assert.equal(registrationCountdown(registrationClosesAt + 1000), "Registration closed. Waitlist open.");
+});
+
+test("countdown uses September 29 calendar days in Eastern time", () => {
+    for (const [now, days] of [
+        ["2026-09-26T00:00:00-04:00", 3],
+        ["2026-09-26T23:59:59-04:00", 3],
+        ["2026-09-27T03:59:59Z", 3],
+        ["2026-09-27T04:00:00Z", 2],
+        ["2026-09-28T12:00:00-04:00", 1],
+    ]) {
+        assert.equal(registrationCountdown(Date.parse(now)), `Registration closes in ${days} day${days === 1 ? "" : "s"}`);
+    }
 });
 
 test("updated event details and public rooms match the new schedule", () => {

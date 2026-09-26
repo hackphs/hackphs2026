@@ -17,12 +17,24 @@ export function registrationState(now = Date.now()) {
     };
 }
 
+const easternDate = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York", year: "numeric", month: "numeric", day: "numeric",
+});
+
+function easternCalendarDay(timestamp) {
+    const parts = Object.fromEntries(easternDate.formatToParts(timestamp).map(({ type, value }) => [type, value]));
+    return Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day)) / 86_400_000;
+}
+
 export function registrationCountdown(now = Date.now()) {
     const remaining = registrationClosesAt - now;
     if (remaining <= 0) return "Registration closed. Waitlist open.";
+    // Count toward September 29, not the midnight that starts September 30.
+    const days = easternCalendarDay(registrationClosesAt - 1) - easternCalendarDay(now);
+    if (days > 0) return `Registration closes in ${days} day${days === 1 ? "" : "s"}`;
     if (remaining < 60_000) return "Registration closes in less than a minute";
-    const unit = remaining >= 86_400_000 ? "day" : remaining >= 3_600_000 ? "hour" : "minute";
-    const duration = { day: 86_400_000, hour: 3_600_000, minute: 60_000 }[unit];
+    const unit = remaining >= 3_600_000 ? "hour" : "minute";
+    const duration = { hour: 3_600_000, minute: 60_000 }[unit];
     const count = Math.ceil(remaining / duration);
     return `Registration closes in ${count} ${unit}${count === 1 ? "" : "s"}`;
 }

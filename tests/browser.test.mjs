@@ -210,7 +210,7 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
 test("registration bar appears past the hero, clears the badge and switches to the waitlist", async () => {
     const page = await pageForTest();
     try {
-        await page.clock.install({ time: new Date("2026-09-27T04:00:00Z") });
+        await page.clock.install({ time: new Date("2026-09-26T04:00:00Z") });
         await page.goto(base);
         const bar = page.locator("[data-registration-bar]");
         await bar.locator("img").evaluate((image) => image.decode());
@@ -234,6 +234,11 @@ test("registration bar appears past the hero, clears the badge and switches to t
         }
         await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
         await bar.waitFor({ state: "hidden" });
+        await page.clock.setSystemTime(new Date("2026-09-27T03:59:50Z"));
+        await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+        assert.match(await bar.textContent(), /3 days/);
+        await page.clock.fastForward(60000);
+        await page.waitForFunction(() => document.querySelector("[data-registration-countdown]").textContent.includes("2 days"));
         await page.clock.setSystemTime(new Date("2026-09-30T03:59:50Z"));
         await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         assert.match(await bar.textContent(), /less than a minute/);
