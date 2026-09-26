@@ -1,4 +1,4 @@
-import { scheduleEventSlugs } from "./events.js?v=20260910";
+import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20260925";
 
 const categoryNames = {
     hacking: "Main event",
@@ -35,6 +35,14 @@ export function startSchedule() {
             eventSlug = block.classList.contains("schedule-block--workshop")
                 ? "tbd-workshop"
                 : "tbd-fun-activity";
+        }
+
+        const location = scheduleRooms[title.toLowerCase()] || eventDetails[eventSlug]?.room;
+        if (location) {
+            const room = document.createElement("span");
+            room.className = "schedule-block__room";
+            room.textContent = location;
+            block.append(room);
         }
 
         if (!eventSlug) {
@@ -122,6 +130,10 @@ export function startSchedule() {
             category.textContent = block.dataset.label || categoryNames[tone];
             eventTitle.textContent = title;
             eventCopy.append(category, eventTitle);
+            const sourceRoom = block.querySelector(".schedule-block__room");
+            if (sourceRoom) {
+                eventCopy.append(sourceRoom.cloneNode(true));
+            }
             event.append(eventCopy);
 
             if (range && tone !== "milestone") {

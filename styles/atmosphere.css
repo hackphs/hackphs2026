@@ -56,7 +56,8 @@
 }
 
 .journey-sun {
-    top: calc(76% - var(--journey) * 61%) !important;
+    top: 76% !important;
+    transform: translateY(calc(var(--journey) * -61vh));
     right: auto !important;
     bottom: auto !important;
     left: 13% !important;
@@ -264,15 +265,20 @@ body[data-stage="twilight"] .journey-wind {
     --plane-y: 72vh;
     --plane-rotation: -16deg;
     position: fixed;
-    top: var(--plane-y);
-    left: var(--plane-x);
+    top: 0;
+    left: 0;
     z-index: 1;
     width: clamp(4.8rem, 8vw, 7.5rem);
     color: rgba(245, 251, 255, 0.88);
     filter: drop-shadow(0 10px 22px rgba(8, 24, 47, 0.2));
     opacity: clamp(0, calc(1 - (var(--journey) - 0.84) * 8), 0.94);
-    transform: translate(-50%, -50%) rotate(var(--plane-rotation));
+    transform: translate3d(var(--plane-x), var(--plane-y), 0) translate(-50%, -50%) rotate(var(--plane-rotation));
     transition: color 400ms ease;
+}
+
+.journey-background.is-motion-paused *,
+.journey-background .is-motion-paused * {
+    animation-play-state: paused !important;
 }
 
 body[data-stage="day"] .journey-plane {

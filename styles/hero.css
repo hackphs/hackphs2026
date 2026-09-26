@@ -175,9 +175,17 @@
 .route-link {
     padding: 0.45rem 0;
     color: rgba(248, 251, 255, 0.88);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.64);
+    text-decoration: underline;
+    text-decoration-color: rgba(248, 251, 255, 0.42);
+    text-underline-offset: 0.24em;
     font-size: 1rem;
     font-weight: 500;
+    transition: text-decoration-color 180ms ease;
+}
+
+.route-link:hover,
+.route-link:focus-visible {
+    text-decoration-color: currentColor;
 }
 
 .hero-space-scene {
@@ -353,4 +361,10 @@
 @keyframes scroll-line {
     from { transform: translateY(-110%); }
     to { transform: translateY(200%); }
+}
+
+.hero-section.is-motion-paused *,
+.hero-section.is-motion-paused *::before,
+.hero-section.is-motion-paused *::after {
+    animation-play-state: paused !important;
 }

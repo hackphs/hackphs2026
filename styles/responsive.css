@@ -146,8 +146,9 @@
         padding: 1.35rem 1rem;
     }
 
-    .about-statement {
-        margin-top: 2rem;
+    .about-followup {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
     }
 
     .open-source-note {
@@ -173,7 +174,8 @@
         padding: 2.5rem 0;
     }
 
-    .sponsor-featured > a {
+    .sponsor-featured > a,
+    .sponsor-featured > div {
         min-height: auto;
     }
 
@@ -181,7 +183,8 @@
         width: min(100%, 20rem);
     }
 
-    .sponsor-featured__burgerrunn img {
+    .sponsor-featured__burgerrunn img,
+    .sponsor-featured__prea img {
         width: 13rem;
     }
 

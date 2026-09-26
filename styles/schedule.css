@@ -177,6 +177,7 @@
 .schedule-simple__date {
     padding-bottom: 1.5rem;
     border-bottom: 1px solid rgba(8, 24, 47, 0.22);
+    flex-wrap: wrap;
 }
 
 .schedule-simple__list {
@@ -673,4 +674,19 @@ a.schedule-simple__event::after {
     .schedule-table__date-inner strong {
         font-size: 3.4rem;
     }
+}
+
+.schedule-block__room {
+    display: block;
+    margin-top: .55rem;
+    font-size: .8rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.schedule-simple__event-copy .schedule-block__room {
+    color: inherit;
+    font-size: .8rem;
+    text-transform: none;
+    letter-spacing: normal;
 }

@@ -213,8 +213,7 @@
     line-height: 1.55;
 }
 
-[data-event-time],
-[data-dialog-time] {
+[data-event-time] {
     font-weight: 800 !important;
 }
 
@@ -226,14 +225,15 @@
 
 /* event info opens here so the schedule never loses its place */
 .event-dialog {
-    width: min(1080px, calc(100% - 2rem));
+    width: min(680px, calc(100% - 2rem));
     max-height: calc(100dvh - 2rem);
     margin: auto;
     padding: 0;
     overflow: auto;
     color: #0a1a31;
-    background: #dcebf5;
-    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: #faf7ef;
+    border: 1px solid #d4d0c5;
+    border-top: 4px solid var(--event-accent, #d5ab4c);
     border-radius: 0;
     box-shadow: 0 2rem 5rem rgba(4, 19, 39, 0.3);
     opacity: 0;
@@ -258,27 +258,37 @@
 
 .event-dialog__header {
     display: flex;
+    gap: 1rem;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.3rem;
+    padding: 0.65rem 1.8rem;
     border-bottom: 1px solid rgba(8, 24, 47, 0.18);
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .event-dialog__header button {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.2rem 0;
+    min-height: 44px;
+    padding: 0.4rem 0.3rem;
     color: inherit;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgba(8, 24, 47, 0.42);
     font: inherit;
     cursor: pointer;
+}
+
+.event-dialog__header button:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+}
+
+.event-dialog__header button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
 }
 
 .event-dialog__header button span {
@@ -287,75 +297,61 @@
 }
 
 .event-dialog__content {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1fr);
-    gap: clamp(2rem, 7vw, 7rem);
-    padding: clamp(2rem, 5vw, 4.5rem);
-}
-
-.event-dialog__title p {
-    margin: 0 0 1rem;
-    color: rgba(8, 24, 47, 0.52);
-    font-size: 0.62rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    padding: 1.8rem 2rem 2rem;
 }
 
 .event-dialog__title h2 {
     margin: 0;
     font-family: "Space Grotesk", sans-serif;
-    font-size: clamp(2.8rem, 4.8vw, 4.8rem);
+    font-size: clamp(1.85rem, 3vw, 2.5rem);
     font-weight: 500;
-    line-height: 0.92;
-    letter-spacing: -0.07em;
+    line-height: 1.12;
+    letter-spacing: -0.045em;
     text-wrap: balance;
 }
 
 .event-dialog--long-title .event-dialog__title h2 {
-    font-size: clamp(2.35rem, 3.8vw, 3.8rem);
+    font-size: clamp(1.75rem, 2.8vw, 2.2rem);
 }
 
 .event-dialog__date {
     display: block;
-    margin-top: 1.3rem;
-    color: rgba(8, 24, 47, 0.58);
-    font-size: 0.76rem;
-    font-weight: 750;
+    margin-bottom: 0.65rem;
+    color: #596371;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .event-dialog__body > p {
-    margin: 0;
+    margin: 1.25rem 0 0;
     color: rgba(8, 24, 47, 0.76);
-    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    font-size: 0.98rem;
     line-height: 1.7;
 }
 
 .event-dialog__body dl {
-    margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+    margin: 1.5rem 0 0;
     border-top: 1px solid rgba(8, 24, 47, 0.18);
 }
 
 .event-dialog__body dl > div {
     display: grid;
-    grid-template-columns: 7.5rem minmax(0, 1fr);
+    grid-template-columns: 8.5rem minmax(0, 1fr);
     gap: 1rem;
     padding: 0.9rem 0;
     border-bottom: 1px solid rgba(8, 24, 47, 0.14);
 }
 
 .event-dialog__body dt {
-    color: rgba(8, 24, 47, 0.48);
-    font-size: 0.6rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    color: #596371;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .event-dialog__body dd {
     margin: 0;
-    font-size: 0.82rem;
-    font-weight: 650;
+    font-size: 0.9rem;
+    font-weight: 600;
     line-height: 1.5;
 }
 
@@ -402,16 +398,11 @@
     }
 
     .event-dialog__content {
-        grid-template-columns: 1fr;
         padding: 1.6rem 1.2rem 2rem;
     }
 
-    .event-dialog__title h2 {
-        font-size: clamp(2.7rem, 14vw, 4.4rem);
-    }
-
-    .event-dialog--long-title .event-dialog__title h2 {
-        font-size: clamp(2.35rem, 11vw, 3.55rem);
+    .event-dialog__header {
+        padding-inline: 1.2rem;
     }
 
     .event-dialog__body dl > div {

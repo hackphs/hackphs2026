@@ -3,6 +3,30 @@
     min-height: 108vh;
 }
 
+.about-section .section-heading--split {
+    align-items: start;
+}
+
+.about-intro > p {
+    margin: 0;
+    color: var(--soft-white);
+    font-size: clamp(1rem, 1.45vw, 1.16rem);
+    line-height: 1.82;
+}
+
+.about-followup {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+    margin-top: 2.5rem;
+}
+
+.about-followup .event-guide-button {
+    justify-self: start;
+    margin: 0;
+}
+
 .facts-line {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -42,7 +66,7 @@
 
 .about-statement {
     max-width: 39rem;
-    margin: 2.5rem 0 0 auto;
+    margin: 0;
     color: rgba(248, 251, 255, 0.9);
     font-family: "Space Grotesk", sans-serif;
     font-size: clamp(1.35rem, 2.7vw, 2.25rem);
@@ -56,8 +80,8 @@
     gap: clamp(1.5rem, 4vw, 3.5rem);
     align-items: start;
     max-width: 50rem;
-    margin: 1.75rem 0 0 auto;
-    padding-top: 1.2rem;
+    margin: clamp(3rem, 4vw, 4rem) 0 0 auto;
+    padding-top: 1.6rem;
     border-top: 1px solid rgba(248, 251, 255, 0.28);
 }
 
@@ -66,7 +90,7 @@
 }
 
 .open-source-note p:first-child {
-    color: rgba(248, 251, 255, 0.66);
+    color: rgba(248, 251, 255, 0.56);
     font-size: 0.74rem;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -75,13 +99,13 @@
 
 .open-source-note p:last-child {
     max-width: 31rem;
-    color: rgba(248, 251, 255, 0.88);
+    color: rgba(248, 251, 255, 0.68);
     font-size: clamp(0.95rem, 1.35vw, 1.08rem);
     line-height: 1.65;
 }
 
 .open-source-note a {
-    color: var(--white);
+    color: rgba(248, 251, 255, 0.76);
     font-weight: 700;
     text-decoration: underline;
     text-decoration-color: rgba(248, 251, 255, 0.42);
@@ -190,15 +214,16 @@
 
 .sponsor-featured {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
-    gap: clamp(3rem, 8vw, 8rem);
+    gap: clamp(2rem, 5vw, 5rem);
     margin-top: clamp(3rem, 6vw, 5rem);
     padding: 3rem 0;
     border-top: 1px solid var(--line-light);
 }
 
-.sponsor-featured > a {
+.sponsor-featured > a,
+.sponsor-featured > div {
     display: grid;
     place-items: center;
     min-width: 0;
@@ -216,7 +241,8 @@
     height: auto;
 }
 
-.sponsor-featured__burgerrunn img {
+.sponsor-featured__burgerrunn img,
+.sponsor-featured__prea img {
     width: min(100%, 16rem);
 }
 
@@ -232,7 +258,8 @@
     border-bottom: 1px solid var(--line-light);
 }
 
-.sponsor-field > a {
+.sponsor-field > a,
+.sponsor-field > div {
     display: grid;
     flex: 1 1 7.5rem;
     place-items: center;
@@ -250,6 +277,7 @@
 
 .sponsor-field img {
     width: 100%;
+    height: auto;
     max-height: 4.6rem;
     object-fit: contain;
 }
@@ -432,4 +460,85 @@
 
 .copy-email.copy-email--failed::before {
     background: rgba(104, 40, 48, 0.92);
+}
+
+.registration-note {
+    max-width: 34rem;
+    margin: 1.25rem 0;
+    color: var(--sun);
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+.event-guide-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: .5rem 0 2rem;
+    padding: 1rem 1.3rem;
+    border: 1px solid currentColor;
+    color: var(--ink);
+    background: var(--ice);
+    font-size: .9rem;
+    font-weight: 700;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.event-guide-button > span {
+    transition: transform 160ms ease;
+}
+
+.event-guide-button:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 4px;
+}
+
+@media (hover: hover) {
+    .event-guide-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 3px 0 var(--ink);
+    }
+
+    .event-guide-button:hover > span {
+        transform: translate(4px, -4px);
+    }
+}
+
+.event-guide-button:active {
+    transform: none;
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .event-guide-button,
+    .event-guide-button > span {
+        transition: none;
+    }
+
+    .event-guide-button:hover,
+    .event-guide-button:hover > span {
+        transform: none;
+    }
+}
+
+.sponsor-field__pjs img {
+    max-height: 8.5rem;
+}
+
+.sponsor-field__andymark img {
+    padding: .65rem;
+    background: #192c3b;
+}
+
+.sponsor-field__chick-fil-a {
+    gap: .5rem;
+    color: #ad002a;
+    font-weight: 800;
+    font-size: .95rem;
+}
+
+.sponsor-field__chick-fil-a img {
+    width: 3.5rem;
+    max-height: 3.6rem;
 }

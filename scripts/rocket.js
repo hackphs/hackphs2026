@@ -105,34 +105,45 @@ export function startRocket() {
     const landingTime = 1800;
     const orbitTime = 10000;
     const angularVelocity = Math.PI * 2 / orbitTime;
-    let startedAt = 0;
+    const hero = rocket.closest(".hero-section");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+    let previousTime = null;
+    let elapsed = 0;
+    let inView = false;
+    let geometry;
+    let rocketWidth = 0;
+    let rocketHeight = 0;
+    let flight;
+
+    const measure = () => {
+        const width = orbit.clientWidth;
+        const height = orbit.clientHeight;
+        rocketWidth = rocket.offsetWidth;
+        rocketHeight = rocket.offsetHeight;
+        geometry = {
+            centerX: width / 2,
+            centerY: height / 2,
+            radiusX: width / 2 - 10,
+            radiusY: height / 2 - 8,
+        };
+        const scaleX = width / 368;
+        const scaleY = height / 224;
+        flight = {
+            start: { x: -720 * scaleX, y: -250 * scaleY },
+            firstControl: { x: -560 * scaleX, y: 390 * scaleY },
+            secondControl: { x: -180 * scaleX, y: -360 * scaleY },
+            end: { x: 320 * scaleX, y: -170 * scaleY },
+        };
+    };
 
     // the landing curve matches the orbit speed so there is no last second snap
     const render = (time) => {
-        startedAt ||= time;
-
-        const elapsed = time - startedAt;
-        const geometry = {
-            centerX: orbit.clientWidth / 2,
-            centerY: orbit.clientHeight / 2,
-            radiusX: orbit.clientWidth / 2 - 10,
-            radiusY: orbit.clientHeight / 2 - 8,
-        };
+        animationFrame = 0;
+        if (previousTime !== null) elapsed += time - previousTime;
+        previousTime = time;
         let point;
         let velocity;
-        let flight;
-
-        if (elapsed < flightTime + landingTime) {
-            const scaleX = orbit.clientWidth / 368;
-            const scaleY = orbit.clientHeight / 224;
-
-            flight = {
-                start: { x: -720 * scaleX, y: -250 * scaleY },
-                firstControl: { x: -560 * scaleX, y: 390 * scaleY },
-                secondControl: { x: -180 * scaleX, y: -360 * scaleY },
-                end: { x: 320 * scaleX, y: -170 * scaleY },
-            };
-        }
 
         if (elapsed < flightTime) {
             const progress = Math.min(elapsed / flightTime, 1);
@@ -174,15 +185,45 @@ export function startRocket() {
             };
         }
 
-        const x = point.x - rocket.offsetWidth / 2;
-        const y = point.y - rocket.offsetHeight / 2;
+        const x = point.x - rocketWidth / 2;
+        const y = point.y - rocketHeight / 2;
         const angle = Math.atan2(velocity.y, velocity.x) * 180 / Math.PI;
 
-        rocket.style.opacity = `${Math.min(elapsed / 280, 1).toFixed(3)}`;
+        if (elapsed < 300 || rocket.style.opacity !== "1") {
+            rocket.style.opacity = `${Math.min(elapsed / 280, 1).toFixed(3)}`;
+        }
         rocket.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${angle.toFixed(2)}deg)`;
 
-        window.requestAnimationFrame(render);
+        animationFrame = window.requestAnimationFrame(render);
     };
 
-    window.requestAnimationFrame(render);
+    const syncPlayback = () => {
+        const playing = inView && !document.hidden && !reducedMotion.matches;
+        hero?.classList.toggle("is-motion-paused", !playing);
+        if (playing) {
+            if (!animationFrame) animationFrame = window.requestAnimationFrame(render);
+        } else {
+            window.cancelAnimationFrame(animationFrame);
+            animationFrame = 0;
+            previousTime = null;
+            if (reducedMotion.matches) {
+                rocket.style.opacity = "1";
+                rocket.style.transform = `translate3d(${geometry.centerX - geometry.radiusX - rocketWidth / 2}px, ${geometry.centerY - rocketHeight / 2}px, 0) rotate(-90deg)`;
+            }
+        }
+    };
+
+    measure();
+    const sizeObserver = new ResizeObserver(() => {
+        measure();
+        syncPlayback();
+    });
+    sizeObserver.observe(orbit);
+    sizeObserver.observe(rocket);
+    new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        syncPlayback();
+    }).observe(hero || orbit);
+    document.addEventListener("visibilitychange", syncPlayback);
+    reducedMotion.addEventListener("change", syncPlayback);
 }

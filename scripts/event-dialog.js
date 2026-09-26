@@ -1,4 +1,14 @@
-import { events } from "./events.js?v=20260910";
+import { events } from "./events.js?v=20260925";
+
+const categoryLabels = {
+    hacking: "Main Event",
+    workshop: "Workshops",
+    advanced: "Activities",
+    guest: "Guest Talks",
+    evening: "Late Night",
+    meal: "Food and Rest",
+    milestone: "Milestones",
+};
 
 export function startEventDialog() {
     const dialog = document.querySelector("[data-event-dialog]");
@@ -8,6 +18,7 @@ export function startEventDialog() {
     }
 
     const title = dialog.querySelector("[data-dialog-title]");
+    const breadcrumb = dialog.querySelector("[data-dialog-breadcrumb]");
     const date = dialog.querySelector("[data-dialog-date]");
     const description = dialog.querySelector("[data-dialog-description]");
     const time = dialog.querySelector("[data-dialog-time]");
@@ -16,7 +27,7 @@ export function startEventDialog() {
     const closeButton = dialog.querySelector("[data-dialog-close]");
     let closeTimer;
 
-    const showEvent = (eventSlug) => {
+    const showEvent = (eventSlug, sourceLink) => {
         const event = events[eventSlug];
 
         if (!event) {
@@ -24,6 +35,14 @@ export function startEventDialog() {
         }
 
         const [eventDate, ...eventTime] = event.time.split(" · ");
+        const scheduleLink = sourceLink || [...document.querySelectorAll(".schedule-block__link")].find((link) =>
+            new URL(link.href).searchParams.get("event") === eventSlug
+        );
+        const block = scheduleLink?.closest(".schedule-block, .schedule-simple__event");
+        const category = block?.dataset.tone || Object.keys(categoryLabels).find((name) => block?.classList.contains(`schedule-block--${name}`));
+        breadcrumb.textContent = `hackPHS / Schedule / ${categoryLabels[category] || "Event"}`;
+        const tint = block ? getComputedStyle(block).getPropertyValue("--block-tint").trim() : "";
+        dialog.style.setProperty("--event-accent", tint ? `rgb(${tint})` : "#d5ab4c");
 
         dialog.classList.toggle("event-dialog--long-title", event.title.length > 34);
         title.textContent = event.title;
@@ -82,7 +101,7 @@ export function startEventDialog() {
 
         clickEvent.preventDefault();
         window.history.pushState({ ...window.history.state, eventSlug }, "", window.location.href);
-        showEvent(eventSlug);
+        showEvent(eventSlug, link);
     });
 
     closeButton.addEventListener("click", returnToSchedule);

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Leaderboard | hackPHS 2026</title>
+    <meta name="description" content="Day-of competition standings for hackPHS 2026. Follow team scores throughout the weekend." />
+    <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/base.css?v=20260827" />
+    <link rel="stylesheet" href="/styles/leaderboard.css?v=20260925f" />
+    <script type="module" src="/scripts/leaderboard.js?v=20260925e"></script>
+</head>
+<body class="leaderboard-page">
+    <a class="leaderboard-skip" href="#standings">Skip to standings</a>
+    <header class="leaderboard-header">
+        <a class="leaderboard-brand" href="/" aria-label="hackPHS 2026 home">
+            <img src="/assets/branding/favicon-96x96.png" alt="" />
+            <strong>hackPHS 2026</strong>
+        </a>
+        <nav aria-label="Main navigation">
+            <a href="/#schedule">Schedule</a>
+            <a href="/#prizes">Prizes</a>
+            <a href="/leaderboard.html" aria-current="page">Leaderboard</a>
+        </nav>
+    </header>
+    <main class="leaderboard-main" id="standings">
+        <div class="leaderboard-heading">
+            <div>
+                <p class="leaderboard-kicker">Competition events</p>
+                <h1>Leaderboard</h1>
+            </div>
+            <p class="leaderboard-event"><span>October 10–11, 2026</span><span>Princeton High School</span></p>
+        </div>
+        <div class="leaderboard-toolbar">
+            <div>
+                <p class="leaderboard-status" data-score-status role="status" aria-live="polite">Connecting to scores...</p>
+                <time data-score-updated>Waiting for the first update</time>
+            </div>
+            <button type="button" data-refresh-scores>Refresh</button>
+        </div>
+        <p class="leaderboard-message" data-score-message>Loading the latest standings...</p>
+        <noscript><p>Enable JavaScript to see automatically updating standings.</p></noscript>
+        <section class="podium" data-podium aria-label="Top-ranked teams" hidden>
+            <ol class="podium-places" data-podium-places></ol>
+        </section>
+        <table class="leaderboard-table" data-standings-table hidden>
+            <caption class="visually-hidden">Competition rankings from fourth place onward</caption>
+            <thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th scope="col">Points</th></tr></thead>
+            <tbody data-standings></tbody>
+        </table>
+        <footer class="leaderboard-footer">
+            <span data-team-count></span>
+            <a href="https://docs.google.com/spreadsheets/d/1_r2inZiMa1JkOqW5_fbz8bgn4ONDuzpWf_T1qAirirg/edit?gid=857309#gid=857309" target="_blank" rel="noreferrer">View score sheet</a>
+        </footer>
+    </main>
+</body>
+</html>
