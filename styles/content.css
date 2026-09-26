@@ -27,6 +27,14 @@
     margin: 0;
 }
 
+.about-fun-fact {
+    max-width: 23rem;
+    margin: .85rem 0 0;
+    color: rgba(248, 251, 255, .76);
+    font-size: .75rem;
+    line-height: 1.6;
+}
+
 .facts-line {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
