@@ -24,18 +24,11 @@ Press `Ctrl+C` in the same terminal to stop the server
 
 Questions about the event can be sent to [team@hackphs.tech](mailto:team@hackphs.tech)
 
-## Registration deadline
+## Waitlist
 
-Registration stays open through September 29, 2026, Eastern time. At midnight
-on September 30, the homepage and FAQ links automatically switch to the provided
-waitlist form. The cutoff and both URLs live in `scripts/registration.js`.
-The switch runs in the visitor's browser, including pages left open overnight;
-there is no scheduled prompt, server job, or Node requirement.
-
-Publish these files before the deadline. The switch uses the visitor's device
-clock and does not close the original Google Form itself. Organizers should
-also stop accepting responses in that form at the deadline. JavaScript must be
-enabled for the automatic link change.
+Registration is closed. The homepage and FAQ link directly to the waitlist form
+in `index.html`, including when JavaScript is disabled. `scripts/registration.js`
+only shows the reminder bar after the hero scrolls out of view.
 
 ## Day-of leaderboard
 

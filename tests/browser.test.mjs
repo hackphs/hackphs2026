@@ -207,7 +207,7 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
     } finally { await page.close(); }
 });
 
-test("registration bar appears past the hero, clears the badge and switches to the waitlist", async () => {
+test("waitlist bar appears past the hero and clears the badge", async () => {
     const page = await pageForTest();
     try {
         await page.clock.install({ time: new Date("2026-09-26T04:00:00Z") });
@@ -215,7 +215,7 @@ test("registration bar appears past the hero, clears the badge and switches to t
         const bar = page.locator("[data-registration-bar]");
         await bar.locator("img").evaluate((image) => image.decode());
         assert.equal(await bar.getByRole("link", { name: "Preorder hackPHS merch", includeHidden: true }).getAttribute("href"), "https://forms.gle/xHiPQQyVb7PakdKs5");
-        await page.waitForFunction(() => document.querySelector("[data-registration-countdown]").textContent.includes("3 days"));
+        assert.match(await bar.textContent(), /Waitlist open/);
         assert.equal(await bar.isVisible(), false);
         assert.equal(await bar.evaluate((element) => element.inert), true);
         for (const width of [1440, 768, 390, 320]) {
@@ -234,35 +234,21 @@ test("registration bar appears past the hero, clears the badge and switches to t
         }
         await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
         await bar.waitFor({ state: "hidden" });
-        await page.clock.setSystemTime(new Date("2026-09-27T03:59:50Z"));
-        await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-        assert.match(await bar.textContent(), /3 days/);
-        await page.clock.fastForward(60000);
-        await page.waitForFunction(() => document.querySelector("[data-registration-countdown]").textContent.includes("2 days"));
-        await page.clock.setSystemTime(new Date("2026-09-30T03:59:50Z"));
-        await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-        assert.match(await bar.textContent(), /less than a minute/);
-        await page.clock.fastForward(11000);
-        await page.waitForFunction(() => document.querySelector("[data-registration-countdown]").textContent.includes("Waitlist open"));
         assert.equal(await bar.locator("[data-registration-link]").textContent(), "Join the waitlist");
-        assert.ok((await bar.locator("[data-registration-link]").getAttribute("href")).includes("1FAIpQLSfN_dE_l8"));
         assert.deepEqual(page.errors, []);
     } finally { await page.close(); }
 });
 
-test("all registration links switch at midnight even with the page left open", async () => {
-    const page = await pageForTest();
+test("waitlist links work without JavaScript", async () => {
+    const page = await browser.newPage({ javaScriptEnabled: false });
     try {
-        await page.clock.install({ time: new Date("2026-09-30T03:59:50Z") });
         await page.goto(base);
-        await page.waitForFunction(() => document.querySelector("[data-registration-link]")?.textContent.trim() === "Register");
-        await page.clock.fastForward(11000);
-        await page.waitForFunction(() => [...document.querySelectorAll("[data-registration-link]")].every((link) => link.href.includes("1FAIpQLSfN_dE_l8")));
-        assert.equal(await page.locator(".primary-action[data-registration-link]").textContent(), "Join the waitlist");
-        assert.match(await page.locator("[data-registration-status]").first().textContent(), /Registration has closed/);
-        await page.reload();
-        await page.waitForFunction(() => document.querySelector("[data-registration-link]")?.textContent === "Join the waitlist");
-        assert.deepEqual(page.errors, []);
+        const links = page.locator("[data-registration-link]");
+        assert.equal(await links.count(), 3);
+        for (const link of await links.all()) {
+            assert.ok((await link.getAttribute("href")).includes("1FAIpQLSfN_dE_l8"));
+        }
+        assert.match(await page.locator(".primary-action").textContent(), /Join the waitlist/);
     } finally { await page.close(); }
 });
 
