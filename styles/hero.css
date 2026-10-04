@@ -42,6 +42,11 @@
     max-width: 49rem;
 }
 
+.hero-layout > .attendee-waiver {
+    grid-column: 1 / -1;
+    margin-top: 0;
+}
+
 .hero-copy .section-kicker {
     margin-bottom: 1.1rem;
     color: #fff1c4;

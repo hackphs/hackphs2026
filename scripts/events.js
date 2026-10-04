@@ -2,11 +2,11 @@ const roomNotice = "Room to be announced.";
 
 export const events = {
     "intro-to-javascript": {
-        title: "Intro to JavaScript",
+        title: "Intro to JavaScript + React.js",
         time: "Saturday, October 10 · 12:00-2:00 PM",
         duration: "~2 hours",
         room: "Room 154",
-        description: "An introductory experience that explores topics like syntax, DOM manipulation, fetching APIs, and working with JSON.",
+        description: "Explore JavaScript syntax, DOM manipulation, fetching APIs, and working with JSON, then learn the basics of building interfaces with React.js.",
     },
     "intro-to-python": {
         title: "Intro to Python",
@@ -26,28 +26,28 @@ export const events = {
         title: "Intro to Neural Networks",
         time: "Saturday, October 10 · 3:00-5:00 PM",
         duration: "~2 hours",
-        room: "Room 154",
+        room: "Room 152",
         description: "An introductory experience exploring how neural networks are structured and how they learn, covering topics like layers, activation functions, and basic training concepts.",
     },
     "intro-to-web-design": {
         title: "Intro to Web Design",
         time: "Saturday, October 10 · 4:00-5:00 PM",
         duration: "~1 hour",
-        room: "Room 83",
+        room: "Room 153",
         description: "An introductory experience covering the fundamentals of building websites, including layout, styling, and design principles for creating an effective web page.",
     },
-    "intro-to-3d-design-and-cad": {
-        title: "Intro to 3D Design and CAD",
+    "intro-to-circuitry": {
+        title: "Intro to Circuitry",
         time: "Saturday, October 10 · 4:00-5:30 PM",
         duration: "~1.5 hours",
-        room: "Room 85",
-        description: "An introductory experience covering the basics of 3D modeling and computer-aided design, including core tools and design principles for building 3D models.",
+        room: "Room 154",
+        description: "Nicholas Kopaliani studies physics at Princeton University and spent much of high school exploring circuitry. He will lead an introductory workshop, sharing his experience and helping participants get started with circuits.",
     },
     "web-design-for-awareness": {
         title: "Web Design for Awareness",
         time: "Saturday, October 10 · 5:00-6:30 PM",
         duration: "~1.5 hours",
-        room: "Room 83",
+        room: "Room 153",
         description: "You are the founder of a nonprofit working to raise awareness about an issue related to the skies, the atmosphere, or space. Design and build an effective website that educates visitors, communicates your mission, and inspires action for your chosen cause.",
     },
     "environmental-ai-ml": {
@@ -57,12 +57,12 @@ export const events = {
         room: "Room 154",
         description: "Build an AI or machine learning solution that promotes environmental sustainability. Your project can use prediction, automation, computer vision, natural language processing, or data analysis to address a meaningful environmental problem and contribute to a cleaner, healthier, or more sustainable future.",
     },
-    "prompt-engineering": {
-        title: "Prompt Engineering",
-        time: "Saturday, October 10 · 6:30-7:00 PM",
-        duration: "~30 minutes",
+    "intro-to-generative-ai": {
+        title: "Intro to Generative AI",
+        time: "Saturday, October 10 · 6:30-8:00 PM",
+        duration: "~1.5 hours",
         room: "Room 153",
-        description: "An introductory experience on how to craft effective prompts for AI image generation tools, covering techniques for guiding AI models toward creative and intentional results.",
+        description: "Join guest workshop leader Ariyahi Pimple for an introduction to generative AI.",
     },
     "estimathon": {
         title: "Estimathon",
@@ -89,7 +89,7 @@ export const events = {
         title: "AI Panel Discussion",
         time: "Saturday, October 10 · Preparation 9:00-10:00 PM · Panel 10:00-11:00 PM",
         duration: "~2 hours",
-        room: "Preparation: Room 153; discussion: PAC",
+        room: "Preparation: Room 153; discussion: New Gym",
         description: "Listen to our panelists debate a contemporary issue in artificial intelligence. Panelists will have one hour to research the issue and prepare their perspective before a moderator guides an open discussion. The audience will evaluate the reasoning, evidence, communication, and collaboration on display before helping choose the winners through a vote.",
     },
     karaoke: {
@@ -115,7 +115,7 @@ export const events = {
     },
     "midnight-snack": {
         title: "Midnight Snack",
-        time: "Sunday, October 11 · 12:00-7:00 AM",
+        time: "Sunday, October 11 · 12:30-7:00 AM",
         duration: "Available overnight",
         room: "Cafeteria",
         description: "Snacks will be available overnight to keep you fueled while you build.",
@@ -149,7 +149,7 @@ export const events = {
         description: "Build a functional, playable space-themed game entirely through vibe coding and AI-assisted programming tools. You may only copy and paste code generated by AI, and may not manually edit or debug the code yourself. Guide the project through prompts and iteration to see how far you can take your idea. Points awarded for this event are halved.",
     },
     "intro-to-html-css-react": {
-        title: "Intro to HTML and CSS + React",
+        title: "Intro to HTML and CSS",
         time: "Sunday, October 11 · 6:00-7:00 AM",
         duration: "~1 hour",
         room: "Room 153",
@@ -162,32 +162,56 @@ export const events = {
         room: "Room 154",
         description: "An introductory experience covering algorithmic analysis and problem-solving techniques used in competitive programming.",
     },
-    "programming-tournament": {
-        title: "Programming Tournament",
-        time: "Sunday, October 11 · 8:00-10:00 AM",
-        duration: "~2 hours",
-        room: "Room 152",
-        description: "Put your competitive programming skills to the test. The full challenge prompt is coming soon.",
-    },
     "intro-to-swift-and-swiftui": {
-        title: "Intro to Swift and SwiftUI",
+        title: "Intro to Swift",
         time: "Sunday, October 11 · 8:00-10:00 AM",
         duration: "~2 hours",
         room: "Room 154",
-        description: "Beginners will cover Swift fundamentals such as syntax, variables, and basic control flow. Hackers with programming experience can continue into SwiftUI and learn how to build user interfaces for iOS apps.",
+        description: "An introductory experience covering Swift fundamentals such as syntax, variables, and basic control flow.",
+    },
+    "nathaniel-daw": {
+        title: "Guest Talk: Nathaniel Daw",
+        time: "Saturday, October 10 · 12:45-1:45 PM",
+        duration: "~1 hour",
+        room: "Room 152",
+        // Research bio: https://pni.princeton.edu/people/nathaniel-daw
+        description: "Nathaniel Daw is a computational neuroscience professor at Princeton University. His research combines neuroscience, psychology, and machine learning to understand how people learn from experience, make decisions, and respond to rewards.",
+    },
+    "yushu-cheng": {
+        title: "Guest Talk: Yushu A. Cheng",
+        time: "Saturday, October 10 · 5:30-6:30 PM",
+        duration: "~1 hour",
+        room: "Room 152",
+        // Research bio: https://orcid.org/0009-0006-9816-9139
+        description: "Yushu A. Cheng is a postdoctoral researcher in environmental engineering at Princeton University. Her research uses machine learning and large language models to study how contaminants break down in the environment.",
+    },
+    "vritika-singh": {
+        title: "Women in STEM and Undergraduate CS Life",
+        time: "Saturday, October 10 · 6:30-7:00 PM",
+        duration: "~30 minutes",
+        room: "Room 152",
+        description: "Vritika Singh studies Computer Science and Artificial Intelligence, with pre-business studies, at UNC Chapel Hill. She will speak about women in STEM and undergraduate computer science life and academics.",
+    },
+    "elad-hazan": {
+        title: "Guest Talk: Elad Hazan",
+        time: "Saturday, October 10 · 11:30 AM-12:30 PM",
+        duration: "~1 hour",
+        room: "Room 152",
+        // Research bio: https://www.cs.princeton.edu/people/profile/ehazan
+        description: "Elad Hazan is a computer science professor at Princeton University whose research focuses on algorithms for machine learning and optimization. He co-invented AdaGrad, an algorithm used to train deep learning models.",
     },
 };
 
 export const scheduleEventSlugs = {
-    "intro to javascript": "intro-to-javascript",
+    "intro to javascript + react.js": "intro-to-javascript",
     "intro to python": "intro-to-python",
     "data analytics with python": "data-analytics-with-python",
     "intro to neural networks": "intro-to-neural-networks",
     "intro to web design": "intro-to-web-design",
-    "intro to 3d design and cad": "intro-to-3d-design-and-cad",
+    "intro to circuitry": "intro-to-circuitry",
     "web design for awareness": "web-design-for-awareness",
     "implementing ai/ml for environmental action": "environmental-ai-ml",
-    "prompt engineering": "prompt-engineering",
+    "intro to generative ai": "intro-to-generative-ai",
     "intro to ai ethics": "intro-to-ai-ethics",
     "intro to java": "intro-to-java",
     "preparation for ai ethics mock panel": "ai-ethics-panel",
@@ -199,25 +223,23 @@ export const scheduleEventSlugs = {
     "movie night": "movie-night",
     "intro to vibe coding": "intro-to-vibe-coding",
     "vibe-coded video game contest": "vibe-coded-space-game",
-    "intro to html and css + react": "intro-to-html-css-react",
+    "intro to html and css": "intro-to-html-css-react",
     "intro to advanced algorithms": "intro-to-advanced-algorithms",
-    "programming tournament": "programming-tournament",
-    "intro to swift (beginner) and intro to swiftui (advanced)": "intro-to-swift-and-swiftui",
+    "intro to swift": "intro-to-swift-and-swiftui",
 };
 
-// Public locations only; the crew's private room assignments stay off the site.
+// Room assignments from the organizers' logistics schedule.
 export const scheduleRooms = {
-    "check-in begins": "PAC hallway",
-    "opening ceremony": "PAC",
+    "check-in begins": "New Gym",
+    "opening ceremony": "New Gym",
     hacking: "Cafeteria",
     "team building": "Room 155",
-    "potential guest talk(s)": "Room 152",
     lunch: "Cafeteria",
     dinner: "Cafeteria",
     "preparation for ai ethics mock panel": "Room 153",
-    "ai panel discussion": "PAC",
-    sleep: "Rooms 161, 163, 164, 165, 166",
+    "ai panel discussion": "New Gym",
+    sleep: "Boys: Rooms 161, 163, 165, 143; girls: Rooms 142, 144, 146; organizers: Rooms 164, 166",
     breakfast: "Cafeteria",
     "projects due and judging begins": "Room 155",
-    "closing ceremony": "PAC",
+    "closing ceremony": "New Gym",
 };

@@ -30,6 +30,14 @@ Registration is closed. The homepage and FAQ link directly to the waitlist form
 in `index.html`, including when JavaScript is disabled. `scripts/registration.js`
 only shows the reminder bar after the hero scrolls out of view.
 
+Hoodie registration is closed. Registered attendees must print, complete, and
+bring the [participant waiver](assets/documents/hackphs-2026-waiver.pdf) and their ID
+to check-in. Participants under 18 also need a parent or legal guardian signature.
+The PDF is an unchanged copy of the [organizer's waiver](https://drive.google.com/file/d/1f3cc7IwjZyQgNYhUK0EZ2owv7CxqadfT/view).
+
+The homepage schedule and event details follow the [logistics schedule](https://docs.google.com/document/d/1FevzgA7pb0NQd2Q_zB0SGqqo3R271CZmsKuTONA4Yeo/edit?tab=t.s40dbb45azcj).
+Elad Hazan's talk is **Saturday, 11:30 AM–12:30 PM**, per the organizer's correction.
+
 ## Day-of leaderboard
 
 Open `/leaderboard.html`, also linked in the main navigation. Update scores in

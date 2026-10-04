@@ -684,6 +684,18 @@ a.schedule-simple__event::after {
     line-height: 1.5;
 }
 
+.schedule-block__speaker,
+.schedule-simple__event-copy .schedule-block__speaker {
+    display: block;
+    margin-top: .45rem;
+    color: inherit;
+    font-size: .72rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
 .schedule-simple__event-copy .schedule-block__room {
     color: inherit;
     font-size: .8rem;

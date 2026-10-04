@@ -50,7 +50,10 @@ test("updated event details and public rooms match the new schedule", () => {
     assert.equal(events.estimathon.room, "Room 152");
     assert.equal(events["ai-ethics-panel"].title, "AI Panel Discussion");
     assert.match(events["chess-tournament"].time, /Saturday, October 10.*11:00 PM-12:00 AM/);
-    assert.match(events["midnight-snack"].time, /12:00-7:00 AM/);
-    assert.equal(scheduleRooms.sleep, "Rooms 161, 163, 164, 165, 166");
-    assert.doesNotMatch(JSON.stringify({ events, scheduleRooms }), /organizer|HQ/i);
+    assert.match(events["midnight-snack"].time, /12:30-7:00 AM/);
+    assert.equal(scheduleRooms.sleep, "Boys: Rooms 161, 163, 165, 143; girls: Rooms 142, 144, 146; organizers: Rooms 164, 166");
+    assert.equal(scheduleRooms["check-in begins"], "New Gym");
+    assert.equal(scheduleRooms["opening ceremony"], "New Gym");
+    assert.equal(scheduleRooms["closing ceremony"], "New Gym");
+    assert.match(events["elad-hazan"].time, /11:30 AM-12:30 PM/);
 });

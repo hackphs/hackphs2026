@@ -1,4 +1,4 @@
-import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20260925";
+import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261003b";
 
 const categoryNames = {
     hacking: "Main event",
@@ -130,6 +130,10 @@ export function startSchedule() {
             category.textContent = block.dataset.label || categoryNames[tone];
             eventTitle.textContent = title;
             eventCopy.append(category, eventTitle);
+            const sourceSpeaker = block.querySelector(".schedule-block__speaker");
+            if (sourceSpeaker) {
+                eventCopy.append(sourceSpeaker.cloneNode(true));
+            }
             const sourceRoom = block.querySelector(".schedule-block__room");
             if (sourceRoom) {
                 eventCopy.append(sourceRoom.cloneNode(true));

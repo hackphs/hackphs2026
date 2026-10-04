@@ -169,8 +169,8 @@
     }
 
     .sponsor-featured {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.5rem;
         padding: 2.5rem 0;
     }
 
@@ -180,12 +180,14 @@
     }
 
     .sponsor-featured img {
-        width: min(100%, 20rem);
+        width: min(100%, 18rem);
+        max-height: 8rem;
     }
 
     .sponsor-featured__burgerrunn img,
-    .sponsor-featured__prea img {
-        width: 13rem;
+    .sponsor-featured__prea img,
+    .sponsor-featured__pto img {
+        width: min(100%, 11rem);
     }
 
     .sponsor-field > a {

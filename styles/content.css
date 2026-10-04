@@ -205,6 +205,52 @@
     white-space: nowrap;
 }
 
+/* attendee waiver */
+.attendee-waiver {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .9rem 2rem;
+    margin-top: 2rem;
+    padding: 1rem 1.25rem;
+    border-left: 2px solid rgba(169, 225, 255, .65);
+    scroll-margin-top: 7rem;
+}
+
+.attendee-waiver > div:first-child {
+    flex: 1 1 22rem;
+}
+
+.attendee-waiver h3 {
+    margin: 0 0 .35rem;
+    color: var(--ice);
+}
+
+.attendee-waiver p:not(.section-number) {
+    margin: 0;
+    color: var(--soft-white);
+    font-size: .85rem;
+    line-height: 1.55;
+}
+
+.attendee-waiver__actions {
+    display: grid;
+    gap: .5rem;
+    justify-items: start;
+}
+
+.attendee-waiver__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    font-size: .75rem;
+}
+
+.attendee-waiver__links a {
+    color: var(--soft-white);
+    text-underline-offset: .25em;
+}
+
 /* sponsors */
 .sponsors-section {
     min-height: 105vh;
@@ -222,9 +268,9 @@
 
 .sponsor-featured {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: center;
-    gap: clamp(2rem, 5vw, 5rem);
+    gap: clamp(1.5rem, 3vw, 3rem);
     margin-top: clamp(3rem, 6vw, 5rem);
     padding: 3rem 0;
     border-top: 1px solid var(--line-light);
@@ -245,13 +291,16 @@
 }
 
 .sponsor-featured img {
-    width: min(100%, 27rem);
+    width: min(100%, 18rem);
     height: auto;
+    max-height: 11rem;
+    object-fit: contain;
 }
 
 .sponsor-featured__burgerrunn img,
-.sponsor-featured__prea img {
-    width: min(100%, 16rem);
+.sponsor-featured__prea img,
+.sponsor-featured__pto img {
+    width: min(100%, 11rem);
 }
 
 .sponsor-field {
@@ -288,6 +337,13 @@
     height: auto;
     max-height: 4.6rem;
     object-fit: contain;
+}
+
+.attendee-waiver .event-guide-button {
+    margin: 0;
+    padding: .6rem .9rem;
+    gap: 1rem;
+    font-size: .8rem;
 }
 
 .sponsor-field__hrt img {
@@ -474,6 +530,10 @@
     max-width: 34rem;
     margin: 1.25rem 0;
     color: var(--sun);
+}
+
+.registration-note,
+.attendee-waiver h3 {
     font-size: .9rem;
     font-weight: 700;
     line-height: 1.7;

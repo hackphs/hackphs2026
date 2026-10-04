@@ -9,3 +9,14 @@ The logos identify event sponsors; trademarks remain with their respective owner
 - PREA: organizer-supplied Princeton Regional Education Association logo; transparent-background edit. The white pi symbol is retained inside the blue mark.
 
 Retrieved September 25, 2026. Local copies avoid relying on remote image hosts at event time.
+
+Added October 3, 2026 from the [organizer's sponsor logo folder](https://drive.google.com/drive/u/0/folders/1vbNxHBVh4Ty6tQZQkDMA-JKVCvXrRKtu):
+
+- PHS PTO: `PHS PTO.png` → `phs-pto.png`.
+- .xyz: `XYZ.png` → `xyz.png`.
+- Texas Instruments: `Texas Instruments.png` → `texas-instruments.png`.
+- OpenMV: `OpenMV.png` → `openmv.png`.
+- Small World Coffee: replaced the rough PNG with the official [header SVG](https://smallworldcoffee.com/cdn/shop/files/small-world-coffee-logo.svg?v=1736350834&width=250), saved as `small-world-coffee.svg`.
+- PNC: `PNC.png` → `pnc.png`.
+
+- Hotbirds: user-supplied Hotbirds Nashville Hot Chicken logo, saved as `hotbirds.png`. Background removal used the built-in imagegen tool with the prompt: “Remove only the white/off-white background, both outside the rope border and in the blank interior. Preserve all original lettering, rope, stars, colors, outlines, proportions, and placement. Output a transparent PNG.”

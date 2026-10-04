@@ -170,13 +170,20 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
         const field = page.locator(".sponsor-field");
         await field.scrollIntoViewIfNeeded();
         await page.waitForFunction(() => getComputedStyle(document.querySelector(".sponsor-field")).opacity === "1");
-        for (const name of ["pjs-pancake-house.png", "andymark.png", "chick-fil-a.svg", "pcbway.svg", "prea.png"]) {
-            const logo = page.locator(`#sponsors img[src$='/${name}']`);
+        for (const name of ["pjs-pancake-house.png", "andymark.png", "chick-fil-a.svg", "pcbway.svg", "prea.png", "phs-pto.png", "xyz.png", "texas-instruments.png", "openmv.png", "small-world-coffee.svg", "pnc.png", "hotbirds.png"]) {
+            const logo = page.locator(`#sponsors img[src*='/${name}']`);
             await logo.scrollIntoViewIfNeeded();
             await logo.evaluate((image) => image.decode());
             assert.ok(await logo.evaluate((image) => image.naturalWidth > 0));
         }
-        assert.equal(await page.locator(".sponsor-featured > a, .sponsor-featured > div").count(), 3);
+        assert.equal(await page.locator(".sponsor-featured > a, .sponsor-featured > div").count(), 4);
+        const featuredCenters = await page.locator(".sponsor-featured > a").evaluateAll((links) => links.map((link) => {
+            const bounds = link.getBoundingClientRect();
+            return bounds.y + bounds.height / 2;
+        }));
+        assert.ok(Math.max(...featuredCenters) - Math.min(...featuredCenters) < 1, "four featured sponsors align in one row");
+        assert.equal(await page.locator('#sponsors img[src*="mlh.png"]').count(), 0);
+        assert.equal(await page.locator("#mlh-trust-badge").count(), 1);
         const prea = page.locator(".sponsor-featured__prea img");
         assert.equal(await page.locator(".sponsor-featured__prea").getAttribute("href"), "https://pressa-nj.org/");
         const burger = page.locator(".sponsor-featured__burgerrunn img");
@@ -214,7 +221,8 @@ test("waitlist bar appears past the hero and clears the badge", async () => {
         await page.goto(base);
         const bar = page.locator("[data-registration-bar]");
         await bar.locator("img").evaluate((image) => image.decode());
-        assert.equal(await bar.getByRole("link", { name: "Preorder hackPHS merch", includeHidden: true }).getAttribute("href"), "https://forms.gle/xHiPQQyVb7PakdKs5");
+        assert.equal(await bar.getByRole("link", { name: "Bring your waiver", includeHidden: true }).getAttribute("href"), "#waiver");
+        assert.equal(await page.locator('a[href="https://forms.gle/xHiPQQyVb7PakdKs5"]').count(), 0);
         assert.match(await bar.textContent(), /Waitlist open/);
         assert.equal(await bar.isVisible(), false);
         assert.equal(await bar.evaluate((element) => element.inert), true);
@@ -462,7 +470,7 @@ test("about links follow the intro and stats; compact event popup works at every
         const intro = await page.locator(".about-intro > p").boundingBox();
         const source = await page.locator(".open-source-note").boundingBox();
         const stats = await page.locator(".facts-line").boundingBox();
-        const guide = await page.locator(".event-guide-button").boundingBox();
+        const guide = await page.locator(".about-guide .event-guide-button").boundingBox();
         const statement = await page.locator(".about-statement").boundingBox();
         assert.ok(source.y >= intro.y + intro.height && source.y + source.height < stats.y);
         assert.ok(source.x < intro.x && source.width > intro.width * 1.5);
@@ -485,7 +493,7 @@ test("about links follow the intro and stats; compact event popup works at every
             const bounds = await dialog.boundingBox();
             assert.ok(bounds.width <= 680 && bounds.x >= 0 && bounds.x + bounds.width <= width);
             assert.equal(await dialog.evaluate((element) => element.scrollWidth > element.clientWidth), false);
-            assert.match(await page.locator("[data-dialog-room]").textContent(), /Room 153.*PAC/);
+            assert.match(await page.locator("[data-dialog-room]").textContent(), /Room 153.*New Gym/);
             assert.ok(await page.locator("[data-dialog-title]").evaluate((element) => parseFloat(getComputedStyle(element).fontSize)) <= 40);
             await page.screenshot({ path: join(tmpdir(), `hackphs-event-popup-${width}.png`) });
             await page.keyboard.press("Escape");
@@ -524,11 +532,26 @@ test("schedule spans, room details, navigation and mobile layout", async () => {
         assert.equal(await page.locator(".schedule-table .schedule-block--empty .schedule-block__room").count(), 0);
         const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty)");
         assert.equal(await publicBlocks.count(), await publicBlocks.locator(".schedule-block__room").count());
+        for (const [slug, time, name] of [
+            ["elad-hazan", "11:30 AM–12:30 PM", "Elad Hazan"],
+            ["nathaniel-daw", "12:45–1:45 PM", "Nathaniel Daw"],
+            ["yushu-cheng", "5:30–6:30 PM", "Yushu A. Cheng"],
+            ["vritika-singh", "6:30–7:00 PM", "Vritika Singh"],
+        ]) {
+            const block = page.locator(`.schedule-table [data-event="${slug}"]`);
+            assert.equal(await block.locator("small").textContent(), time);
+            assert.equal(await block.locator(".schedule-block__room").textContent(), "Room 152");
+            await block.locator("a").click();
+            await page.locator("[data-event-dialog][open]").waitFor();
+            assert.match(await page.locator("[data-dialog-description]").textContent(), new RegExp(name.replaceAll(".", "\\.")));
+            await page.keyboard.press("Escape");
+            await page.locator("[data-event-dialog][open]").waitFor({ state: "hidden" });
+        }
         const panel = page.locator(".schedule-table a").filter({ hasText: "AI Panel Discussion" });
         await panel.click();
         await page.locator("[data-event-dialog][open]").waitFor();
         assert.equal(await page.locator("[data-dialog-title]").textContent(), "AI Panel Discussion");
-        assert.match(await page.locator("[data-dialog-room]").textContent(), /Room 153.*PAC/);
+        assert.match(await page.locator("[data-dialog-room]").textContent(), /Room 153.*New Gym/);
         await page.getByRole("button", { name: /Close/ }).click();
         await page.locator("[data-event-dialog][open]").waitFor({ state: "hidden" });
         await page.goto(`${base}/events.html?event=estimathon`);

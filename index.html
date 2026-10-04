@@ -20,13 +20,13 @@
     <link rel="stylesheet" href="/styles/base.css?v=20260827" />
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260925" />
     <link rel="stylesheet" href="/styles/navigation.css?v=20260926d" />
-    <link rel="stylesheet" href="/styles/hero.css?v=20260926" />
-    <link rel="stylesheet" href="/styles/content.css?v=20260926" />
-    <link rel="stylesheet" href="/styles/prizes.css?v=20260925b" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20260925f" />
+    <link rel="stylesheet" href="/styles/hero.css?v=20261003" />
+    <link rel="stylesheet" href="/styles/content.css?v=20261003g" />
+    <link rel="stylesheet" href="/styles/prizes.css?v=20261003" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20261003" />
     <link rel="stylesheet" href="/styles/event.css?v=20260925c" />
-    <link rel="stylesheet" href="/styles/responsive.css?v=20260925d" />
-    <script type="module" src="/scripts/main.js?v=20260930"></script>
+    <link rel="stylesheet" href="/styles/responsive.css?v=20261003b" />
+    <script type="module" src="/scripts/main.js?v=20261003b"></script>
 </head>
 <body>
 
@@ -118,7 +118,7 @@
             <p>Registration closed. Waitlist open.</p>
             <div class="registration-bar__actions">
                 <a class="registration-bar__link" data-registration-link href="https://docs.google.com/forms/d/e/1FAIpQLSfN_dE_l8NowE-lRRQg9nae--dVpGk64qAUv6ZQeHTxs3BEqA/viewform?usp=dialog" target="_blank" rel="noreferrer">Join the waitlist</a>
-                <a class="registration-bar__merch" href="https://forms.gle/xHiPQQyVb7PakdKs5" target="_blank" rel="noreferrer" aria-label="Preorder hackPHS merch" title="Merch preorders close September 30">Merch</a>
+                <a class="registration-bar__merch" href="#waiver">Bring your waiver</a>
             </div>
         </div>
     </aside>
@@ -156,8 +156,7 @@
                         <a class="route-link" href="/donate.html">Donate</a>
                     </div>
                     <p class="hero-merch">
-                        <a class="route-link" href="https://forms.gle/xHiPQQyVb7PakdKs5" target="_blank" rel="noreferrer" aria-describedby="merch-deadline">Preorder merch</a>
-                        <span id="merch-deadline">Preorders close September 30.</span>
+                        <span>Hoodie registration is closed.</span>
                     </p>
                 </div>
 
@@ -196,6 +195,20 @@
                         <div class="blackhole__disk blackhole__disk--front"></div>
                     </div>
                 </div>
+
+                <aside class="attendee-waiver reveal" id="waiver" aria-labelledby="waiver-title">
+                    <div>
+                        <h3 id="waiver-title">Registered? Bring your signed waiver.</h3>
+                        <p>Print and bring the completed, signed packet and your ID to check-in on October 10. Under 18? A parent or legal guardian must also sign.</p>
+                    </div>
+                    <div class="attendee-waiver__actions">
+                        <a class="event-guide-button" href="/assets/documents/hackphs-2026-waiver.pdf" target="_blank" rel="noreferrer">Open waiver (PDF) <span aria-hidden="true">↗</span></a>
+                        <div class="attendee-waiver__links">
+                            <a href="/assets/documents/hackphs-2026-waiver.pdf" download="hackphs-2026-waiver.pdf">Download to print</a>
+                            <a href="https://drive.google.com/file/d/1f3cc7IwjZyQgNYhUK0EZ2owv7CxqadfT/view?usp=sharing" target="_blank" rel="noreferrer">Google Drive</a>
+                        </div>
+                    </div>
+                </aside>
             </div>
 
             <a class="scroll-cue" href="#about">
@@ -213,7 +226,7 @@
                     </div>
                     <div class="about-intro">
                         <p>
-                            hackPHS hosts over 350 high school students from across New Jersey to collaborate
+                            hackPHS hosts over 400 high school students from across New Jersey to collaborate
                             and create in a 24-hour, student-organized hackathon at PHS. hackPHS is designed for anyone and for everyone, experienced or beginner.
                         </p>
                     </div>
@@ -229,7 +242,7 @@
                 </div>
 
                 <div class="facts-line reveal" aria-label="Event facts">
-                    <div><strong>350+</strong><span>students</span></div>
+                    <div><strong>400+</strong><span>students</span></div>
                     <div><strong>24</strong><span>hours together</span></div>
                     <div><strong>$0</strong><span>to attend</span></div>
                     <div><strong>1</strong><span>weekend to build</span></div>
@@ -245,6 +258,8 @@
                         willingness to try something new!
                     </p>
                 </div>
+
+
             </div>
         </section>
 
@@ -301,7 +316,7 @@
 
                                 <tr class="schedule-table__milestone">
                                     <th scope="row"><time datetime="2026-10-10T09:00:00-04:00">9:00 AM</time></th>
-                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Arrival">
+                                    <td colspan="4" class="schedule-block schedule-block--milestone">
                                         <strong>Check-in begins</strong>
                                         <small>9:00–10:00 AM</small>
                                     </td>
@@ -309,7 +324,7 @@
 
                                 <tr class="schedule-table__milestone">
                                     <th scope="row"><time datetime="2026-10-10T10:00:00-04:00">10:00 AM</time></th>
-                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                    <td colspan="4" class="schedule-block schedule-block--milestone">
                                         <strong>Opening ceremony</strong>
                                         <small>10:00–11:00 AM</small>
                                     </td>
@@ -317,7 +332,7 @@
 
                                 <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T11:00:00-04:00">11:00 AM</time></th>
-                                    <td rowspan="4" class="schedule-block schedule-block--hacking">
+                                    <td rowspan="7" class="schedule-block schedule-block--hacking">
                                         <strong>Hacking</strong>
                                         <small>11:00 AM–2:00 PM</small>
                                     </td>
@@ -325,37 +340,58 @@
                                         <strong>Team building</strong>
                                         <small>11:00–11:30 AM</small>
                                     </td>
-                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T11:30:00-04:00">11:30 AM</time></th>
                                     <td class="schedule-block schedule-block--empty"></td>
-                                    <td rowspan="3" class="schedule-block schedule-block--guest">
-                                        <strong>Potential guest talk(s)</strong>
-                                        <small>11:30 AM–2:00 PM</small>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="elad-hazan">
+                                        <strong>Elad Hazan</strong>
+                                        <span class="schedule-block__speaker">Computer science · Princeton University</span>
+                                        <small>11:30 AM–12:30 PM</small>
                                     </td>
                                 </tr>
 
-                                <tr>
+                                <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T12:00:00-04:00">12:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                        <strong>Intro to JavaScript</strong>
+                                    <td rowspan="5" class="schedule-block schedule-block--workshop" data-event="intro-to-javascript">
+                                        <strong>Intro to JavaScript + React.js</strong>
                                         <small>12:00–2:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td rowspan="3" class="schedule-block schedule-block--workshop" data-event="intro-to-python">
                                         <strong>Intro to Python</strong>
                                         <small>12:00–1:00 PM</small>
                                     </td>
                                 </tr>
 
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T12:30:00-04:00">12:30 PM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T12:45:00-04:00">12:45 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="nathaniel-daw">
+                                        <strong>Nathaniel Daw</strong>
+                                        <span class="schedule-block__speaker">Computational neuroscience · Princeton University</span>
+                                        <small>12:45–1:45 PM</small>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T13:00:00-04:00">1:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                    <td rowspan="3" class="schedule-block schedule-block--advanced" data-event="data-analytics-with-python">
                                         <strong>Data analytics with Python</strong>
                                         <small>1:00–3:00 PM</small>
                                     </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T13:45:00-04:00">1:45 PM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
@@ -364,16 +400,18 @@
                                         <strong>Lunch</strong>
                                         <small>2:00–4:00 PM</small>
                                     </td>
-                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
-                                    <td rowspan="2" class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T15:00:00-04:00">3:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-neural-networks">
                                         <strong>Intro to neural networks</strong>
                                         <small>3:00–5:00 PM</small>
                                     </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
@@ -382,23 +420,24 @@
                                         <strong>Hacking</strong>
                                         <small>4:00–7:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-web-design">
                                         <strong>Intro to web design</strong>
                                         <small>4:00–5:00 PM</small>
                                     </td>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                        <strong>Intro to 3D design and CAD</strong>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-circuitry">
+                                        <strong>Intro to Circuitry</strong>
+                                        <span class="schedule-block__speaker">Guest workshop · Nicholas Kopaliani</span>
                                         <small>4:00–5:30 PM</small>
                                     </td>
                                 </tr>
 
                                 <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T17:00:00-04:00">5:00 PM</time></th>
-                                    <td rowspan="3" class="schedule-block schedule-block--advanced">
+                                    <td rowspan="3" class="schedule-block schedule-block--advanced" data-event="web-design-for-awareness">
                                         <strong>Web design for awareness</strong>
                                         <small>5:00–6:30 PM</small>
                                     </td>
-                                    <td rowspan="5" class="schedule-block schedule-block--advanced">
+                                    <td rowspan="5" class="schedule-block schedule-block--advanced" data-event="environmental-ai-ml">
                                         <strong>Implementing AI/ML for environmental action</strong>
                                         <small>5:00–8:00 PM</small>
                                     </td>
@@ -406,9 +445,10 @@
 
                                 <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T17:30:00-04:00">5:30 PM</time></th>
-                                    <td rowspan="3" class="schedule-block schedule-block--guest">
-                                        <strong>Potential guest talk(s)</strong>
-                                        <small>5:30–7:00 PM</small>
+                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="yushu-cheng">
+                                        <strong>Yushu A. Cheng</strong>
+                                        <span class="schedule-block__speaker">Environmental engineering · Princeton University</span>
+                                        <small>5:30–6:30 PM</small>
                                     </td>
                                 </tr>
 
@@ -418,8 +458,14 @@
 
                                 <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T18:30:00-04:00">6:30 PM</time></th>
-                                    <td class="schedule-block schedule-block--workshop">
-                                        <strong>Prompt engineering</strong>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-generative-ai">
+                                        <strong>Intro to Generative AI</strong>
+                                        <span class="schedule-block__speaker">Guest workshop · Ariyahi Pimple</span>
+                                        <small>6:30–8:00 PM</small>
+                                    </td>
+                                    <td class="schedule-block schedule-block--guest" data-event="vritika-singh">
+                                        <strong>Vritika Singh</strong>
+                                        <span class="schedule-block__speaker">Women in STEM and undergraduate CS life · UNC Chapel Hill</span>
                                         <small>6:30–7:00 PM</small>
                                     </td>
                                 </tr>
@@ -434,15 +480,15 @@
                                         <strong>Estimathon</strong>
                                         <small>7:00–8:00 PM</small>
                                     </td>
-                                    <td rowspan="3" class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T20:00:00-04:00">8:00 PM</time></th>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-ai-ethics">
                                         <strong>Intro to AI ethics</strong>
                                         <small>8:00–9:00 PM</small>
                                     </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
@@ -452,19 +498,20 @@
                                         <strong>Hacking</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--advanced">
+                                    <td class="schedule-block schedule-block--advanced" data-event="ai-ethics-panel">
                                         <strong>Preparation for AI ethics mock panel</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-java">
                                         <strong>Intro to Java</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T22:00:00-04:00">10:00 PM</time></th>
-                                    <td colspan="4" class="schedule-block schedule-block--advanced schedule-block--wide">
+                                    <td colspan="4" class="schedule-block schedule-block--advanced schedule-block--wide" data-event="ai-ethics-panel">
                                         <strong>AI Panel Discussion</strong>
                                         <small>10:00–11:00 PM</small>
                                     </td>
@@ -476,11 +523,11 @@
                                         <strong>Hacking</strong>
                                         <small>continues overnight</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--evening">
+                                    <td class="schedule-block schedule-block--evening" data-event="chess-tournament">
                                         <strong>Chess tournament</strong>
                                         <small>11:00 PM–12:00 AM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--evening">
+                                    <td class="schedule-block schedule-block--evening" data-event="karaoke">
                                         <strong>Karaoke</strong>
                                         <small>11:00 PM–12:00 AM</small>
                                     </td>
@@ -496,26 +543,32 @@
                                     </th>
                                 </tr>
 
-                                <tr>
+                                <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-11T00:00:00-04:00">12:00 AM</time></th>
-                                    <td rowspan="10" class="schedule-block schedule-block--hacking">
+                                    <td rowspan="11" class="schedule-block schedule-block--hacking">
                                         <strong>Hacking</strong>
                                         <small>12:00–10:00 AM</small>
                                     </td>
-                                    <td rowspan="7" class="schedule-block schedule-block--meal">
+                                    <td rowspan="8" class="schedule-block schedule-block--meal">
                                         <strong>Sleep</strong>
                                         <small>12:00–7:00 AM</small>
                                     </td>
                                     <td class="schedule-block schedule-block--empty"></td>
-                                    <td rowspan="7" class="schedule-block schedule-block--evening">
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-11T00:30:00-04:00">12:30 AM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td rowspan="7" class="schedule-block schedule-block--evening" data-event="midnight-snack">
                                         <strong>Midnight snack</strong>
-                                        <small>12:00–7:00 AM</small>
+                                        <small>12:30–7:00 AM</small>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T01:00:00-04:00">1:00 AM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--evening">
+                                    <td rowspan="2" class="schedule-block schedule-block--evening" data-event="movie-night">
                                         <strong>Movie night</strong>
                                         <small>1:00–3:00 AM</small>
                                     </td>
@@ -527,7 +580,7 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T03:00:00-04:00">3:00 AM</time></th>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-vibe-coding">
                                         <strong>Intro to vibe coding</strong>
                                         <small>3:00–4:00 AM</small>
                                     </td>
@@ -535,7 +588,7 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T04:00:00-04:00">4:00 AM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced" data-event="vibe-coded-space-game">
                                         <strong>Vibe-coded video game contest</strong>
                                         <small>4:00–6:00 AM</small>
                                     </td>
@@ -547,8 +600,8 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T06:00:00-04:00">6:00 AM</time></th>
-                                    <td class="schedule-block schedule-block--workshop">
-                                        <strong>Intro to HTML and CSS + React</strong>
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-html-css-react">
+                                        <strong>Intro to HTML and CSS</strong>
                                         <small>6:00–7:00 AM</small>
                                     </td>
                                 </tr>
@@ -559,7 +612,7 @@
                                         <strong>Breakfast</strong>
                                         <small>7:00–10:00 AM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-advanced-algorithms">
                                         <strong>Intro to advanced algorithms</strong>
                                         <small>7:00–8:00 AM</small>
                                     </td>
@@ -568,23 +621,21 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T08:00:00-04:00">8:00 AM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--advanced">
-                                        <strong>Programming tournament</strong>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-swift-and-swiftui">
+                                        <strong>Intro to Swift</strong>
                                         <small>8:00–10:00 AM</small>
                                     </td>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop">
-                                        <strong>Intro to Swift <em>(beginner)</em> and intro to SwiftUI <em>(advanced)</em></strong>
-                                        <small>8:00–10:00 AM</small>
-                                    </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T09:00:00-04:00">9:00 AM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr class="schedule-table__milestone">
                                     <th scope="row"><time datetime="2026-10-11T10:00:00-04:00">10:00 AM</time></th>
-                                    <td rowspan="2" colspan="4" class="schedule-block schedule-block--milestone" data-label="Deadline">
+                                    <td rowspan="2" colspan="4" class="schedule-block schedule-block--milestone">
                                         <strong>Projects due and judging begins</strong>
                                         <small>10:00 AM–12:00 PM</small>
                                     </td>
@@ -596,8 +647,9 @@
 
                                 <tr class="schedule-table__milestone">
                                     <th scope="row"><time datetime="2026-10-11T12:00:00-04:00">12:00 PM</time></th>
-                                    <td colspan="4" class="schedule-block schedule-block--milestone" data-label="Everyone together">
+                                    <td colspan="4" class="schedule-block schedule-block--milestone">
                                         <strong>Closing ceremony</strong>
+                                        <small>12:00 PM</small>
                                     </td>
                                 </tr>
                             </tbody>
@@ -614,7 +666,7 @@
                         <p class="section-number">03 / Prizes</p>
                         <h2 id="prizes-title">Make something...<br />Win Something!</h2>
                     </div>
-                    <p>Three overall winners, three specialty tracks, and a few things for everyone. Here's what we're giving away this year.</p>
+                    <p>Overall awards, specialty tracks, workshop raffles, competitive event prizes, and perks for everyone. Here's what we're giving away this year.</p>
                 </div>
 
                 <div class="prize-podium reveal" aria-label="Overall awards">
@@ -708,6 +760,9 @@
                         <h3>Software &amp; swag</h3>
                     </div>
                     <ul>
+                        <li>
+                            <strong>Free .xyz domain for 1 year</strong>
+                        </li>
                         <li><strong>1 month of Codeset Learner</strong> with 5,000 credits</li>
                         <li><strong>1 month of ElevenLabs Creator</strong></li>
                         <li><strong>HRT shirts and playing cards</strong></li>
@@ -715,6 +770,59 @@
                         <li><strong>MLH swag and stickers</strong></li>
                     </ul>
                 </div>
+
+                <section class="prize-raffles reveal" aria-labelledby="raffles-title">
+                    <div>
+                        <p class="prize-eyebrow">Attend workshops to enter</p>
+                        <h3 id="raffles-title">Raffle prizes</h3>
+                        <p class="prize-raffles__note">Workshop attendance earns entry into the raffles.</p>
+                    </div>
+                    <ul>
+                        <li>
+                            <strong>2 × $50 AndyMark gift cards</strong>
+                        </li>
+                        <li>
+                            <strong>2 × OpenMV H7 R2 cameras</strong>
+                        </li>
+                        <li><strong>5 × 3D printed dragons</strong></li>
+                        <li><strong>Speaker</strong></li>
+                        <li><strong>Film camera</strong></li>
+                        <li><strong>Mic kit</strong></li>
+                    </ul>
+                </section>
+
+                <section class="prize-competitive reveal" aria-labelledby="competitive-title">
+                    <div class="prize-tracks__heading">
+                        <p class="prize-eyebrow">Compete during the event</p>
+                        <h3 id="competitive-title">Competitive event prizes</h3>
+                    </div>
+                    <div class="prize-event-awards">
+                        <div>
+                            <h4>First place</h4>
+                            <ul>
+                                <li>2 × keyboards</li>
+                                <li>Speaker</li>
+                                <li>Monitor light</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Second place</h4>
+                            <ul>
+                                <li>Mouse</li>
+                                <li>Plushie</li>
+                                <li>LED strips</li>
+                                <li>Speaker</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Third place</h4>
+                            <ul>
+                                <li>4 × 3D printed dragons</li>
+                                <li>Choose from the 3D box (8 items)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
                 <p class="prize-footnote">Scholarships apply toward program tuition; software prizes are subscriptions or credits. For competition details, visit our <a href="https://hackphs2026.devpost.com/" target="_blank" rel="noreferrer">Devpost</a>.</p>
             </div>
         </section>
@@ -772,7 +880,10 @@
                     <details>
                         <summary><span>05</span> What should I bring?</summary>
                         <p>
-                            Bring a laptop, charger, any project hardware, a sleeping bag, a change of clothes,
+                            Bring your ID and a printed, signed <a href="/assets/documents/hackphs-2026-waiver.pdf" target="_blank" rel="noreferrer">participant waiver</a>. If you're under 18, a parent or legal guardian must also sign. Bring the full packet on the day of the event, even if you've already signed up.
+                        </p>
+                        <p>
+                            Also bring a laptop, charger, any project hardware, a sleeping bag, a change of clothes,
                             toiletries, and anything else you need to stay comfortable overnight.
                         </p>
                     </details>
@@ -853,6 +964,7 @@
                     <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img loading="lazy" decoding="async" src="/assets/sponsors/windscribe.svg" alt="Windscribe" /></a>
                     <a class="sponsor-featured__burgerrunn" href="https://burgerrunn.com/" target="_blank" rel="noreferrer" aria-label="Visit BurgerRunn"><img decoding="async" src="/assets/sponsors/burgerrunn.png" alt="BurgerRunn" loading="lazy" /></a>
                     <a class="sponsor-featured__prea" href="https://pressa-nj.org/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/prea.png" alt="Princeton Regional Education Association (PREA)" loading="lazy" width="1375" height="1144" /></a>
+                    <a class="sponsor-featured__pto" href="https://princetonhspto.weebly.com/" target="_blank" rel="noreferrer" aria-label="Visit Princeton High School PTO"><img loading="lazy" decoding="async" src="/assets/sponsors/phs-pto.png" alt="Princeton High School PTO (PHS PTO)" /></a>
                 </div>
 
                 <div class="sponsor-field reveal" aria-label="More hackPHS 2026 sponsors">
@@ -868,11 +980,17 @@
                     <a class="sponsor-field__aops" href="https://artofproblemsolving.com/" target="_blank" rel="noreferrer" aria-label="Visit Art of Problem Solving"><img loading="lazy" decoding="async" src="/assets/sponsors/aops.png" alt="Art of Problem Solving" /></a>
                     <a class="sponsor-field__elevenlabs" href="https://elevenlabs.io/" target="_blank" rel="noreferrer" aria-label="Visit ElevenLabs"><img loading="lazy" decoding="async" src="/assets/sponsors/elevenlabs.svg?v=20260827b" alt="ElevenLabs" /></a>
                     <a href="https://codeset.ai/" target="_blank" rel="noreferrer" aria-label="Visit Codeset"><img loading="lazy" decoding="async" src="/assets/sponsors/codeset.png" alt="Codeset" /></a>
+                    <a href="https://gen.xyz/" target="_blank" rel="noreferrer" aria-label="Visit .xyz"><img loading="lazy" decoding="async" src="/assets/sponsors/xyz.png" alt=".xyz" /></a>
                     <a href="https://www.janestreet.com/" target="_blank" rel="noreferrer" aria-label="Visit Jane Street"><img loading="lazy" decoding="async" src="/assets/sponsors/jane-street.svg" alt="Jane Street" /></a>
                     <a class="sponsor-field__pjs" href="https://www.pancakes.com/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/pjs-pancake-house.png" alt="PJ's Pancake House" loading="lazy" width="500" height="500" /></a>
                     <a class="sponsor-field__andymark" href="https://andymark.com/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/andymark.png" alt="AndyMark" loading="lazy" width="300" height="55" /></a>
                     <a class="sponsor-field__chick-fil-a" href="https://www.chick-fil-a.com/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/chick-fil-a.svg" alt="" loading="lazy" width="76" height="77" /><span>Chick-fil-A</span></a>
+                    <a href="https://www.hotbirds.com/" target="_blank" rel="noreferrer" aria-label="Visit Hotbirds"><img loading="lazy" decoding="async" src="/assets/sponsors/hotbirds.png?v=20261003" alt="Hotbirds Nashville Hot Chicken" /></a>
                     <a href="https://www.pcbway.com/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/pcbway.svg" alt="PCBWay" loading="lazy" width="320" height="88" /></a>
+                    <a href="https://www.ti.com/" target="_blank" rel="noreferrer" aria-label="Visit Texas Instruments"><img loading="lazy" decoding="async" src="/assets/sponsors/texas-instruments.png" alt="Texas Instruments" /></a>
+                    <a href="https://openmv.io/" target="_blank" rel="noreferrer" aria-label="Visit OpenMV"><img loading="lazy" decoding="async" src="/assets/sponsors/openmv.png" alt="OpenMV" /></a>
+                    <a href="https://smallworldcoffee.com/" target="_blank" rel="noreferrer" aria-label="Visit Small World Coffee"><img loading="lazy" decoding="async" src="/assets/sponsors/small-world-coffee.svg" alt="Small World Coffee" /></a>
+                    <a href="https://www.pnc.com/" target="_blank" rel="noreferrer" aria-label="Visit PNC"><img loading="lazy" decoding="async" src="/assets/sponsors/pnc.png" alt="PNC" /></a>
                 </div>
 
                 <p class="sponsor-invite reveal">

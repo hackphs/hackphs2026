@@ -244,7 +244,8 @@
 
 .prize-extras,
 .prize-shared,
-.prize-perks {
+.prize-perks,
+.prize-raffles {
     display: grid;
     grid-template-columns: minmax(12rem, 1fr) minmax(0, 2.2fr);
     gap: 2rem 3rem;
@@ -259,7 +260,8 @@
 
 .prize-extras ul,
 .prize-shared ul,
-.prize-perks ul {
+.prize-perks ul,
+.prize-raffles ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem 2rem;
@@ -274,7 +276,8 @@
 
 .prize-extras li,
 .prize-shared li,
-.prize-perks li {
+.prize-perks li,
+.prize-raffles li {
     padding-left: 1rem;
     border-left: 2px solid #31516a40;
 }
@@ -283,6 +286,61 @@
     display: block;
     color: #12304b;
     font-size: 1rem;
+}
+
+.prize-sponsor-logo {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 2.25rem;
+    margin-bottom: .5rem;
+}
+
+.prize-sponsor-logo img {
+    max-width: 7rem;
+    max-height: 2.25rem;
+    object-fit: contain;
+}
+
+.prize-raffles__note {
+    max-width: 22rem;
+    margin: .75rem 0 0;
+    color: #213b55;
+    font-size: .88rem;
+    line-height: 1.7;
+}
+
+.prize-competitive {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--line-dark);
+}
+
+.prize-event-awards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+.prize-event-awards > div {
+    padding-left: 1rem;
+    border-left: 2px solid #31516a40;
+}
+
+.prize-event-awards h4 {
+    margin: 0 0 .75rem;
+    color: #12304b;
+    font: 500 1.3rem/1.3 "Space Grotesk", sans-serif;
+}
+
+.prize-event-awards ul {
+    display: grid;
+    gap: .35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #213b55;
+    font-size: .88rem;
+    line-height: 1.7;
 }
 
 .prize-tracks {
@@ -379,7 +437,8 @@
 
     .prize-extras,
     .prize-shared,
-    .prize-perks {
+    .prize-perks,
+    .prize-raffles {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
@@ -426,6 +485,8 @@
     .prize-extras ul,
     .prize-shared ul,
     .prize-perks ul,
+    .prize-raffles ul,
+    .prize-event-awards,
     .prize-tracks dl > div {
         grid-template-columns: 1fr;
     }
