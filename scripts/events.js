@@ -238,7 +238,7 @@ export const scheduleRooms = {
     dinner: "Cafeteria",
     "preparation for ai ethics mock panel": "Room 153",
     "ai panel discussion": "New Gym",
-    sleep: "Boys: Rooms 161, 163, 165, 143; girls: Rooms 142, 144, 146; organizers: Rooms 164, 166",
+    sleep: "Boys: Rooms 161, 163, 165, 143\nGirls: Rooms 142, 144, 146",
     breakfast: "Cafeteria",
     "projects due and judging begins": "Room 155",
     "closing ceremony": "New Gym",

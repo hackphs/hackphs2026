@@ -1,4 +1,4 @@
-import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261003b";
+import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261004";
 
 const categoryNames = {
     hacking: "Main event",
@@ -41,7 +41,19 @@ export function startSchedule() {
         if (location) {
             const room = document.createElement("span");
             room.className = "schedule-block__room";
-            room.textContent = location;
+            if (location.includes("\n")) {
+                for (const assignment of location.split("\n")) {
+                    const line = document.createElement("span");
+                    const label = document.createElement("b");
+                    const separator = assignment.indexOf(":");
+                    line.className = "schedule-block__room-line";
+                    label.textContent = assignment.slice(0, separator + 1);
+                    line.append(label, assignment.slice(separator + 1));
+                    room.append(line);
+                }
+            } else {
+                room.textContent = location;
+            }
             block.append(room);
         }
 

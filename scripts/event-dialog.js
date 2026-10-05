@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261003b";
+import { events } from "./events.js?v=20261004";
 
 const categoryLabels = {
     hacking: "Main Event",

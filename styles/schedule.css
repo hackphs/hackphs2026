@@ -684,6 +684,14 @@ a.schedule-simple__event::after {
     line-height: 1.5;
 }
 
+.schedule-block__room-line {
+    display: block;
+}
+
+.schedule-block__room-line + .schedule-block__room-line {
+    margin-top: .65rem;
+}
+
 .schedule-block__speaker,
 .schedule-simple__event-copy .schedule-block__speaker {
     display: block;
