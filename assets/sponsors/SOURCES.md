@@ -2,6 +2,9 @@
 
 The logos identify event sponsors; trademarks remain with their respective owners.
 
+- Algoverse: official [website](https://algoverseairesearch.org/) header [mark](https://algoverseairesearch.org/images/logos/algoverse.webp), saved as `algoverse.webp` on October 5, 2026
+- Tacoria: official [website](https://tacoria.com/) [logo](https://tacoria.com/wp-content/uploads/2018/10/tacoria-logo.svg), saved as `tacoria.svg` on October 5, 2026
+
 - 1435 Capital: official [website](https://1435capital.com/) header [logo](https://1435capital.com/wp-content/uploads/2020/08/temp1435LogoCentered-300x300.png), retrieved October 4, 2026. The server returns WebP, saved as `1435-capital.webp`.
 
 - PJ's Pancake House: official [pancakes.com](https://www.pancakes.com/) header, [PNG](https://images.squarespace-cdn.com/content/v1/67c3d4b05120ac6cbb025692/f72b4b76-545e-401e-ae05-e6c589b2cdb5/PJs-Logo-2025-v1-5-tr2.png?format=500w).

@@ -268,7 +268,7 @@
 
 .sponsor-featured {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     gap: clamp(1.5rem, 3vw, 3rem);
     margin-top: clamp(3rem, 6vw, 5rem);
@@ -301,6 +301,24 @@
 .sponsor-featured__prea img,
 .sponsor-featured__pto img {
     width: min(100%, 11rem);
+}
+
+.sponsor-featured__capital img {
+    width: min(100%, 13rem);
+}
+
+.sponsor-featured__algoverse {
+    align-content: center;
+    gap: .65rem;
+    color: #182c45;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -.04em;
+}
+
+.sponsor-featured__algoverse img {
+    width: min(100%, 6rem);
 }
 
 .sponsor-field {
@@ -609,4 +627,23 @@
 .sponsor-field__chick-fil-a img {
     width: 3.5rem;
     max-height: 3.6rem;
+}
+
+.sponsor-field__gauss {
+    align-content: center;
+    gap: .35rem;
+    color: #182c45;
+    text-align: center;
+}
+
+.sponsor-field__gauss > span {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -.04em;
+}
+
+.sponsor-field__gauss > small {
+    font-size: .65rem;
+    line-height: 1.4;
 }

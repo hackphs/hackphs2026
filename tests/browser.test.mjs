@@ -533,8 +533,7 @@ test("schedule spans, room details, navigation and mobile layout", async () => {
         const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty)");
         assert.equal(await publicBlocks.count(), await publicBlocks.locator(".schedule-block__room").count());
         for (const [slug, time, name] of [
-            ["elad-hazan", "11:30 AM–12:30 PM", "Elad Hazan"],
-            ["nathaniel-daw", "12:45–1:45 PM", "Nathaniel Daw"],
+            ["nathaniel-daw", "1:00–2:00 PM", "Nathaniel Daw"],
             ["yushu-cheng", "5:30–6:30 PM", "Yushu A. Cheng"],
             ["vritika-singh", "6:30–7:00 PM", "Vritika Singh"],
         ]) {

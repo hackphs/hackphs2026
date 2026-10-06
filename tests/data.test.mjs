@@ -55,5 +55,6 @@ test("updated event details and public rooms match the new schedule", () => {
     assert.equal(scheduleRooms["check-in begins"], "New Gym");
     assert.equal(scheduleRooms["opening ceremony"], "New Gym");
     assert.equal(scheduleRooms["closing ceremony"], "New Gym");
-    assert.match(events["elad-hazan"].time, /11:30 AM-12:30 PM/);
+    assert.equal(events["elad-hazan"], undefined);
+    assert.match(events["nathaniel-daw"].time, /1:00-2:00 PM/);
 });

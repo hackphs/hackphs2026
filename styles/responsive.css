@@ -190,6 +190,10 @@
         width: min(100%, 11rem);
     }
 
+    .sponsor-featured__algoverse img {
+        width: 4.5rem;
+    }
+
     .sponsor-field > a {
         flex: 0 1 calc(50% - 1.25rem);
         min-height: 4rem;

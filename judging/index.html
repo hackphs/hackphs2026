@@ -14,11 +14,21 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
         rel="stylesheet"
     />
-    <link rel="stylesheet" href="/judging/judging.css?v=20261005a" />
+    <link rel="stylesheet" href="/styles/base.css?v=20260827" />
+    <link rel="stylesheet" href="/styles/donate.css?v=20260824g" />
+    <link rel="stylesheet" href="/judging/judging.css?v=20261005b" />
     <script src="/judging/judging.js?v=20261005a" defer></script>
 </head>
-<body>
-    <div class="backdrop" aria-hidden="true"></div>
+<body class="donate-page">
+    <div class="donate-sky" aria-hidden="true">
+        <span class="donate-sky__glow"></span>
+        <span class="donate-sky__cloud donate-sky__cloud--one"></span>
+        <span class="donate-sky__cloud donate-sky__cloud--two"></span>
+        <svg class="donate-sky__mountains" viewBox="0 0 1600 380" preserveAspectRatio="none">
+            <path class="donate-sky__mountains-far" d="M0 380V305L188 216L342 306L530 154L704 307L900 208L1082 315L1290 170L1460 294L1600 224V380Z" />
+            <path class="donate-sky__mountains-near" d="M0 380V342L250 266L432 348L646 224L834 349L1060 255L1248 350L1450 246L1600 326V380Z" />
+        </svg>
+    </div>
 
     <main class="shell">
         <header class="bar">
@@ -27,6 +37,7 @@
                 <span>hackPHS 2026</span>
             </a>
             <div class="bar__right">
+                <a class="text-button" href="/">Back home <span aria-hidden="true">↗</span></a>
                 <span class="sync" data-sync></span>
                 <span class="who" data-who hidden></span>
                 <button class="text-button" type="button" data-signout hidden>Sign out</button>
@@ -34,9 +45,11 @@
         </header>
 
         <section class="panel signin" data-view="signin">
-            <p class="eyebrow">Judges only</p>
-            <h1 class="signin__title">Judging portal</h1>
-            <p class="deck">Sign in with your name and the judging code from the organizers.</p>
+            <div class="signin__intro">
+                <p class="eyebrow">hackPHS 2026 / Judges</p>
+                <h1 class="signin__title">Judging</h1>
+                <p class="deck">Sign in with your name and the judging code from the organizers.</p>
+            </div>
 
             <form class="signin__form" data-signin-form>
                 <label class="field">
@@ -53,6 +66,10 @@
         </section>
 
         <section class="app" data-view="app" hidden>
+            <div class="app__heading">
+                <p class="eyebrow">hackPHS 2026 / Judges</p>
+                <h1>Project judging</h1>
+            </div>
             <p class="notice" data-local-notice hidden>
                 Not connected to the score sheet. Scores are only saved on this device, so use
                 <strong>Export CSV</strong> and send the file to an organizer.

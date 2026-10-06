@@ -21,12 +21,12 @@
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260925" />
     <link rel="stylesheet" href="/styles/navigation.css?v=20260926d" />
     <link rel="stylesheet" href="/styles/hero.css?v=20261003" />
-    <link rel="stylesheet" href="/styles/content.css?v=20261003g" />
+    <link rel="stylesheet" href="/styles/content.css?v=20261006" />
     <link rel="stylesheet" href="/styles/prizes.css?v=20261003" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20261004" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20261005" />
     <link rel="stylesheet" href="/styles/event.css?v=20260925c" />
-    <link rel="stylesheet" href="/styles/responsive.css?v=20261003b" />
-    <script type="module" src="/scripts/main.js?v=20261004"></script>
+    <link rel="stylesheet" href="/styles/responsive.css?v=20261005" />
+    <script type="module" src="/scripts/main.js?v=20261005"></script>
 </head>
 <body>
 
@@ -330,9 +330,9 @@
                                     </td>
                                 </tr>
 
-                                <tr class="schedule-table__half-hour">
+                                <tr>
                                     <th scope="row"><time datetime="2026-10-10T11:00:00-04:00">11:00 AM</time></th>
-                                    <td rowspan="7" class="schedule-block schedule-block--hacking">
+                                    <td rowspan="3" class="schedule-block schedule-block--hacking">
                                         <strong>Hacking</strong>
                                         <small>11:00 AM–2:00 PM</small>
                                     </td>
@@ -344,54 +344,30 @@
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
-                                <tr class="schedule-table__half-hour">
-                                    <th scope="row"><time datetime="2026-10-10T11:30:00-04:00">11:30 AM</time></th>
-                                    <td class="schedule-block schedule-block--empty"></td>
-                                    <td class="schedule-block schedule-block--empty"></td>
-                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="elad-hazan">
-                                        <strong>Elad Hazan</strong>
-                                        <span class="schedule-block__speaker">Computer science · Princeton University</span>
-                                        <small>11:30 AM–12:30 PM</small>
-                                    </td>
-                                </tr>
-
-                                <tr class="schedule-table__half-hour">
+                                <tr>
                                     <th scope="row"><time datetime="2026-10-10T12:00:00-04:00">12:00 PM</time></th>
-                                    <td rowspan="5" class="schedule-block schedule-block--workshop" data-event="intro-to-javascript">
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-javascript">
                                         <strong>Intro to JavaScript + React.js</strong>
                                         <small>12:00–2:00 PM</small>
                                     </td>
-                                    <td rowspan="3" class="schedule-block schedule-block--workshop" data-event="intro-to-python">
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-python">
                                         <strong>Intro to Python</strong>
                                         <small>12:00–1:00 PM</small>
                                     </td>
-                                </tr>
-
-                                <tr class="schedule-table__half-hour">
-                                    <th scope="row"><time datetime="2026-10-10T12:30:00-04:00">12:30 PM</time></th>
                                     <td class="schedule-block schedule-block--empty"></td>
-                                </tr>
-
-                                <tr class="schedule-table__half-hour">
-                                    <th scope="row"><time datetime="2026-10-10T12:45:00-04:00">12:45 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="nathaniel-daw">
-                                        <strong>Nathaniel Daw</strong>
-                                        <span class="schedule-block__speaker">Computational neuroscience · Princeton University</span>
-                                        <small>12:45–1:45 PM</small>
-                                    </td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T13:00:00-04:00">1:00 PM</time></th>
-                                    <td rowspan="3" class="schedule-block schedule-block--advanced" data-event="data-analytics-with-python">
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced" data-event="data-analytics-with-python">
                                         <strong>Data analytics with Python</strong>
                                         <small>1:00–3:00 PM</small>
                                     </td>
-                                </tr>
-
-                                <tr class="schedule-table__half-hour">
-                                    <th scope="row"><time datetime="2026-10-10T13:45:00-04:00">1:45 PM</time></th>
-                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--guest" data-event="nathaniel-daw">
+                                        <strong>Nathaniel Daw</strong>
+                                        <span class="schedule-block__speaker">Computational neuroscience · Princeton University</span>
+                                        <small>1:00–2:00 PM</small>
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -724,6 +700,7 @@
                         <li><strong>1 GB of Saily</strong> eSIM data</li>
                         <li><strong>3 months of nexos.ai</strong> access and &euro;200 in credits</li>
                         <li><strong>Four $25 AoPS coupons</strong> for the team</li>
+                        <li><strong>30% off the Algoverse program</strong> for the first-place team</li>
                     </ul>
                 </div>
 
@@ -763,6 +740,7 @@
                         <li>
                             <strong>Free .xyz domain for 1 year</strong>
                         </li>
+                        <li><strong>15% off the Algoverse program</strong> for all participants</li>
                         <li><strong>1 month of Codeset Learner</strong> with 5,000 credits</li>
                         <li><strong>1 month of ElevenLabs Creator</strong></li>
                         <li><strong>HRT shirts and playing cards</strong></li>
@@ -961,10 +939,12 @@
                 </div>
 
                 <div class="sponsor-featured reveal" aria-label="Featured hackPHS 2026 sponsors">
-                    <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img loading="lazy" decoding="async" src="/assets/sponsors/windscribe.svg" alt="Windscribe" /></a>
                     <a class="sponsor-featured__burgerrunn" href="https://burgerrunn.com/" target="_blank" rel="noreferrer" aria-label="Visit BurgerRunn"><img decoding="async" src="/assets/sponsors/burgerrunn.png" alt="BurgerRunn" loading="lazy" /></a>
+                    <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img loading="lazy" decoding="async" src="/assets/sponsors/windscribe.svg" alt="Windscribe" /></a>
                     <a class="sponsor-featured__prea" href="https://pressa-nj.org/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/prea.png" alt="Princeton Regional Education Association (PREA)" loading="lazy" width="1375" height="1144" /></a>
                     <a class="sponsor-featured__pto" href="https://princetonhspto.weebly.com/" target="_blank" rel="noreferrer" aria-label="Visit Princeton High School PTO"><img loading="lazy" decoding="async" src="/assets/sponsors/phs-pto.png" alt="Princeton High School PTO (PHS PTO)" /></a>
+                    <a class="sponsor-featured__capital" href="https://1435capital.com/" target="_blank" rel="noreferrer" aria-label="Visit 1435 Capital"><img loading="lazy" decoding="async" src="/assets/sponsors/1435-capital.webp" alt="1435 Capital Management" width="300" height="300" /></a>
+                    <a class="sponsor-featured__algoverse" href="https://algoverseairesearch.org/" target="_blank" rel="noreferrer" aria-label="Visit Algoverse"><img loading="lazy" decoding="async" src="/assets/sponsors/algoverse.webp" alt="" /><span>Algoverse</span></a>
                 </div>
 
                 <div class="sponsor-field reveal" aria-label="More hackPHS 2026 sponsors">
@@ -991,7 +971,8 @@
                     <a href="https://openmv.io/" target="_blank" rel="noreferrer" aria-label="Visit OpenMV"><img loading="lazy" decoding="async" src="/assets/sponsors/openmv.png" alt="OpenMV" /></a>
                     <a href="https://smallworldcoffee.com/" target="_blank" rel="noreferrer" aria-label="Visit Small World Coffee"><img loading="lazy" decoding="async" src="/assets/sponsors/small-world-coffee.svg" alt="Small World Coffee" /></a>
                     <a href="https://www.pnc.com/" target="_blank" rel="noreferrer" aria-label="Visit PNC"><img loading="lazy" decoding="async" src="/assets/sponsors/pnc.png" alt="PNC" /></a>
-                    <a href="https://1435capital.com/" target="_blank" rel="noreferrer" aria-label="Visit 1435 Capital"><img loading="lazy" decoding="async" src="/assets/sponsors/1435-capital.webp" alt="1435 Capital Management" width="300" height="300" /></a>
+                    <a href="https://tacoria.com/" target="_blank" rel="noreferrer" aria-label="Visit Tacoria"><img loading="lazy" decoding="async" src="/assets/sponsors/tacoria.svg" alt="Tacoria" /></a>
+                    <a class="sponsor-field__gauss" href="https://gaussmath.org/" target="_blank" rel="noreferrer" aria-label="Visit Gauss Math"><span>Gauss Math</span><small>Academy of Mathematical Education</small></a>
                 </div>
 
                 <p class="sponsor-invite reveal">

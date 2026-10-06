@@ -171,7 +171,7 @@ export const events = {
     },
     "nathaniel-daw": {
         title: "Guest Talk: Nathaniel Daw",
-        time: "Saturday, October 10 · 12:45-1:45 PM",
+        time: "Saturday, October 10 · 1:00-2:00 PM",
         duration: "~1 hour",
         room: "Room 152",
         // Research bio: https://pni.princeton.edu/people/nathaniel-daw
@@ -191,14 +191,6 @@ export const events = {
         duration: "~30 minutes",
         room: "Room 152",
         description: "Vritika Singh studies Computer Science and Artificial Intelligence, with pre-business studies, at UNC Chapel Hill. She will speak about women in STEM and undergraduate computer science life and academics.",
-    },
-    "elad-hazan": {
-        title: "Guest Talk: Elad Hazan",
-        time: "Saturday, October 10 · 11:30 AM-12:30 PM",
-        duration: "~1 hour",
-        room: "Room 152",
-        // Research bio: https://www.cs.princeton.edu/people/profile/ehazan
-        description: "Elad Hazan is a computer science professor at Princeton University whose research focuses on algorithms for machine learning and optimization. He co-invented AdaGrad, an algorithm used to train deep learning models.",
     },
 };
 
