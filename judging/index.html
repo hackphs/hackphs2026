@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Judging | hackPHS 2026</title>
+    <link rel="icon" type="image/png" href="/assets/branding/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/branding/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/judging/judging.css?v=20261005a" />
+    <script src="/judging/judging.js?v=20261005a" defer></script>
+</head>
+<body>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <main class="shell">
+        <header class="bar">
+            <a class="brand" href="/">
+                <img class="brand__mark" src="/assets/branding/favicon.svg" alt="" />
+                <span>hackPHS 2026</span>
+            </a>
+            <div class="bar__right">
+                <span class="sync" data-sync></span>
+                <span class="who" data-who hidden></span>
+                <button class="text-button" type="button" data-signout hidden>Sign out</button>
+            </div>
+        </header>
+
+        <section class="panel signin" data-view="signin">
+            <p class="eyebrow">Judges only</p>
+            <h1 class="signin__title">Judging portal</h1>
+            <p class="deck">Sign in with your name and the judging code from the organizers.</p>
+
+            <form class="signin__form" data-signin-form>
+                <label class="field">
+                    <span class="field__label">Your name</span>
+                    <input name="name" type="text" required autocomplete="name" />
+                </label>
+                <label class="field">
+                    <span class="field__label">Judging code</span>
+                    <input name="code" type="password" required autocomplete="current-password" />
+                </label>
+                <button class="arrow-button" type="submit">Start judging</button>
+                <p class="feedback" data-signin-feedback aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="app" data-view="app" hidden>
+            <p class="notice" data-local-notice hidden>
+                Not connected to the score sheet. Scores are only saved on this device, so use
+                <strong>Export CSV</strong> and send the file to an organizer.
+            </p>
+
+            <nav class="tabs" role="tablist" aria-label="Judging round" data-tabs></nav>
+            <p class="round-intro" data-round-intro></p>
+
+            <div class="layout">
+                <aside class="panel queue">
+                    <div class="queue__head">
+                        <h2 class="queue__title" data-queue-title>Projects</h2>
+                        <span class="queue__progress" data-queue-progress></span>
+                    </div>
+                    <ul class="queue__list" data-queue></ul>
+                    <button class="text-button" type="button" data-export>Export CSV</button>
+                </aside>
+
+                <form class="panel score-form" data-score-form novalidate>
+                    <div class="score-form__fields">
+                        <label class="field" data-track-field hidden>
+                            <span class="field__label">Track</span>
+                            <input name="track" type="text" list="track-options" autocomplete="off" />
+                            <datalist id="track-options"></datalist>
+                        </label>
+                        <label class="field">
+                            <span class="field__label">Project</span>
+                            <input name="project" type="text" list="project-options" autocomplete="off" required />
+                            <datalist id="project-options"></datalist>
+                        </label>
+                    </div>
+
+                    <div class="criteria" data-criteria></div>
+
+                    <label class="field">
+                        <span class="field__label">Notes (optional)</span>
+                        <textarea name="notes" rows="3" placeholder="Anything worth remembering for deliberation"></textarea>
+                    </label>
+
+                    <div class="score-form__footer">
+                        <div class="total">
+                            <span class="total__label">Total</span>
+                            <span class="total__value" data-total>&ndash;</span>
+                            <span class="total__max">/ 48</span>
+                        </div>
+                        <div class="score-form__actions">
+                            <button class="text-button" type="reset">Clear</button>
+                            <button class="arrow-button" type="submit">Submit score</button>
+                        </div>
+                    </div>
+                    <p class="feedback" data-score-feedback aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

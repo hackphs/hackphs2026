@@ -20,6 +20,8 @@ def application(environ, start_response):
         path = "/index.html"
 
     file_path = (ROOT / path.lstrip("/")).resolve()
+    if file_path.is_dir():
+        file_path = file_path / "index.html"
 
     if not file_path.is_relative_to(ROOT) or not file_path.is_file():
         body = b"Not found"

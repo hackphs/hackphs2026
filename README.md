@@ -71,3 +71,10 @@ Those checks include the real public sheet connection, mocked score updates and
 outages, the midnight waitlist switch, schedule rooms, and phone layouts.
 Test teams are browser-only fixtures and are never written to the Google Sheet.
 
+
+## Judging portal
+
+`/judging` (`judging/`) is where judges enter rubric scores for calibration, round 1, finals, and track prizes.
+Scores go to a Google Sheet through the Apps Script in `judging/apps-script.gs`; setup steps are at the top of that file.
+The deployed web app URL is set in `ENDPOINT` in `judging/judging.js`. If it is left empty the page runs in local mode
+(scores stay in the browser and can be exported as CSV).
