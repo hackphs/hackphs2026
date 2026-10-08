@@ -62,7 +62,7 @@ export const events = {
         time: "Saturday, October 10 · 6:30-8:00 PM",
         duration: "~1.5 hours",
         room: "Room 153",
-        description: "Join guest workshop leader Ariyahi Pimple for an introduction to generative AI.",
+        description: "Join guest workshop leader Aryahi Pimple for an introduction to generative AI.",
     },
     "estimathon": {
         title: "Estimathon",

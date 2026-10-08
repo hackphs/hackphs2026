@@ -26,11 +26,11 @@ Questions about the event can be sent to [team@hackphs.tech](mailto:team@hackphs
 
 ## Waitlist
 
-Registration is closed. The homepage and FAQ link directly to the waitlist form
-in `index.html`, including when JavaScript is disabled. `scripts/registration.js`
-only shows the reminder bar after the hero scrolls out of view.
+Registration and the waitlist are closed. The homepage and FAQ display the closed
+status, including when JavaScript is disabled. `scripts/registration.js` shows the
+registration status and waiver reminder after the hero scrolls out of view.
 
-Hoodie registration is closed. Registered attendees must print, complete, and
+Registered attendees must print, complete, and
 bring the [participant waiver](assets/documents/hackphs-2026-waiver.pdf) and their ID
 to check-in. Participants under 18 also need a parent or legal guardian signature.
 The PDF is an unchanged copy of the [organizer's waiver](https://drive.google.com/file/d/1f3cc7IwjZyQgNYhUK0EZ2owv7CxqadfT/view).
@@ -68,7 +68,7 @@ available, run the data checks with `node --test tests/data.test.mjs`.
 Browser checks use Playwright and Edge: with the Python preview running and
 Playwright available to Node, run `node --test tests/browser.test.mjs`.
 Those checks include the real public sheet connection, mocked score updates and
-outages, the midnight waitlist switch, schedule rooms, and phone layouts.
+outages, closed registration and waitlist status, schedule rooms, and phone layouts.
 Test teams are browser-only fixtures and are never written to the Google Sheet.
 
 

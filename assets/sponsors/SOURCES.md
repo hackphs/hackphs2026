@@ -2,6 +2,8 @@
 
 The logos identify event sponsors; trademarks remain with their respective owners.
 
+- MLH: official [brand guidelines](https://www.mlh.com/brand-guidelines), [original color SVG](https://static.mlh.io/brand-assets/logo/official/mlh-logo-color.svg), saved as `mlh.svg` on October 7, 2026.
+
 - Algoverse: official [website](https://algoverseairesearch.org/) header [mark](https://algoverseairesearch.org/images/logos/algoverse.webp), saved as `algoverse.webp` on October 5, 2026
 - Tacoria: official [website](https://tacoria.com/) [logo](https://tacoria.com/wp-content/uploads/2018/10/tacoria-logo.svg), saved as `tacoria.svg` on October 5, 2026
 

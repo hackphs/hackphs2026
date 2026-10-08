@@ -6,6 +6,14 @@ These PNGs were made from the product photos supplied by the organizer on Septem
 - `aula-win68-he.png` — [AULA WIN68 HE](https://www.aulagaming.com/products/aula-win68-he?variant=43561186459741)
 - `vxe-dragonfly-r1.png` — [VXE Dragonfly R1 Series](https://www.atk.store/products/vxe-dragonfly-r1-series-wireless-mouse?variant=44857375391962&country=CA&currency=USD)
 
+Added October 7, 2026:
+
+- `stuffed-cow-plushie.png` — [Onsoyours peach cow plushie](https://www.amazon.com/dp/B0D7CK2WTQ?th=1), matching the organizer's Amazon product ID. The [original Amazon product photo](https://m.media-amazon.com/images/I/61-r8-vB+-L._SY800_.jpg) was retrieved from the matching [Tiendamia listing](https://tiendamia.com.ec/p/amz/b0d7ck2wtq/onsoyours-lindo-peluche-de-vaca-suave-peluche-de-vaca-de) and edited with the built-in imagegen tool for transparency.
+
+Cow cutout prompt:
+
+> Use case: background-extraction. Asset type: transparent PNG product cutout for the hackPHS prize website. Image 1 is the edit target, the real Onsoyours peach cow plushie product photo. Remove only the white studio background and the cast floor shadow outside the cow. Preserve the entire single cow exactly as photographed: its lying-down pose, pale peach body, pink patches and ears, black embroidered eyes, heart-shaped nose, green peach-leaf decoration, white flower embroidery, fabric texture, proportions, and original hang tag. Keep the original angle and all product details, including white embroidery. Crop closely around the full cow with a little transparent padding. Output genuine alpha transparency, no checkerboard, no white rectangle, no invented products, no restyling, no new text, no added shadows.
+
 The preview interaction tilts these flat images with CSS perspective and is not a full 3D product model
 
 The organizer confirmed the mouse is the R1 SE+ variant but requested the public name VXE Dragon Fly R1 so the weight and connectivity describe the SE+
