@@ -1,6 +1,6 @@
-import { events } from "./events.js?v=20261010s";
-import { renderEventSignup, startEventSignups } from "./event-signups.js?v=20261010s";
-import { renderEventRubric } from "./event-rubric.js?v=20261010s";
+import { events } from "./events.js?v=20261010t";
+import { renderEventSignup, startEventSignups } from "./event-signups.js?v=20261010t";
+import { renderEventRubric } from "./event-rubric.js?v=20261010t";
 
 const eventSlug = new URLSearchParams(window.location.search).get("event");
 const event = events[eventSlug];

@@ -45,7 +45,6 @@ export const events = {
         rubric: [
             {
                 criterion: "Theme & Purpose",
-                focus: "The Challenge",
                 levels: [
                     "The site focuses perfectly on a cause related to skies, atmosphere, or space. The mission is incredibly clear and immediately inspires action.",
                     "The site clearly focuses on an allowed cause. The mission is easy to understand and encourages user action.",
@@ -55,7 +54,6 @@ export const events = {
             },
             {
                 criterion: "Connection to Cause & Animation",
-                focus: "Judged On",
                 levels: [
                     "The site is highly compelling. Animations are intentional, smooth, and directly elevate the storytelling of the cause.",
                     "The site is engaging. Animations are present and support the content without being overly distracting.",
@@ -65,7 +63,6 @@ export const events = {
             },
             {
                 criterion: "Visual Hierarchy & Layout",
-                focus: "Skills You'll Use",
                 levels: [
                     "Flawless use of grid/flexbox layout. Clear visual hierarchy guides the eye seamlessly through headings, body text, and sections.",
                     "Good structure and layout. Content is organized, and elements have a logical flow and proper spacing.",
@@ -75,17 +72,15 @@ export const events = {
             },
             {
                 criterion: "Color Theory & Design Psychology",
-                focus: "Bonus Criteria",
                 levels: [
                     "Exceptional use of color and typography that perfectly evokes the emotional tone of the specific sky/space cause.",
                     "Thoughtful color palette and font choices that fit the theme well and ensure high readability.",
                     "Colors clash or font choices hinder readability. The design doesn't evoke the mood of the cause.",
-                    "Monotonous or straining color choices. Complete disregard for design aesthetics.",
+                    "Monotonous or straining color choices. Complete disregard for design aesthetics, or the design looks heavily vibecoded: a generic AI template look with default gradients, stock card grids, and emoji icons in place of original design choices.",
                 ],
             },
             {
                 criterion: "Persuasive Copywriting",
-                focus: "Skills You'll Use",
                 levels: [
                     "Writing is exceptionally persuasive, deeply moving, and tailored flawlessly to educating and inspiring the audience.",
                     "Clear, well-written copy that communicates the cause effectively and includes solid educational facts.",
@@ -95,7 +90,6 @@ export const events = {
             },
             {
                 criterion: "Technical Integrity & Compliance",
-                focus: "What's Allowed",
                 levels: [
                     "Clean HTML/CSS/JS with smooth interactivity. AI was used ethically for assistance, but the design is completely original. Full asset credits provided.",
                     "Functional code with basic JS interactions. AI assistance stayed within bounds, and design is original. Most assets are properly credited.",

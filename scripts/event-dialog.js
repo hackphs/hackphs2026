@@ -1,6 +1,6 @@
-import { events } from "./events.js?v=20261010s";
-import { renderEventSignup } from "./event-signups.js?v=20261010s";
-import { renderEventRubric } from "./event-rubric.js?v=20261010s";
+import { events } from "./events.js?v=20261010t";
+import { renderEventSignup } from "./event-signups.js?v=20261010t";
+import { renderEventRubric } from "./event-rubric.js?v=20261010t";
 
 const categoryLabels = {
     hacking: "Main Event",
@@ -47,6 +47,7 @@ export function startEventDialog() {
         dialog.style.setProperty("--event-accent", tint ? `rgb(${tint})` : "#d5ab4c");
 
         dialog.classList.toggle("event-dialog--long-title", event.title.length > 34);
+        dialog.classList.toggle("event-dialog--wide", Boolean(event.rubric));
         title.textContent = event.title;
         date.textContent = eventDate;
         description.textContent = event.description;

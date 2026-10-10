@@ -241,6 +241,10 @@
     transition: opacity 180ms ease, transform 220ms var(--ease);
 }
 
+.event-dialog--wide {
+    width: min(1000px, calc(100% - 2rem));
+}
+
 .event-dialog.is-open {
     opacity: 1;
     transform: none;
@@ -367,7 +371,7 @@
 }
 
 .event-rubric h2 {
-    margin: 0 0 0.6rem;
+    margin: 0 0 0.75rem;
     color: rgba(8, 24, 47, 0.56);
     font-size: 0.67rem;
     font-weight: 800;
@@ -375,86 +379,55 @@
     text-transform: uppercase;
 }
 
-.event-rubric details {
-    border-bottom: 1px solid rgba(8, 24, 47, 0.14);
+.event-rubric__scroll {
+    overflow-x: auto;
 }
 
-.event-rubric details:first-of-type {
-    border-top: 1px solid rgba(8, 24, 47, 0.18);
+.event-rubric table {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 
-.event-rubric summary {
-    display: flex;
-    gap: 1rem;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 0.85rem 0;
-    font-size: 0.92rem;
-    font-weight: 650;
-    cursor: pointer;
-    list-style: none;
+.event-rubric th,
+.event-rubric td {
+    padding: 0.7rem 0.75rem;
+    border: 1px solid rgba(8, 24, 47, 0.16);
+    text-align: left;
+    vertical-align: top;
 }
 
-.event-rubric summary::-webkit-details-marker {
-    display: none;
-}
-
-.event-rubric summary::before {
-    content: "+";
-    width: 1rem;
-    flex-shrink: 0;
-    color: rgba(8, 24, 47, 0.48);
-    font-weight: 500;
-}
-
-.event-rubric details[open] summary::before {
-    content: "−";
-}
-
-.event-rubric summary span {
-    flex: 1;
-}
-
-.event-rubric summary small {
-    flex-shrink: 0;
-    color: #596371;
-    font-size: 0.72rem;
-    font-weight: 500;
-}
-
-.event-rubric summary:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 3px;
-}
-
-.event-rubric dl {
-    margin: 0 0 1rem 2rem;
-}
-
-.event-rubric dl > div {
-    display: grid;
-    grid-template-columns: 7rem minmax(0, 1fr);
-    gap: 1rem;
-    padding: 0.55rem 0;
-}
-
-.event-rubric dl > div + div {
-    border-top: 1px dashed rgba(8, 24, 47, 0.12);
-}
-
-.event-rubric dt {
+.event-rubric thead th {
+    color: #0a1a31;
+    background: rgba(8, 24, 47, 0.05);
     font-size: 0.78rem;
     font-weight: 800;
+    border-top: 3px solid var(--level-color, rgba(8, 24, 47, 0.3));
 }
 
-.event-rubric dt::before {
-    content: "";
-    display: inline-block;
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-right: 0.45rem;
-    border-radius: 50%;
-    background: var(--level-color);
+.event-rubric thead th:first-child {
+    width: 22%;
+}
+
+.event-rubric thead th span {
+    display: block;
+    margin-top: 0.15rem;
+    color: #596371;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.event-rubric tbody th {
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.event-rubric td {
+    color: rgba(8, 24, 47, 0.76);
+    font-size: 0.8rem;
+    line-height: 1.5;
 }
 
 .event-rubric [data-level="exemplary"] { --level-color: #2f7d5b; }
@@ -462,26 +435,44 @@
 .event-rubric [data-level="developing"] { --level-color: #c08a2c; }
 .event-rubric [data-level="unacceptable"] { --level-color: #b44a3c; }
 
-.event-rubric dd {
-    margin: 0;
-    color: rgba(8, 24, 47, 0.76);
-    font-size: 0.86rem;
-    line-height: 1.55;
-}
-
 @media (max-width: 700px) {
-    .event-rubric dl {
-        margin-left: 0;
+    /* stack each criterion into its own block so nothing scrolls sideways */
+    .event-rubric table,
+    .event-rubric tbody,
+    .event-rubric tr,
+    .event-rubric th,
+    .event-rubric td {
+        display: block;
+        width: auto;
+        min-width: 0;
     }
 
-    .event-rubric dl > div {
-        grid-template-columns: 1fr;
-        gap: 0.2rem;
-    }
-
-    .event-rubric summary small {
+    .event-rubric thead {
         display: none;
     }
+
+    .event-rubric tr {
+        margin-bottom: 1rem;
+    }
+
+    .event-rubric tbody th {
+        background: rgba(8, 24, 47, 0.05);
+    }
+
+    .event-rubric td {
+        border-top: 0;
+        border-left: 3px solid var(--level-color);
+    }
+
+    .event-rubric td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 0.2rem;
+        color: #0a1a31;
+        font-size: 0.72rem;
+        font-weight: 800;
+    }
+
     .event-header {
         align-items: flex-start;
     }
