@@ -24,10 +24,10 @@
     <link rel="stylesheet" href="/styles/content.css?v=20261009" />
     <link rel="stylesheet" href="/styles/prizes.css?v=20261009" />
     <link rel="stylesheet" href="/styles/schedule.css?v=20261010j" />
-    <link rel="stylesheet" href="/styles/event.css?v=20261010t" />
+    <link rel="stylesheet" href="/styles/event.css?v=20261010u" />
     <link rel="stylesheet" href="/styles/participant-map.css?v=20261010b" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20261007c" />
-    <script type="module" src="/scripts/main.js?v=20261010t"></script>
+    <script type="module" src="/scripts/main.js?v=20261010u"></script>
 </head>
 <body>
 
@@ -128,6 +128,11 @@
         <section class="journey-section hero-section" id="top" data-stage="night">
             <div class="section-inner hero-layout">
                 <div class="hero-copy reveal">
+                    <button type="button" class="winners-banner" data-winners-open aria-haspopup="dialog">
+                        <span class="winners-banner__dot" aria-hidden="true"></span>
+                        Web Design for Awareness winners announced!
+                        <span aria-hidden="true">→</span>
+                    </button>
                     <p class="section-kicker">Princeton High School's seventh annual hackathon</p>
 
                     <div class="hero-masthead">
@@ -1088,6 +1093,25 @@
             </div>
         </section>
     </main>
+
+    <dialog class="event-dialog winners-dialog" data-winners-dialog aria-labelledby="winners-dialog-title">
+        <header class="event-dialog__header">
+            <span>hackPHS / Results</span>
+            <button type="button" data-winners-close>Close <span aria-hidden="true">×</span></button>
+        </header>
+        <div class="event-dialog__content">
+            <div class="event-dialog__title">
+                <p class="event-dialog__date">Web Design for Awareness</p>
+                <h2 id="winners-dialog-title">Winners</h2>
+            </div>
+            <ol class="winners-list">
+                <li data-place="1"><span>Tied for 1st</span><strong>Sebastian Steketee</strong><strong>Arnav Somaghatta</strong></li>
+                <li data-place="2"><span>2nd</span><strong>Ryan Soudkhah</strong></li>
+                <li data-place="3"><span>3rd</span><strong>Namish Chopra</strong></li>
+                <li data-place="4"><span>4th</span><strong>Hattab Nokic</strong></li>
+            </ol>
+        </div>
+    </dialog>
 
     <dialog class="event-dialog" data-event-dialog aria-labelledby="event-dialog-title">
         <header class="event-dialog__header">

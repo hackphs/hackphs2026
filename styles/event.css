@@ -530,3 +530,92 @@
 .event-signup-link { color: #185e73; font-weight: 700; text-decoration: underline; text-underline-offset: .25em; }
 .event-signup-link:hover { color: #08182f; }
 .event-signup-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+/* results banner in the hero and the winners modal it opens */
+.winners-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.4rem;
+    padding: 0.55rem 1rem;
+    color: #0a1a31;
+    background: #fff1c4;
+    border: 0;
+    border-radius: 999px;
+    box-shadow: 0 0.5rem 1.5rem rgba(3, 8, 20, 0.25);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.winners-banner:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.7rem 1.8rem rgba(3, 8, 20, 0.32);
+}
+
+.winners-banner:focus-visible {
+    outline: 2px solid #fff1c4;
+    outline-offset: 3px;
+}
+
+.winners-banner__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #d5ab4c;
+    box-shadow: 0 0 0 0 rgba(213, 171, 76, 0.6);
+    animation: winners-pulse 1.8s ease-out infinite;
+}
+
+@keyframes winners-pulse {
+    to { box-shadow: 0 0 0 0.5rem rgba(213, 171, 76, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .winners-banner__dot { animation: none; }
+}
+
+.winners-dialog {
+    width: min(480px, calc(100% - 2rem));
+}
+
+.winners-dialog .event-dialog__date {
+    margin: 0 0 0.65rem;
+}
+
+.winners-list {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(8, 24, 47, 0.18);
+}
+
+.winners-list li {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    column-gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(8, 24, 47, 0.14);
+}
+
+.winners-list span {
+    grid-row: 1 / span 2;
+    color: #596371;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.winners-list li[data-place="1"] span {
+    color: #9a7420;
+    font-weight: 800;
+}
+
+.winners-list strong {
+    grid-column: 2;
+    font-size: 1rem;
+    font-weight: 650;
+}

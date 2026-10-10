@@ -10,6 +10,7 @@ import { startCopyEmail } from "./copy-email.js?v=20260821";
 import { startPrizePreviews } from "./prize-previews.js?v=20260917";
 import { startRegistration } from "./registration.js?v=20261007";
 import { startEventCountdown } from "./event-countdown.js?v=20261010b";
+import { startWinners } from "./winners.js?v=20261010u";
 
 // each part of the page owns its own behavior
 startJourney();
@@ -24,3 +25,4 @@ startCopyEmail();
 startPrizePreviews();
 startRegistration();
 startEventCountdown();
+startWinners();
