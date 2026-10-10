@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261010k";
+import { events } from "./events.js?v=20261010l";
 import { renderEventSignup, startEventSignups } from "./event-signups.js?v=20261009";
 
 const eventSlug = new URLSearchParams(window.location.search).get("event");
