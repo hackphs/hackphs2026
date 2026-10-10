@@ -1,6 +1,6 @@
-import { events } from "./events.js?v=20261010t";
-import { renderEventSignup } from "./event-signups.js?v=20261010t";
-import { renderEventRubric } from "./event-rubric.js?v=20261010t";
+import { events } from "./events.js?v=20261010v";
+import { renderEventSignup } from "./event-signups.js?v=20261010v";
+import { renderEventRubric } from "./event-rubric.js?v=20261010v";
 
 const categoryLabels = {
     hacking: "Main Event",

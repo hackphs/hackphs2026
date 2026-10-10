@@ -103,7 +103,7 @@ export const events = {
         title: "Implementing AI/ML for Environmental Action",
         time: "Saturday, October 10 · 5:00-8:00 PM",
         duration: "~3 hours",
-        room: "Room 154",
+        room: "Room 155",
         description: "Build an AI or machine learning solution that promotes environmental sustainability. Your project can use prediction, automation, computer vision, natural language processing, or data analysis to address a meaningful environmental problem and contribute to a cleaner, healthier, or more sustainable future.",
     },
     "intro-to-generative-ai": {
