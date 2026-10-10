@@ -1,0 +1,22 @@
+.participant-map-section { scroll-margin-top: 6rem; }
+.participant-map { margin: 0; padding: 0; background: transparent; color: #08182f; border: 0; border-radius: 0; box-shadow: none; }
+.participant-map__heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin: 3rem 0 1.25rem; }
+.participant-map__heading h3 { margin: 0; font: 500 clamp(1.5rem, 3vw, 2rem)/1.2 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.participant-map__heading a { text-decoration: underline; text-underline-offset: .2em; font-size: .85rem; }
+.participant-map__controls { display: none; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+.participant-map.is-interactive .participant-map__controls { display: flex; }
+.participant-map button { padding: .55rem .85rem; border: 1px solid rgba(35, 69, 96, .14); border-radius: .25rem; background: transparent; color: inherit; font: 600 .8rem "Manrope", sans-serif; cursor: pointer; transition: background-color 180ms ease, border-color 180ms ease; }
+.participant-map button:hover:not(:disabled) { background: rgba(207, 226, 240, .4); border-color: rgba(35, 69, 96, .24); }
+.participant-map button:disabled { opacity: .35; cursor: default; }
+.participant-map button:focus-visible, .participant-map__viewport:focus-visible { outline: 2px solid #287e96; outline-offset: 3px; }
+.participant-map output { min-width: 3.5rem; text-align: center; font-variant-numeric: tabular-nums; }
+.participant-map__viewport { --map-inset: 1.5rem; position: relative; overflow: hidden; width: 100%; aspect-ratio: 792 / 612; max-height: 70vh; background: transparent; border: 1px solid rgba(35, 69, 96, .16); border-radius: .25rem; }
+.participant-map__viewport img { position: absolute; inset: var(--map-inset); display: block; width: calc(100% - 2 * var(--map-inset)); height: calc(100% - 2 * var(--map-inset)); object-fit: contain; object-position: center; user-select: none; transform-origin: center; mix-blend-mode: multiply; }
+.is-interactive .participant-map__viewport { touch-action: none; cursor: grab; }
+.participant-map__viewport.is-dragging { cursor: grabbing; }
+.participant-map__help { margin: .75rem 0 0; font-size: .75rem; line-height: 1.6; color: #354c64; }
+.participant-map:fullscreen, .participant-map.is-expanded { display: flex; flex-direction: column; width: 100%; height: 100%; margin: 0; padding: 1.5rem; background: #b1d0e7; border-radius: 0; }
+.participant-map.is-expanded { position: fixed; inset: 0; z-index: 1000; }
+.participant-map:fullscreen .participant-map__viewport, .participant-map.is-expanded .participant-map__viewport { flex: 1; min-height: 0; max-height: none; aspect-ratio: auto; }
+@media (max-width: 560px) { .participant-map__viewport { --map-inset: 1rem; height: 19rem; aspect-ratio: auto; } }
+@media (prefers-reduced-motion: reduce) { .participant-map button { transition: none; } }

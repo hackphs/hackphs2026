@@ -63,6 +63,29 @@ linked event guide is maintained separately and still needs its dates corrected.
 
 ## Checks (optional, for maintainers)
 
+### October 10 sign-ups and participant map
+
+Workshop and competition responder links appear at **9:00 AM New York time on
+Saturday, October 10, 2026** (`2026-10-10T13:00:00Z`, EDT / UTC−4). The shared
+logic in `scripts/event-signups.js` updates both event dialogs and standalone
+event pages, including pages left open at the release time. This is a display
+schedule based on the visitor's device clock, not an access-control boundary.
+The code must be deployed before release for this behavior to appear publicly.
+
+Competition URLs are in `competitiveSignupUrls` in `scripts/events.js`. The
+Estimathon form was unpublished when checked on October 9; its verified
+respondent endpoint is connected but its owner still needs to publish it. No Google Form
+publishing settings were changed as part of this local website update.
+
+The participant map PDF is an unchanged copy of the organizer's supplied file.
+Its PNG preview supports zoom, pan, pinch, keyboard controls and full screen;
+the original PDF remains available for opening or downloading. The map's
+printed event timeline has differences from the current website schedule, so
+the viewer directs participants to the schedule for current times and rooms.
+
+Run `node --test tests/event-updates.test.mjs` with Playwright available to check
+release timing, responder URLs, map controls, prize updates and mobile layouts.
+
 The website and Python preview do not need Node or npm. If Node is already
 available, run the data checks with `node --test tests/data.test.mjs`.
 Browser checks use Playwright and Edge: with the Python preview running and

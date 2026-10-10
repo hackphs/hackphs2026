@@ -85,6 +85,27 @@ export const events = {
         room: "Room 154",
         description: "An introductory experience covering Java fundamentals such as syntax, object-oriented basics, and simple program structure.",
     },
+    "intro-to-google-ai-studio": {
+        title: "Intro to Google AI Studio",
+        time: "Saturday, October 10 · 8:30-9:00 PM",
+        duration: "~30 minutes",
+        room: "Room 152",
+        description: "An MLH-hosted introduction to Google AI Studio.",
+    },
+    "hacking-with-github-copilot": {
+        title: "Hacking with GitHub Copilot",
+        time: "Saturday, October 10 · 9:00-9:30 PM",
+        duration: "~30 minutes",
+        room: "Room 152",
+        description: "An MLH-hosted session on hacking with GitHub Copilot.",
+    },
+    "techtogether-meetup": {
+        title: "TechTogether Meetup",
+        time: "Saturday, October 10 · 9:30-10:00 PM",
+        duration: "~30 minutes",
+        room: "Room 152",
+        description: "Meet fellow hackers at this MLH-hosted TechTogether meetup.",
+    },
     "ai-ethics-panel": {
         title: "AI Panel Discussion",
         time: "Saturday, October 10 · Preparation 9:00-10:00 PM · Panel 10:00-11:00 PM",
@@ -162,13 +183,6 @@ export const events = {
         room: "Room 154",
         description: "An introductory experience covering algorithmic analysis and problem-solving techniques used in competitive programming.",
     },
-    "intro-to-swift-and-swiftui": {
-        title: "Intro to Swift",
-        time: "Sunday, October 11 · 8:00-10:00 AM",
-        duration: "~2 hours",
-        room: "Room 154",
-        description: "An introductory experience covering Swift fundamentals such as syntax, variables, and basic control flow.",
-    },
     "nathaniel-daw": {
         title: "Guest Talk: Nathaniel Daw",
         time: "Saturday, October 10 · 1:00-2:00 PM",
@@ -217,8 +231,33 @@ export const scheduleEventSlugs = {
     "vibe-coded video game contest": "vibe-coded-space-game",
     "intro to html and css": "intro-to-html-css-react",
     "intro to advanced algorithms": "intro-to-advanced-algorithms",
-    "intro to swift": "intro-to-swift-and-swiftui",
+    "intro to google ai studio": "intro-to-google-ai-studio",
+    "hacking with github copilot": "hacking-with-github-copilot",
+    "techtogether meetup": "techtogether-meetup",
 };
+
+export const workshopSignupUrl = "https://forms.gle/3i6YUDArvgykF7KaA";
+export const workshopEventSlugs = [
+    "intro-to-javascript", "intro-to-python", "intro-to-neural-networks",
+    "intro-to-web-design", "intro-to-circuitry", "intro-to-generative-ai",
+    "intro-to-ai-ethics", "intro-to-java", "intro-to-vibe-coding",
+    "intro-to-html-css-react", "intro-to-advanced-algorithms",
+    "intro-to-google-ai-studio", "hacking-with-github-copilot", "techtogether-meetup",
+];
+
+// Public responder URLs read from the organizers' competition forms, not editor links.
+export const competitiveSignupUrls = {
+    // Verified respondent endpoint; Google currently reports this form as unpublished.
+    estimathon: "https://docs.google.com/forms/d/1oXAWkBYHWY4Qe28TcFDRzduvoOWWQdXZHVaad0hM5bA/viewform",
+    "data-analytics-with-python": "https://docs.google.com/forms/d/e/1FAIpQLSfTfJR6Huz79AEWpnbHihXHtWfEFlzYnZ3dvv-zVGgXEueNEg/viewform",
+    "web-design-for-awareness": "https://docs.google.com/forms/d/e/1FAIpQLSe3FjLtviG4B0E-ZAGNSt9_hBdh7X7s_WUfOHZypvNFjF5VNA/viewform",
+    "environmental-ai-ml": "https://docs.google.com/forms/d/e/1FAIpQLSezOTq9TbIboQWL628ujDsL89sK9jCLBISDY4_x4kN1mgZpHg/viewform",
+    "ai-ethics-panel": "https://docs.google.com/forms/d/e/1FAIpQLSeP2ZFCxqNTHzLSllWeIqlAYe2BZfYSGbFUXMBnQHxXXgZh9A/viewform",
+    "vibe-coded-space-game": "https://docs.google.com/forms/d/e/1FAIpQLSf6-6uQQEhHVorTifInP_2Vy5lh7JAG0Phyw3h_-4weK2PV5Q/viewform",
+};
+
+for (const slug of workshopEventSlugs) events[slug].signupUrl = workshopSignupUrl;
+for (const [slug, url] of Object.entries(competitiveSignupUrls)) events[slug].signupUrl = url;
 
 // Room assignments from the organizers' logistics schedule.
 export const scheduleRooms = {

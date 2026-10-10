@@ -302,6 +302,21 @@
     transition: transform 180ms ease;
 }
 
+.sponsor-featured > .sponsor-headliners {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    min-height: 0;
+    padding: 0 0 1rem;
+}
+
+.sponsor-headliners .sponsor-headliner {
+    grid-column: auto;
+    margin: 0;
+    font-size: clamp(1rem, 3.4vw, 2.5rem);
+    text-align: center;
+}
+
 .sponsor-featured > a:hover,
 .sponsor-featured > a:focus-visible {
     transform: translateY(-0.25rem);

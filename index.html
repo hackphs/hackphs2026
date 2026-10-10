@@ -21,12 +21,13 @@
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260925" />
     <link rel="stylesheet" href="/styles/navigation.css?v=20260926d" />
     <link rel="stylesheet" href="/styles/hero.css?v=20261003" />
-    <link rel="stylesheet" href="/styles/content.css?v=20261007d" />
-    <link rel="stylesheet" href="/styles/prizes.css?v=20261007" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20261005" />
-    <link rel="stylesheet" href="/styles/event.css?v=20260925c" />
+    <link rel="stylesheet" href="/styles/content.css?v=20261009" />
+    <link rel="stylesheet" href="/styles/prizes.css?v=20261009" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20261010b" />
+    <link rel="stylesheet" href="/styles/event.css?v=20261009" />
+    <link rel="stylesheet" href="/styles/participant-map.css?v=20261010b" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20261007c" />
-    <script type="module" src="/scripts/main.js?v=20261007"></script>
+    <script type="module" src="/scripts/main.js?v=20261009"></script>
 </head>
 <body>
 
@@ -261,6 +262,8 @@
                     </p>
                 </div>
 
+                <p class="schedule-signup-notice" data-signup-notice aria-live="polite">Workshop and event sign-ups will be posted at 9:00 AM on Saturday, October 10 (ET).</p>
+                <p class="schedule-map-link"><a href="#participant-map">Need directions? View the interactive participant map ↓</a></p>
                 <div class="schedule-views" data-schedule data-active-view="table">
                     <div class="schedule-view-toolbar reveal">
                         <p class="schedule-duration-note">
@@ -435,7 +438,7 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T19:00:00-04:00">7:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--meal">
+                                    <td rowspan="3" class="schedule-block schedule-block--meal">
                                         <strong>Dinner</strong>
                                         <small>7:00–9:00 PM</small>
                                     </td>
@@ -447,7 +450,7 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T20:00:00-04:00">8:00 PM</time></th>
-                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-ai-ethics">
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-ai-ethics">
                                         <strong>Intro to AI ethics</strong>
                                         <small>8:00–9:00 PM</small>
                                     </td>
@@ -456,20 +459,43 @@
                                 </tr>
 
                                 <tr>
+                                    <th scope="row"><time datetime="2026-10-10T20:30:00-04:00">8:30 PM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-google-ai-studio">
+                                        <strong>Intro to Google AI Studio</strong>
+                                        <span class="schedule-block__speaker">Hosted by MLH</span>
+                                        <small>8:30–9:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <th scope="row"><time datetime="2026-10-10T21:00:00-04:00">9:00 PM</time></th>
-                                    <td class="schedule-block schedule-block--hacking">
+                                    <td rowspan="2" class="schedule-block schedule-block--hacking">
                                         <strong>Hacking</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--advanced" data-event="ai-ethics-panel">
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced" data-event="ai-ethics-panel">
                                         <strong>Preparation for AI ethics mock panel</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-java">
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-java">
                                         <strong>Intro to Java</strong>
                                         <small>9:00–10:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--workshop" data-event="hacking-with-github-copilot">
+                                        <strong>Hacking with GitHub Copilot</strong>
+                                        <span class="schedule-block__speaker">Hosted by MLH</span>
+                                        <small>9:00–9:30 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><time datetime="2026-10-10T21:30:00-04:00">9:30 PM</time></th>
+                                    <td class="schedule-block schedule-block--workshop" data-event="techtogether-meetup">
+                                        <strong>TechTogether Meetup</strong>
+                                        <span class="schedule-block__speaker">Hosted by MLH</span>
+                                        <small>9:30–10:00 PM</small>
+                                    </td>
                                 </tr>
 
                                 <tr>
@@ -584,15 +610,13 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T08:00:00-04:00">8:00 AM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-swift-and-swiftui">
-                                        <strong>Intro to Swift</strong>
-                                        <small>8:00–10:00 AM</small>
-                                    </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-11T09:00:00-04:00">9:00 AM</time></th>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
@@ -618,6 +642,28 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-section light-stage" data-stage="day" aria-labelledby="participant-map-title">
+            <div class="section-inner participant-map-section" id="participant-map">
+                <div class="participant-map__heading">
+                    <h3 id="participant-map-title">Participant map</h3>
+                    <a href="/assets/documents/hackphs-2026-participant-map.pdf" target="_blank" rel="noreferrer">Open / download PDF ↗</a>
+                </div>
+                <div class="participant-map" data-participant-map>
+                    <div class="participant-map__controls" role="group" aria-label="Map controls">
+                        <button type="button" data-map-action="out" aria-label="Zoom out">−</button>
+                        <output data-map-zoom aria-live="polite" aria-label="Map zoom level">100%</output>
+                        <button type="button" data-map-action="in" aria-label="Zoom in">+</button>
+                        <button type="button" data-map-action="reset">Reset map</button>
+                        <button type="button" data-map-action="fullscreen" aria-pressed="false">Full screen</button>
+                    </div>
+                    <div class="participant-map__viewport" data-map-viewport tabindex="0" role="region" aria-label="Interactive participant map" aria-describedby="participant-map-help">
+                        <img data-map-image src="/assets/documents/participant-map.png" alt="hackPHS participant floor plan showing the PAC entrance, New Gym, cafeteria, workshop rooms and emergency exits. Open the PDF for the complete map and text." width="3000" height="2319" loading="lazy" decoding="async" draggable="false" />
+                    </div>
+                    <p class="participant-map__help" id="participant-map-help">Zoom with + / −, then drag to explore. Pinch on touchscreens. Keyboard: + / − to zoom, arrows to pan, Home to reset. For current event times and rooms, use the <a href="#schedule">schedule above</a>.</p>
                 </div>
             </div>
         </section>
@@ -757,6 +803,20 @@
                         <h3 id="raffles-title">Raffle prizes</h3>
                         <p class="prize-raffles__note">Each workshop you attend earns another raffle entry. Attend more workshops to earn more entries and increase your chances of winning.</p>
                     </div>
+                    <div class="prize-raffle-grand">
+                        <div>
+                            <p class="prize-eyebrow">One grand prize · Take flight</p>
+                            <h4>Drone with<br />2K Camera</h4>
+                            <p>Our biggest raffle prize has a flight plan of its own.</p>
+                            <a href="https://www.amazon.com/dp/B0H9KLFX66" target="_blank" rel="noreferrer">Explore the grand prize ↗</a>
+                        </div>
+                        <button class="prize-preview prize-preview--drone" type="button" data-prize-preview disabled aria-label="Tilt the drone grand prize preview" aria-describedby="prize-preview-help">
+                            <img decoding="async" src="/assets/prizes/drone-2k.png" alt="Black camera drone with four unfolded propellers and blue lights" width="1536" height="1024" loading="lazy" draggable="false" />
+                            <span aria-hidden="true">Drag to tilt</span>
+                        </button>
+                    </div>
+                    <div class="prize-raffles__more">
+                    <h4>More raffle prizes</h4>
                     <ul>
                         <li>
                             <strong>2 × $50 AndyMark gift cards</strong>
@@ -769,6 +829,7 @@
                         <li><strong>Film camera</strong></li>
                         <li><strong>Mic kit</strong></li>
                     </ul>
+                    </div>
                 </section>
 
                 <section class="prize-competitive reveal" aria-labelledby="competitive-title">
@@ -782,14 +843,14 @@
                             <ul>
                                 <li>2 × keyboards</li>
                                 <li>Speaker</li>
-                                <li>Monitor light</li>
+                                <li>Neon UFO LED sign</li>
                             </ul>
                         </div>
                         <div>
                             <h4>Second place</h4>
                             <ul>
                                 <li>Mouse</li>
-                                <li>Plushie</li>
+                                <li>Wireless earbuds</li>
                                 <li>LED strips</li>
                                 <li>Speaker</li>
                             </ul>
@@ -939,7 +1000,10 @@
                 </div>
 
                 <div class="sponsor-featured reveal" aria-label="Featured hackPHS 2026 sponsors">
-                    <p class="sponsor-headliner"><a href="https://www.linkedin.com/in/henrylangmack" target="_blank" rel="noreferrer">Henry Langmack</a></p>
+                    <div class="sponsor-headliners">
+                        <p class="sponsor-headliner"><a href="https://www.linkedin.com/in/henrylangmack" target="_blank" rel="noreferrer">Henry Langmack</a></p>
+                        <p class="sponsor-headliner"><a href="https://www.linkedin.com/in/shamus-madan" target="_blank" rel="noreferrer">Shamus Madan</a></p>
+                    </div>
                     <a class="sponsor-featured__burgerrunn" href="https://burgerrunn.com/" target="_blank" rel="noreferrer" aria-label="Visit BurgerRunn"><img decoding="async" src="/assets/sponsors/burgerrunn.png" alt="BurgerRunn" loading="lazy" /></a>
                     <a href="https://windscribe.com/" target="_blank" rel="noreferrer" aria-label="Visit Windscribe"><img loading="lazy" decoding="async" src="/assets/sponsors/windscribe.svg" alt="Windscribe" /></a>
                     <a class="sponsor-featured__prea" href="https://pressa-nj.org/" target="_blank" rel="noreferrer"><img decoding="async" src="/assets/sponsors/prea.png" alt="Princeton Regional Education Association (PREA)" loading="lazy" width="1375" height="1144" /></a>
@@ -1011,7 +1075,7 @@
                     </div>
                     <div>
                         <dt>Sign-up</dt>
-                        <dd>Coming soon</dd>
+                        <dd data-event-signup aria-live="polite">Opens Saturday at 9:00 AM ET</dd>
                     </div>
                 </dl>
             </div>

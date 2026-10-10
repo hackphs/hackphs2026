@@ -176,7 +176,7 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
             await logo.evaluate((image) => image.decode());
             assert.ok(await logo.evaluate((image) => image.naturalWidth > 0));
         }
-        assert.equal(await page.locator(".sponsor-featured > a, .sponsor-featured > div").count(), 6);
+        assert.equal(await page.locator(".sponsor-featured > a").count(), 6);
         assert.equal(await page.locator('#sponsors a[href*="1435capital"], #sponsors img[src*="1435-capital"]').count(), 0);
         const featuredCenters = await page.locator(".sponsor-featured > a").evaluateAll((links) => links.map((link) => {
             const bounds = link.getBoundingClientRect();
@@ -188,12 +188,18 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
         assert.equal(await page.locator('.sponsor-featured img[src$="/mlh.svg"]').count(), 1);
         await page.locator('.sponsor-featured__mlh img').evaluate((image) => image.decode());
         assert.equal(await page.locator('.sponsor-field__gauss').count(), 1);
-        assert.equal(await page.locator('.sponsor-headliner').textContent(), 'Henry Langmack');
-        const henryLink = page.locator('.sponsor-headliner a');
+        assert.deepEqual(await page.locator('.sponsor-headliner').allTextContents(), ['Henry Langmack', 'Shamus Madan']);
+        const henryLink = page.getByRole('link', { name: 'Henry Langmack', exact: true });
         assert.equal(await henryLink.getAttribute('href'), 'https://www.linkedin.com/in/henrylangmack');
         assert.equal(await henryLink.getAttribute('target'), '_blank');
         assert.equal(await henryLink.getAttribute('rel'), 'noreferrer');
-        const headliner = await page.locator('.sponsor-headliner').boundingBox();
+        const shamusLink = page.getByRole('link', { name: 'Shamus Madan', exact: true });
+        assert.equal(await shamusLink.getAttribute('href'), 'https://www.linkedin.com/in/shamus-madan');
+        assert.equal(await shamusLink.getAttribute('target'), '_blank');
+        assert.equal(await shamusLink.getAttribute('rel'), 'noreferrer');
+        const headliner = await page.locator('.sponsor-headliner').first().boundingBox();
+        const shamus = await page.locator('.sponsor-headliner').last().boundingBox();
+        assert.ok(Math.abs(headliner.y - shamus.y) < 1, "individual sponsors sit side by side");
         const featuredRow = await page.locator('.sponsor-featured').boundingBox();
         assert.ok(headliner.y > featuredRow.y, "Henry Langmack sits below the group's top divider");
         const firstFeatured = await page.locator('.sponsor-featured > a').first().boundingBox();
@@ -227,10 +233,10 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
         assert.equal(alpha.corner, 0);
         assert.ok(alpha.transparent > 10000);
         assert.ok(alpha.opaqueWhite > 10000, "white pi symbol remains opaque");
-        await page.locator('.sponsor-headliner').evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
+        await page.locator('.sponsor-headliner').first().evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
         await page.screenshot({ path: join(tmpdir(), "hackphs-sponsors-desktop.png") });
         await page.setViewportSize({ width: 390, height: 844 });
-        await page.locator('.sponsor-headliner').evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
+        await page.locator('.sponsor-headliner').first().evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
         await page.screenshot({ path: join(tmpdir(), "hackphs-sponsors-mobile.png") });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         assert.deepEqual(page.errors, []);

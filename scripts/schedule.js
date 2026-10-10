@@ -1,4 +1,4 @@
-import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261007";
+import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261009";
 
 const categoryNames = {
     hacking: "Main event",

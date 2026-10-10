@@ -39,3 +39,10 @@ Monitor instructions
 The monitor was replaced with the organizer's newer golden artwork photo using the built-in imagegen tool with this prompt
 
 > Use case: background-extraction. Asset type: transparent PNG product cutout for a hackathon prize website. Input image is the edit target. Remove ONLY the white background outside the black AOC monitor and around its stand. Keep the complete monitor and stand exactly as photographed, including the golden fantasy screen artwork, character, original AOC logo, lighting, silhouette and proportions unchanged. Do not remove or alter any pixels within the screen. Output genuine transparency with alpha, not a checkerboard or white rectangle. No new objects, shadows or text. Frame the complete monitor and stand closely with a little transparent padding.
+## Drone grand prize — October 9, 2026
+
+`drone-2k.png` is a transparent cutout of the organizer's [Amazon drone](https://www.amazon.com/dp/B0H9KLFX66), based on its [product photo](https://m.media-amazon.com/images/I/71QQuJ5BliL._AC_SL1500_.jpg). Created with the built-in imagegen tool. The website tilts this flat image; it is not a 3D model.
+
+Prompt:
+
+> Use case: background-extraction. Asset type: transparent PNG product cutout for the hackPHS raffle grand prize. Image 1 is the edit target: the exact black Fyrax X86 drone from the supplied Amazon product photo. Extract ONLY the large unfolded drone occupying the top of the image, preserving its exact angle, proportions, four propellers, motors, body panels, camera housing and blue lights. Remove the white background, external cast shadow, and all accessories below the drone (controller, batteries, cable, screwdriver, spare blades, guards, and folded duplicate drone). Keep every part of the large drone, including the highest propeller, uncut. Place the unchanged complete drone centered with a little transparent padding. No invented parts, no restyling, no text, no checkerboard. Output genuine alpha transparency.

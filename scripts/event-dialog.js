@@ -1,4 +1,5 @@
-import { events } from "./events.js?v=20261007";
+import { events } from "./events.js?v=20261009";
+import { renderEventSignup } from "./event-signups.js?v=20261009";
 
 const categoryLabels = {
     hacking: "Main Event",
@@ -51,6 +52,7 @@ export function startEventDialog() {
         time.textContent = eventTime.join(" · ");
         duration.textContent = `(${event.duration})`;
         room.textContent = event.room;
+        renderEventSignup(dialog.querySelector("[data-event-signup]"), eventSlug);
 
         window.clearTimeout(closeTimer);
         dialog.classList.remove("is-closing");
