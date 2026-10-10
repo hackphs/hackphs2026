@@ -266,6 +266,23 @@
     text-shadow: 0 0.2rem 1.5rem rgba(3, 8, 20, 0.2);
 }
 
+@font-face {
+    font-family: "Audiowide";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/assets/fonts/audiowide.ttf") format("truetype");
+}
+
+.sponsor-headliner {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--white);
+    font: 400 clamp(2rem, 5vw, 4rem)/1.2 "Audiowide", "Space Grotesk", sans-serif;
+    letter-spacing: -.025em;
+    text-align: center;
+}
+
 .sponsor-featured {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -281,8 +298,23 @@
     display: grid;
     place-items: center;
     min-width: 0;
-    min-height: 13rem;
+    min-height: 14rem;
     transition: transform 180ms ease;
+}
+
+.sponsor-featured > .sponsor-headliners {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    min-height: 0;
+    padding: 0 0 1rem;
+}
+
+.sponsor-headliners .sponsor-headliner {
+    grid-column: auto;
+    margin: 0;
+    font-size: clamp(1rem, 3.4vw, 2.5rem);
+    text-align: center;
 }
 
 .sponsor-featured > a:hover,
@@ -291,20 +323,16 @@
 }
 
 .sponsor-featured img {
-    width: min(100%, 18rem);
+    width: min(100%, 15.5rem);
     height: auto;
-    max-height: 11rem;
+    max-height: 12rem;
     object-fit: contain;
 }
 
 .sponsor-featured__burgerrunn img,
 .sponsor-featured__prea img,
 .sponsor-featured__pto img {
-    width: min(100%, 11rem);
-}
-
-.sponsor-featured__capital img {
-    width: min(100%, 13rem);
+    width: min(100%, 12rem);
 }
 
 .sponsor-featured__algoverse {
@@ -318,7 +346,7 @@
 }
 
 .sponsor-featured__algoverse img {
-    width: min(100%, 6rem);
+    width: min(100%, 6.5rem);
 }
 
 .sponsor-field {
@@ -338,7 +366,7 @@
     display: grid;
     flex: 1 1 7.5rem;
     place-items: center;
-    max-width: 10rem;
+    max-width: 7.5rem;
     min-height: 5.2rem;
     opacity: 0.84;
     transition: opacity 180ms ease, transform 180ms ease;
@@ -353,7 +381,7 @@
 .sponsor-field img {
     width: 100%;
     height: auto;
-    max-height: 4.6rem;
+    max-height: 3.5rem;
     object-fit: contain;
 }
 

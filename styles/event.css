@@ -410,3 +410,6 @@
         gap: 0.4rem;
     }
 }
+.event-signup-link { color: #185e73; font-weight: 700; text-decoration: underline; text-underline-offset: .25em; }
+.event-signup-link:hover { color: #08182f; }
+.event-signup-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }

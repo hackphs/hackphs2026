@@ -176,13 +176,40 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
             await logo.evaluate((image) => image.decode());
             assert.ok(await logo.evaluate((image) => image.naturalWidth > 0));
         }
-        assert.equal(await page.locator(".sponsor-featured > a, .sponsor-featured > div").count(), 4);
+        assert.equal(await page.locator(".sponsor-featured > a").count(), 6);
+        assert.equal(await page.locator('#sponsors a[href*="1435capital"], #sponsors img[src*="1435-capital"]').count(), 0);
         const featuredCenters = await page.locator(".sponsor-featured > a").evaluateAll((links) => links.map((link) => {
             const bounds = link.getBoundingClientRect();
             return bounds.y + bounds.height / 2;
         }));
-        assert.ok(Math.max(...featuredCenters) - Math.min(...featuredCenters) < 1, "four featured sponsors align in one row");
-        assert.equal(await page.locator('#sponsors img[src*="mlh.png"]').count(), 0);
+        assert.ok(Math.max(...featuredCenters.slice(0, 3)) - Math.min(...featuredCenters.slice(0, 3)) < 1, "first three sponsors align in one row");
+        assert.ok(Math.max(...featuredCenters.slice(3)) - Math.min(...featuredCenters.slice(3)) < 1, "last three sponsors align in the next row");
+        assert.ok(featuredCenters[3] > featuredCenters[0], "featured sponsors occupy two rows");
+        assert.equal(await page.locator('.sponsor-featured img[src$="/mlh.svg"]').count(), 1);
+        await page.locator('.sponsor-featured__mlh img').evaluate((image) => image.decode());
+        assert.equal(await page.locator('.sponsor-field__gauss').count(), 1);
+        assert.deepEqual(await page.locator('.sponsor-headliner').allTextContents(), ['Henry Langmack', 'Shamus Madan']);
+        const henryLink = page.getByRole('link', { name: 'Henry Langmack', exact: true });
+        assert.equal(await henryLink.getAttribute('href'), 'https://www.linkedin.com/in/henrylangmack');
+        assert.equal(await henryLink.getAttribute('target'), '_blank');
+        assert.equal(await henryLink.getAttribute('rel'), 'noreferrer');
+        const shamusLink = page.getByRole('link', { name: 'Shamus Madan', exact: true });
+        assert.equal(await shamusLink.getAttribute('href'), 'https://www.linkedin.com/in/shamus-madan');
+        assert.equal(await shamusLink.getAttribute('target'), '_blank');
+        assert.equal(await shamusLink.getAttribute('rel'), 'noreferrer');
+        const headliner = await page.locator('.sponsor-headliner').first().boundingBox();
+        const shamus = await page.locator('.sponsor-headliner').last().boundingBox();
+        assert.ok(Math.abs(headliner.y - shamus.y) < 1, "individual sponsors sit side by side");
+        const featuredRow = await page.locator('.sponsor-featured').boundingBox();
+        assert.ok(headliner.y > featuredRow.y, "Henry Langmack sits below the group's top divider");
+        const firstFeatured = await page.locator('.sponsor-featured > a').first().boundingBox();
+        assert.ok(headliner.y + headliner.height < firstFeatured.y, "Henry Langmack appears inside the group above the logos");
+        await page.evaluate(() => document.fonts.load('64px Audiowide'));
+        assert.ok(await page.evaluate(() => document.fonts.check('64px Audiowide')), "Henry's display font loads locally");
+        const featuredWidth = await page.locator('.sponsor-featured__burgerrunn img').evaluate((image) => image.getBoundingClientRect().width);
+        const secondaryWidth = await page.locator('.sponsor-field a[href="https://nordvpn.com/"] img').evaluate((image) => image.getBoundingClientRect().width);
+        assert.ok(featuredWidth > secondaryWidth, "featured logos are larger than secondary logos");
+        assert.ok(featuredWidth >= 192, "featured logos remain prominent after resizing");
         assert.equal(await page.locator("#mlh-trust-badge").count(), 1);
         const prea = page.locator(".sponsor-featured__prea img");
         assert.equal(await page.locator(".sponsor-featured__prea").getAttribute("href"), "https://pressa-nj.org/");
@@ -206,24 +233,28 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
         assert.equal(alpha.corner, 0);
         assert.ok(alpha.transparent > 10000);
         assert.ok(alpha.opaqueWhite > 10000, "white pi symbol remains opaque");
-        await field.screenshot({ path: join(tmpdir(), "hackphs-sponsors-desktop.png") });
+        await page.locator('.sponsor-headliner').first().evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
+        await page.screenshot({ path: join(tmpdir(), "hackphs-sponsors-desktop.png") });
         await page.setViewportSize({ width: 390, height: 844 });
-        await field.screenshot({ path: join(tmpdir(), "hackphs-sponsors-mobile.png") });
+        await page.locator('.sponsor-headliner').first().evaluate((element) => window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().top - 120, behavior: "instant" }));
+        await page.screenshot({ path: join(tmpdir(), "hackphs-sponsors-mobile.png") });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         assert.deepEqual(page.errors, []);
     } finally { await page.close(); }
 });
 
-test("waitlist bar appears past the hero and clears the badge", async () => {
+test("team registration bar shows the countdown and clears the badge", async () => {
     const page = await pageForTest();
     try {
         await page.clock.install({ time: new Date("2026-09-26T04:00:00Z") });
         await page.goto(base);
         const bar = page.locator("[data-registration-bar]");
         await bar.locator("img").evaluate((image) => image.decode());
-        assert.equal(await bar.getByRole("link", { name: "Bring your waiver", includeHidden: true }).getAttribute("href"), "#waiver");
+        assert.equal(await bar.getByRole("link", { name: "Team Registration", includeHidden: true }).getAttribute("href"), "https://forms.gle/AH2vMoughERpwGuX8");
         assert.equal(await page.locator('a[href="https://forms.gle/xHiPQQyVb7PakdKs5"]').count(), 0);
-        assert.match(await bar.textContent(), /Waitlist open/);
+        assert.match(await bar.textContent(), /Attending hackPHS\? Register your team/);
+        assert.match(await bar.locator("[data-countdown-compact]").textContent(), /^\d+:\d{2}:\d{2}$/);
+        assert.equal(await page.locator("[data-registration-link]").count(), 0);
         assert.equal(await bar.isVisible(), false);
         assert.equal(await bar.evaluate((element) => element.inert), true);
         for (const width of [1440, 768, 390, 320]) {
@@ -232,7 +263,7 @@ test("waitlist bar appears past the hero and clears the badge", async () => {
             await bar.waitFor({ state: "visible" });
             assert.equal(await bar.evaluate((element) => element.inert), false);
             const badge = await page.locator("#mlh-trust-badge").boundingBox();
-            for (const element of await bar.locator("p, .registration-bar__link, .registration-bar__merch, img").all()) {
+            for (const element of await bar.locator("p, .registration-bar__link, .registration-bar__countdown, img").all()) {
                 const box = await element.boundingBox();
                 assert.ok(box.x + box.width <= badge.x, `badge overlap at ${width}`);
             }
@@ -242,21 +273,22 @@ test("waitlist bar appears past the hero and clears the badge", async () => {
         }
         await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
         await bar.waitFor({ state: "hidden" });
-        assert.equal(await bar.locator("[data-registration-link]").textContent(), "Join the waitlist");
+        assert.equal(await bar.locator("[data-registration-link]").count(), 0);
         assert.deepEqual(page.errors, []);
     } finally { await page.close(); }
 });
 
-test("waitlist links work without JavaScript", async () => {
+test("registration and waitlist stay closed without JavaScript", async () => {
     const page = await browser.newPage({ javaScriptEnabled: false });
     try {
         await page.goto(base);
         const links = page.locator("[data-registration-link]");
-        assert.equal(await links.count(), 3);
-        for (const link of await links.all()) {
-            assert.ok((await link.getAttribute("href")).includes("1FAIpQLSfN_dE_l8"));
+        assert.equal(await links.count(), 0);
+        assert.equal(await page.locator('a[href*="1FAIpQLSfN_dE_l8"]').count(), 0);
+        for (const status of await page.locator("[data-registration-status]").all()) {
+            assert.equal(await status.textContent(), "Registration and the waitlist are closed.");
         }
-        assert.match(await page.locator(".primary-action").textContent(), /Join the waitlist/);
+        assert.doesNotMatch(await page.locator("body").textContent(), /Join the waitlist|Hoodie registration is closed/);
     } finally { await page.close(); }
 });
 
@@ -272,10 +304,24 @@ test("prizes keep every award and the image controls work across layouts", async
         }
         assert.equal(await prizes.locator(".prize-place__note").count(), 3);
         assert.equal(await prizes.locator(".prize-place .prize-extras").count(), 0);
-        assert.equal(await prizes.locator(".prize-extras li").count(), 5);
-        for (const image of await prizes.locator(".prize-preview img").all()) await image.evaluate((image) => image.decode());
+        assert.equal(await prizes.locator(".prize-extras li").count(), 6);
+        assert.equal(await prizes.locator(".prize-tracks dt").count(), 3);
+        assert.match(await prizes.locator(".prize-tracks__plushies").innerText(), /For each of the three track winners/i);
+        assert.match(await prizes.locator(".prize-tracks__plushies").innerText(), /2 Cow Squishmallows/);
+        assert.match(await prizes.locator(".prize-tracks__plushies").innerText(), /2 Stuffed Cow Plushies/);
+        for (const image of await prizes.locator(".prize-preview img").all()) {
+            await image.scrollIntoViewIfNeeded();
+            await image.evaluate((image) => image.decode());
+        }
+        await prizes.locator(".prize-tracks").screenshot({ path: join(tmpdir(), "hackphs-tracks-desktop.png") });
 
         const monitor = page.getByRole("button", { name: "Tilt the gaming monitor preview" });
+        const cow = page.getByRole("button", { name: "Tilt the stuffed cow plushie preview" });
+        await cow.focus();
+        await page.keyboard.press("ArrowRight");
+        assert.equal(await cow.evaluate((element) => element.style.getPropertyValue("--tilt-y")), "6deg");
+        await page.keyboard.press("Home");
+        assert.equal(await cow.evaluate((element) => element.style.getPropertyValue("--tilt-y")), "0deg");
         await monitor.focus();
         await page.keyboard.press("ArrowRight");
         assert.equal(await monitor.evaluate((element) => element.style.getPropertyValue("--tilt-y")), "6deg");
@@ -297,6 +343,9 @@ test("prizes keep every award and the image controls work across layouts", async
             for (const block of await prizes.locator(".prize-place, .prize-extras, .prize-shared, .prize-tracks, .prize-perks").all()) {
                 const bounds = await block.boundingBox();
                 assert.ok(bounds.x >= 0 && bounds.x + bounds.width <= width + 1);
+            }
+            if (width === 390) {
+                await prizes.locator(".prize-tracks").screenshot({ path: join(tmpdir(), "hackphs-tracks-mobile.png") });
             }
         }
         assert.deepEqual(page.errors, []);

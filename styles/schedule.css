@@ -710,3 +710,13 @@ a.schedule-simple__event::after {
     text-transform: none;
     letter-spacing: normal;
 }
+.schedule-signup-notice {
+    margin: 1.25rem 0 1rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #08182f;
+    font: 600 clamp(1.15rem, 2.1vw, 1.5rem)/1.5 "Space Grotesk", sans-serif;
+}
+.schedule-map-link { margin: 0 0 2rem; font-size: .85rem; }
+.schedule-map-link a { text-decoration: underline; text-underline-offset: .2em; }
