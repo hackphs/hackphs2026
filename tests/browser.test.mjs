@@ -579,7 +579,7 @@ test("schedule spans, room details, navigation and mobile layout", async () => {
         });
         assert.deepEqual(gridErrors, []);
         assert.equal(await page.locator(".schedule-table .schedule-block--empty .schedule-block__room").count(), 0);
-        const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty)");
+        const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty):not(.schedule-block--safety)");
         assert.equal(await publicBlocks.count(), await publicBlocks.locator(".schedule-block__room").count());
         for (const [slug, time, name] of [
             ["nathaniel-daw", "1:00–2:00 PM", "Nathaniel Daw"],

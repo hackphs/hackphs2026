@@ -3,22 +3,22 @@ const roomNotice = "Room to be announced.";
 export const events = {
     "intro-to-javascript": {
         title: "Intro to JavaScript + React.js for Vibecoding",
-        time: "Saturday, October 10 · 12:00-2:00 PM",
-        duration: "~2 hours",
+        time: "Saturday, October 10 · 12:30-2:00 PM",
+        duration: "~1.5 hours",
         room: "Room 154",
         description: "Explore JavaScript syntax, DOM manipulation, fetching APIs, and working with JSON, then learn the basics of building interfaces with React.js.",
     },
     "intro-to-python": {
         title: "Intro to Python and Data Analytics",
-        time: "Saturday, October 10 · 12:00-1:00 PM",
+        time: "Saturday, October 10 · 12:30-1:30 PM",
         duration: "~1 hour",
         room: "Room 153",
         description: "An introductory experience covering Python fundamentals such as syntax, variables, data types, control flow, and functions.",
     },
     "data-analytics-with-python": {
         title: "Data Analytics with Python",
-        time: "Saturday, October 10 · 1:00-3:00 PM",
-        duration: "~2 hours",
+        time: "Saturday, October 10 · 1:30-3:00 PM",
+        duration: "~1.5 hours",
         room: "Room 153",
         description: "Build a command-line Python application that helps people explore a public dataset related to aviation, weather, space, or another Into the Skies theme. Your project should make it easy to navigate, search, filter, compare, or visualize the data in a meaningful way. You may build a graphical interface, but judging will focus on the quality of the data presentation, usability, and functionality.",
     },

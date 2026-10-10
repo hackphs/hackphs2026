@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261009";
+import { events } from "./events.js?v=20261010k";
 import { renderEventSignup } from "./event-signups.js?v=20261009";
 
 const categoryLabels = {
