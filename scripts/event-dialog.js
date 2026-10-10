@@ -1,5 +1,6 @@
-import { events } from "./events.js?v=20261009";
-import { renderEventSignup } from "./event-signups.js?v=20261009";
+import { events } from "./events.js?v=20261010r";
+import { renderEventSignup } from "./event-signups.js?v=20261010r";
+import { renderEventRubric } from "./event-rubric.js?v=20261010r";
 
 const categoryLabels = {
     hacking: "Main Event",
@@ -53,6 +54,7 @@ export function startEventDialog() {
         duration.textContent = `(${event.duration})`;
         room.textContent = event.room;
         renderEventSignup(dialog.querySelector("[data-event-signup]"), eventSlug);
+        renderEventRubric(dialog.querySelector("[data-event-rubric]"), event.rubric);
 
         window.clearTimeout(closeTimer);
         dialog.classList.remove("is-closing");

@@ -1,5 +1,6 @@
-import { events } from "./events.js?v=20261009";
-import { renderEventSignup, startEventSignups } from "./event-signups.js?v=20261009";
+import { events } from "./events.js?v=20261010r";
+import { renderEventSignup, startEventSignups } from "./event-signups.js?v=20261010r";
+import { renderEventRubric } from "./event-rubric.js?v=20261010r";
 
 const eventSlug = new URLSearchParams(window.location.search).get("event");
 const event = events[eventSlug];
@@ -24,5 +25,6 @@ if (!event) {
     sheet.querySelector("[data-event-duration]").textContent = `(${event.duration})`;
     sheet.querySelector("[data-event-room]").textContent = event.room;
     renderEventSignup(sheet.querySelector("[data-event-signup]"), eventSlug);
+    renderEventRubric(sheet.querySelector("[data-event-rubric]"), event.rubric);
     startEventSignups();
 }

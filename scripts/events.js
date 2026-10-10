@@ -49,6 +49,68 @@ export const events = {
         duration: "~1.5 hours",
         room: "Room 153",
         description: "You are the founder of a nonprofit working to raise awareness about an issue related to the skies, the atmosphere, or space. Design and build an effective website that educates visitors, communicates your mission, and inspires action for your chosen cause.",
+        rubric: [
+            {
+                criterion: "Theme & Purpose",
+                focus: "The Challenge",
+                levels: [
+                    "The site focuses perfectly on a cause related to skies, atmosphere, or space. The mission is incredibly clear and immediately inspires action.",
+                    "The site clearly focuses on an allowed cause. The mission is easy to understand and encourages user action.",
+                    "The cause is vague or loosely related to the prompt. The mission is unclear, or the call to action is missing.",
+                    "The website completely misses the required theme, or the cause cannot be identified.",
+                ],
+            },
+            {
+                criterion: "Connection to Cause & Animation",
+                focus: "Judged On",
+                levels: [
+                    "The site is highly compelling. Animations are intentional, smooth, and directly elevate the storytelling of the cause.",
+                    "The site is engaging. Animations are present and support the content without being overly distracting.",
+                    "The site feels stagnant, or animations are poorly implemented, distracting, or irrelevant to the cause.",
+                    "No attempt at creating a compelling narrative. No interactive or animated elements used.",
+                ],
+            },
+            {
+                criterion: "Visual Hierarchy & Layout",
+                focus: "Skills You'll Use",
+                levels: [
+                    "Flawless use of grid/flexbox layout. Clear visual hierarchy guides the eye seamlessly through headings, body text, and sections.",
+                    "Good structure and layout. Content is organized, and elements have a logical flow and proper spacing.",
+                    "Layout feels cluttered or misaligned. Weak visual hierarchy makes it hard to distinguish important elements.",
+                    "Lack of structure. Overlapping text, broken layouts, or chaotic organization.",
+                ],
+            },
+            {
+                criterion: "Color Theory & Design Psychology",
+                focus: "Bonus Criteria",
+                levels: [
+                    "Exceptional use of color and typography that perfectly evokes the emotional tone of the specific sky/space cause.",
+                    "Thoughtful color palette and font choices that fit the theme well and ensure high readability.",
+                    "Colors clash or font choices hinder readability. The design doesn't evoke the mood of the cause.",
+                    "Monotonous or straining color choices. Complete disregard for design aesthetics.",
+                ],
+            },
+            {
+                criterion: "Persuasive Copywriting",
+                focus: "Skills You'll Use",
+                levels: [
+                    "Writing is exceptionally persuasive, deeply moving, and tailored flawlessly to educating and inspiring the audience.",
+                    "Clear, well-written copy that communicates the cause effectively and includes solid educational facts.",
+                    "Text is grammatically weak, repetitive, or lacks the persuasive edge needed to inspire an audience.",
+                    "Minimal text, entirely placeholder content (Lorem Ipsum), or heavily plagiarized writing.",
+                ],
+            },
+            {
+                criterion: "Technical Integrity & Compliance",
+                focus: "What's Allowed",
+                levels: [
+                    "Clean HTML/CSS/JS with smooth interactivity. AI was used ethically for assistance, but the design is completely original. Full asset credits provided.",
+                    "Functional code with basic JS interactions. AI assistance stayed within bounds, and design is original. Most assets are properly credited.",
+                    "Minor code bugs or broken interactions. Design heavily relies on AI generation rather than original implementation. Asset credits are missing.",
+                    "Broken site. Blatant plagiarism, direct copying of an existing template, or zero credit given to external assets.",
+                ],
+            },
+        ],
     },
     "environmental-ai-ml": {
         title: "Implementing AI/ML for Environmental Action",
