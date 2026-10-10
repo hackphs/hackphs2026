@@ -3,38 +3,31 @@ const roomNotice = "Room to be announced.";
 export const events = {
     "intro-to-javascript": {
         title: "Intro to JavaScript + React.js for Vibecoding",
-        time: "Saturday, October 10 · 12:00-2:00 PM",
-        duration: "~2 hours",
+        time: "Saturday, October 10 · 12:30-2:00 PM",
+        duration: "~1.5 hours",
         room: "Room 154",
         description: "Explore JavaScript syntax, DOM manipulation, fetching APIs, and working with JSON, then learn the basics of building interfaces with React.js.",
     },
     "intro-to-python": {
         title: "Intro to Python and Data Analytics",
-        time: "Saturday, October 10 · 12:00-1:00 PM",
+        time: "Saturday, October 10 · 12:30-1:30 PM",
         duration: "~1 hour",
         room: "Room 153",
         description: "An introductory experience covering Python fundamentals such as syntax, variables, data types, control flow, and functions.",
     },
     "data-analytics-with-python": {
         title: "Data Analytics with Python",
-        time: "Saturday, October 10 · 1:00-3:00 PM",
-        duration: "~2 hours",
+        time: "Saturday, October 10 · 1:30-3:00 PM",
+        duration: "~1.5 hours",
         room: "Room 153",
         description: "Build a command-line Python application that helps people explore a public dataset related to aviation, weather, space, or another Into the Skies theme. Your project should make it easy to navigate, search, filter, compare, or visualize the data in a meaningful way. You may build a graphical interface, but judging will focus on the quality of the data presentation, usability, and functionality.",
     },
     "intro-to-neural-networks": {
         title: "Intro to Neural Networks",
-        time: "Saturday, October 10 · 3:00-5:00 PM",
-        duration: "~2 hours",
-        room: "Room 152",
-        description: "An introductory experience exploring how neural networks are structured and how they learn, covering topics like layers, activation functions, and basic training concepts.",
-    },
-    "intro-to-web-design": {
-        title: "Intro to Web Design for Vibecoding",
         time: "Saturday, October 10 · 4:00-5:00 PM",
         duration: "~1 hour",
-        room: "Room 153",
-        description: "An introductory experience covering the fundamentals of building websites, including layout, styling, and design principles for creating an effective web page.",
+        room: "Room 152",
+        description: "An introductory experience exploring how neural networks are structured and how they learn, covering topics like layers, activation functions, and basic training concepts.",
     },
     "intro-to-circuitry": {
         title: "Intro to Circuitry",
@@ -275,7 +268,6 @@ export const scheduleEventSlugs = {
     "intro to python and data analytics": "intro-to-python",
     "data analytics with python": "data-analytics-with-python",
     "intro to neural networks": "intro-to-neural-networks",
-    "intro to web design for vibecoding": "intro-to-web-design",
     "intro to circuitry": "intro-to-circuitry",
     "web design for awareness": "web-design-for-awareness",
     "implementing ai/ml for environmental action": "environmental-ai-ml",
@@ -301,7 +293,7 @@ export const scheduleEventSlugs = {
 export const workshopSignupUrl = "https://forms.gle/3i6YUDArvgykF7KaA";
 export const workshopEventSlugs = [
     "intro-to-javascript", "intro-to-python", "intro-to-neural-networks",
-    "intro-to-web-design", "intro-to-circuitry", "intro-to-generative-ai",
+    "intro-to-circuitry", "intro-to-generative-ai",
     "intro-to-ai-ethics", "intro-to-java", "intro-to-vibe-coding",
     "intro-to-html-css-react", "intro-to-advanced-algorithms",
     "intro-to-google-ai-studio", "hacking-with-github-copilot", "techtogether-meetup",

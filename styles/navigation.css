@@ -103,6 +103,27 @@
     gap: .5rem 1rem;
 }
 
+.registration-bar__countdown {
+    display: grid;
+    gap: .15rem;
+    text-align: center;
+    min-width: 6rem;
+    line-height: 1.15;
+}
+
+.registration-bar__countdown > span {
+    color: var(--white);
+    font: 600 1.15rem/1.15 "Space Grotesk", sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.registration-bar__countdown small {
+    color: var(--soft-white);
+    font-size: .6rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
 .registration-bar__merch {
     padding-block: .4rem;
     font-weight: 600;

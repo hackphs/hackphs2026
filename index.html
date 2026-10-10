@@ -19,15 +19,15 @@
     />
     <link rel="stylesheet" href="/styles/base.css?v=20260827" />
     <link rel="stylesheet" href="/styles/atmosphere.css?v=20260925" />
-    <link rel="stylesheet" href="/styles/navigation.css?v=20260926d" />
-    <link rel="stylesheet" href="/styles/hero.css?v=20261003" />
+    <link rel="stylesheet" href="/styles/navigation.css?v=20261010b" />
+    <link rel="stylesheet" href="/styles/hero.css?v=20261010b" />
     <link rel="stylesheet" href="/styles/content.css?v=20261009" />
     <link rel="stylesheet" href="/styles/prizes.css?v=20261009" />
-    <link rel="stylesheet" href="/styles/schedule.css?v=20261010b" />
-    <link rel="stylesheet" href="/styles/event.css?v=20261010r" />
+    <link rel="stylesheet" href="/styles/schedule.css?v=20261010j" />
+    <link rel="stylesheet" href="/styles/event.css?v=20261010s" />
     <link rel="stylesheet" href="/styles/participant-map.css?v=20261010b" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20261007c" />
-    <script type="module" src="/scripts/main.js?v=20261010r"></script>
+    <script type="module" src="/scripts/main.js?v=20261010s"></script>
 </head>
 <body>
 
@@ -116,9 +116,10 @@
                 <img src="/assets/branding/favicon-96x96.png" width="40" height="40" alt="" />
                 <span>hackPHS <small>2026</small></span>
             </a>
-            <p>Registration and waitlist closed.</p>
+            <p>Attending hackPHS? Register your team.</p>
             <div class="registration-bar__actions">
-                <a class="registration-bar__merch" href="#waiver">Bring your waiver</a>
+                <a class="registration-bar__link" href="https://forms.gle/AH2vMoughERpwGuX8" target="_blank" rel="noreferrer">Team Registration</a>
+                <div class="registration-bar__countdown" role="timer" aria-live="off" aria-label="Time remaining until hackPHS ends"><span data-countdown-compact>--:--:--</span><small data-countdown-caption>remaining</small></div>
             </div>
         </div>
     </aside>
@@ -143,9 +144,19 @@
                     <p class="hero-summary">hackPHS brings high school students from across New Jersey together for 24 hours of building, learning, meeting new people, and making something awesome.</p>
                     <p class="registration-note" data-registration-status>Registration and the waitlist are closed.</p>
                     <div class="hero-actions">
+                        <a
+                            class="primary-action"
+                            href="https://forms.gle/AH2vMoughERpwGuX8"
+                            aria-describedby="team-registration-note"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Team Registration
+                        </a>
                         <a class="route-link" href="https://2025.hackphs.tech/" target="_blank" rel="noreferrer">View 2025</a>
                         <a class="route-link" href="/donate.html">Donate</a>
                     </div>
+                    <p class="hero-merch" id="team-registration-note">For participants attending hackPHS.</p>
                 </div>
 
                 <div class="hero-space-scene reveal" aria-hidden="true">
@@ -197,6 +208,18 @@
                         </div>
                     </div>
                 </aside>
+                <section class="event-countdown reveal" aria-labelledby="event-session-title" data-event-countdown>
+                    <div>
+                        <span class="event-countdown__status" data-session-status>Live now</span>
+                        <h2 id="event-session-title" data-session-title>hackPHS is now in session!</h2>
+                        <p>Ends <time datetime="2026-10-11T12:00:00-04:00">October 11 at 12:00 PM Eastern</time></p>
+                    </div>
+                    <div class="event-countdown__clock" role="timer" aria-label="Time remaining until hackPHS ends" aria-live="off">
+                        <span><b data-countdown-hours>--</b><small>Hours</small></span>
+                        <span><b data-countdown-minutes>--</b><small>Minutes</small></span>
+                        <span><b data-countdown-seconds>--</b><small>Seconds</small></span>
+                    </div>
+                </section>
             </div>
 
             <a class="scroll-cue" href="#about">
@@ -322,9 +345,9 @@
 
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T11:00:00-04:00">11:00 AM</time></th>
-                                    <td rowspan="3" class="schedule-block schedule-block--hacking">
+                                    <td class="schedule-block schedule-block--hacking">
                                         <strong>Hacking</strong>
-                                        <small>11:00 AM–2:00 PM</small>
+                                        <small>11:00 AM–12:00 PM</small>
                                     </td>
                                     <td class="schedule-block schedule-block--workshop">
                                         <strong>Team building</strong>
@@ -334,29 +357,45 @@
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T12:00:00-04:00">12:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-javascript">
-                                        <strong>Intro to JavaScript + React.js for Vibecoding</strong>
-                                        <small>12:00–2:00 PM</small>
+                                    <td colspan="4" class="schedule-block schedule-block--safety" data-label="All participants">
+                                        <strong>Safety — Fire Drill</strong>
+                                        <small>12:00–12:30 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-python">
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T12:30:00-04:00">12:30 PM</time></th>
+                                    <td rowspan="3" class="schedule-block schedule-block--hacking">
+                                        <strong>Hacking</strong>
+                                        <small>12:30–2:00 PM</small>
+                                    </td>
+                                    <td rowspan="3" class="schedule-block schedule-block--workshop" data-event="intro-to-javascript">
+                                        <strong>Intro to JavaScript + React.js for Vibecoding</strong>
+                                        <small>12:30–2:00 PM</small>
+                                    </td>
+                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-python">
                                         <strong>Intro to Python and Data Analytics</strong>
-                                        <small>12:00–1:00 PM</small>
+                                        <small>12:30–1:30 PM</small>
                                     </td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="schedule-table__half-hour">
                                     <th scope="row"><time datetime="2026-10-10T13:00:00-04:00">1:00 PM</time></th>
-                                    <td rowspan="2" class="schedule-block schedule-block--advanced" data-event="data-analytics-with-python">
-                                        <strong>Data analytics with Python</strong>
-                                        <small>1:00–3:00 PM</small>
-                                    </td>
-                                    <td class="schedule-block schedule-block--guest" data-event="nathaniel-daw">
+                                    <td rowspan="2" class="schedule-block schedule-block--guest" data-event="nathaniel-daw">
                                         <strong>Nathaniel Daw</strong>
                                         <span class="schedule-block__speaker">Computational neuroscience · Princeton University</span>
                                         <small>1:00–2:00 PM</small>
+                                    </td>
+                                </tr>
+
+                                <tr class="schedule-table__half-hour">
+                                    <th scope="row"><time datetime="2026-10-10T13:30:00-04:00">1:30 PM</time></th>
+                                    <td rowspan="2" class="schedule-block schedule-block--advanced" data-event="data-analytics-with-python">
+                                        <strong>Data analytics with Python</strong>
+                                        <small>1:30–3:00 PM</small>
                                     </td>
                                 </tr>
 
@@ -373,10 +412,7 @@
                                 <tr>
                                     <th scope="row"><time datetime="2026-10-10T15:00:00-04:00">3:00 PM</time></th>
                                     <td class="schedule-block schedule-block--empty"></td>
-                                    <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-neural-networks">
-                                        <strong>Intro to neural networks</strong>
-                                        <small>3:00–5:00 PM</small>
-                                    </td>
+                                    <td class="schedule-block schedule-block--empty"></td>
                                     <td class="schedule-block schedule-block--empty"></td>
                                 </tr>
 
@@ -386,8 +422,9 @@
                                         <strong>Hacking</strong>
                                         <small>4:00–7:00 PM</small>
                                     </td>
-                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-web-design">
-                                        <strong>Intro to Web Design for Vibecoding</strong>
+                                    <td class="schedule-block schedule-block--empty"></td>
+                                    <td class="schedule-block schedule-block--workshop" data-event="intro-to-neural-networks">
+                                        <strong>Intro to neural networks</strong>
                                         <small>4:00–5:00 PM</small>
                                     </td>
                                     <td rowspan="2" class="schedule-block schedule-block--workshop" data-event="intro-to-circuitry">

@@ -265,6 +265,18 @@
 .schedule-simple__event[data-tone="evening"] { --block-tint: 156, 76, 139; }
 .schedule-simple__event[data-tone="meal"] { --block-tint: 167, 101, 15; }
 .schedule-simple__event[data-tone="milestone"] { --block-tint: 39, 128, 81; }
+.schedule-simple__event[data-tone="safety"] { --block-tint: 190, 38, 45; }
+
+.schedule-simple__event[data-tone="safety"] strong {
+    color: var(--ink);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.schedule-simple__event[data-tone="safety"] {
+    padding: 1.25rem 1rem;
+    text-align: center;
+}
+
 
 a.schedule-simple__event {
     color: inherit;
@@ -533,6 +545,17 @@ a.schedule-simple__event::after {
 }
 
 .schedule-block--hacking { --block-tint: 218, 92, 49; }
+.schedule-block--safety {
+    --block-tint: 190, 38, 45;
+    padding: 1.3rem 1.35rem;
+    text-align: center;
+    vertical-align: middle;
+}
+.schedule-block--safety::before { content: "All participants"; }
+.schedule-block--safety strong {
+    color: var(--ink);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
 .schedule-block--hacking::before { content: "Main event"; }
 .schedule-block--workshop { --block-tint: 35, 126, 156; }
 .schedule-block--workshop::before { content: "Workshop"; }

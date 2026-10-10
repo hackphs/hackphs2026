@@ -243,16 +243,17 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
     } finally { await page.close(); }
 });
 
-test("closed registration bar keeps the waiver reminder and clears the badge", async () => {
+test("team registration bar shows the countdown and clears the badge", async () => {
     const page = await pageForTest();
     try {
         await page.clock.install({ time: new Date("2026-09-26T04:00:00Z") });
         await page.goto(base);
         const bar = page.locator("[data-registration-bar]");
         await bar.locator("img").evaluate((image) => image.decode());
-        assert.equal(await bar.getByRole("link", { name: "Bring your waiver", includeHidden: true }).getAttribute("href"), "#waiver");
+        assert.equal(await bar.getByRole("link", { name: "Team Registration", includeHidden: true }).getAttribute("href"), "https://forms.gle/AH2vMoughERpwGuX8");
         assert.equal(await page.locator('a[href="https://forms.gle/xHiPQQyVb7PakdKs5"]').count(), 0);
-        assert.match(await bar.textContent(), /Registration and waitlist closed/);
+        assert.match(await bar.textContent(), /Attending hackPHS\? Register your team/);
+        assert.match(await bar.locator("[data-countdown-compact]").textContent(), /^\d+:\d{2}:\d{2}$/);
         assert.equal(await page.locator("[data-registration-link]").count(), 0);
         assert.equal(await bar.isVisible(), false);
         assert.equal(await bar.evaluate((element) => element.inert), true);
@@ -262,7 +263,7 @@ test("closed registration bar keeps the waiver reminder and clears the badge", a
             await bar.waitFor({ state: "visible" });
             assert.equal(await bar.evaluate((element) => element.inert), false);
             const badge = await page.locator("#mlh-trust-badge").boundingBox();
-            for (const element of await bar.locator("p, .registration-bar__link, .registration-bar__merch, img").all()) {
+            for (const element of await bar.locator("p, .registration-bar__link, .registration-bar__countdown, img").all()) {
                 const box = await element.boundingBox();
                 assert.ok(box.x + box.width <= badge.x, `badge overlap at ${width}`);
             }
@@ -578,7 +579,7 @@ test("schedule spans, room details, navigation and mobile layout", async () => {
         });
         assert.deepEqual(gridErrors, []);
         assert.equal(await page.locator(".schedule-table .schedule-block--empty .schedule-block__room").count(), 0);
-        const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty)");
+        const publicBlocks = page.locator(".schedule-table td.schedule-block:not(.schedule-block--empty):not(.schedule-block--safety)");
         assert.equal(await publicBlocks.count(), await publicBlocks.locator(".schedule-block__room").count());
         for (const [slug, time, name] of [
             ["nathaniel-daw", "1:00–2:00 PM", "Nathaniel Daw"],
