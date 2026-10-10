@@ -209,11 +209,11 @@ export const events = {
 };
 
 export const scheduleEventSlugs = {
-    "intro to javascript + react.js": "intro-to-javascript",
-    "intro to python": "intro-to-python",
+    "intro to javascript + react.js for vibecoding": "intro-to-javascript",
+    "intro to python and data analytics": "intro-to-python",
     "data analytics with python": "data-analytics-with-python",
     "intro to neural networks": "intro-to-neural-networks",
-    "intro to web design": "intro-to-web-design",
+    "intro to web design for vibecoding": "intro-to-web-design",
     "intro to circuitry": "intro-to-circuitry",
     "web design for awareness": "web-design-for-awareness",
     "implementing ai/ml for environmental action": "environmental-ai-ml",
@@ -229,7 +229,7 @@ export const scheduleEventSlugs = {
     "movie night": "movie-night",
     "intro to vibe coding": "intro-to-vibe-coding",
     "vibe-coded video game contest": "vibe-coded-space-game",
-    "intro to html and css": "intro-to-html-css-react",
+    "intro to html and css for vibecoding": "intro-to-html-css-react",
     "intro to advanced algorithms": "intro-to-advanced-algorithms",
     "intro to google ai studio": "intro-to-google-ai-studio",
     "hacking with github copilot": "hacking-with-github-copilot",
