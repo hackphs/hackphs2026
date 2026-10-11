@@ -314,6 +314,5 @@ export const scheduleRooms = {
     "ai panel discussion": "New Gym",
     sleep: "Boys: Rooms 161, 163, 165, 143\nGirls: Rooms 142, 144, 146",
     breakfast: "Cafeteria",
-    "projects due and judging begins": "Room 155",
     "closing ceremony": "New Gym",
 };

@@ -1,4 +1,4 @@
-import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261011prizes";
+import { events as eventDetails, scheduleEventSlugs, scheduleRooms } from "./events.js?v=20261011judging1015";
 
 const categoryNames = {
     safety: "Safety",

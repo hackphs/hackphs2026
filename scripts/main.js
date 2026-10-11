@@ -2,7 +2,7 @@ import { startJourney } from "./journey.js?v=20260925e";
 import { startNavigation } from "./navigation.js";
 import { startReveals } from "./reveals.js?v=20260827";
 import { startRocket } from "./rocket.js?v=20260925";
-import { startSchedule } from "./schedule.js?v=20261011prizes";
+import { startSchedule } from "./schedule.js?v=20261011judging1015";
 import { startScheduleNow } from "./schedule-now.js?v=20261010b";
 import { startEventDialog } from "./event-dialog.js?v=20261011prizes";
 import { startEventSignups } from "./event-signups.js?v=20261011prizes";
@@ -13,6 +13,7 @@ import { startRegistration } from "./registration.js?v=20261007";
 import { startEventCountdown } from "./event-countdown.js?v=20261010b";
 import { startNextEvent } from "./next-event.js?v=20261010f";
 import { startWinners } from "./winners.js?v=20261010v";
+import { startSubmissionCountdown } from "./submission-countdown.js?v=20261011";
 
 // each part of the page owns its own behavior
 startJourney();
@@ -30,3 +31,4 @@ startRegistration();
 startEventCountdown();
 startNextEvent();
 startWinners();
+startSubmissionCountdown();
