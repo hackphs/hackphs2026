@@ -383,7 +383,10 @@ function doPost(e) {
     else if (request.action === "submit") result = { entry: submit(judge, request.entry) };
     else if (request.action === "complete") {
       complete(judge, request.tableset, request.ranking);
-      result = snapshot(judge);
+      // Updated clients acknowledge the durable write before loading reports/assignments.
+      result = request.completionAck === true
+        ? { version: VERSION, completedTableset: request.tableset }
+        : snapshot(judge);
     }
     else throw new Error("Unknown action.");
     // The prior tableset UI uses the same request/response contract during rollout.
@@ -460,6 +463,14 @@ function enableDeferredJudgingReports() {
   const props = PropertiesService.getScriptProperties();
   props.setProperty("JUDGING_REPORTS_DIRTY", "true");
   props.setProperty("JUDGING_DEFER_REPORTS", "true");
+}
+function reduceJudgingReportFrequency() {
+  // Keep durable score writes immediate; only organizer summaries lag behind.
+  const handler = "flushJudgingReports";
+  const previous = ScriptApp.getProjectTriggers().filter((t) => t.getHandlerFunction() === handler);
+  ScriptApp.newTrigger(handler).timeBased().everyMinutes(5).create();
+  previous.forEach((trigger) => ScriptApp.deleteTrigger(trigger));
+  PropertiesService.getScriptProperties().setProperty("JUDGING_DEFER_REPORTS", "true");
 }
 function flushJudgingReports() {
   const props = PropertiesService.getScriptProperties();

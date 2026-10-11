@@ -122,6 +122,22 @@ function finish(h, judge = "Judge A") {
     return { set, ranking };
 }
 
+test("fast completion acknowledges durable ranking without a snapshot and safely retries", () => {
+    const h = backend(5);
+    const set = h.request("config").tablesets[0];
+    const ranking = set.projects.map((p) => p.id);
+    const payload = { tableset: set.id, ranking, completionAck: true };
+    assert.equal(h.rawRequest("complete", "Judge A", payload).ok, false);
+    for (const p of set.projects) assert.equal(h.rawRequest("submit", "Judge A", {
+        entry: { tableset: set.id, project: p.id, scores: rubric() }
+    }).ok, true);
+    h.context.snapshot = () => { throw new Error("Snapshot unavailable"); };
+    assert.deepEqual(plain(h.rawRequest("complete", "Judge A", payload)), { version: "tablesets-v2", completedTableset: set.id, ok: true });
+    assert.deepEqual(plain(h.rawRequest("complete", "Judge A", payload)), { version: "tablesets-v2", completedTableset: set.id, ok: true });
+    assert.deepEqual(JSON.parse(h.privateBook.tabs.Tablesets.data[1][3]), ranking);
+    assert.equal(h.rawRequest("submit", "Judge A", { entry: { tableset: set.id, project: ranking[0], scores: rubric() } }).ok, false);
+});
+
 test("score writes return before reports, busy requests do not write, and failed reports retry", () => {
     const h = backend(5);
     const set = h.request("config").tablesets[0];

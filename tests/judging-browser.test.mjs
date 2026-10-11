@@ -52,7 +52,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                     const set = sets.find((s) => s.id === req.tableset);
                     set.ranking = req.ranking;
                     set.complete = true;
-                    result = snapshot();
+                    result = req.completionAck ? { ok: true, version: "tablesets-v2", completedTableset: set.id } : snapshot();
                 } else if (req.action === "claim") {
                     if (sets.length === 1) sets.push({ id: "Set 2", complete: false, ranking: [], projects: [{ id: "new", name: "New Project", table: "6" }] });
                     result = snapshot();

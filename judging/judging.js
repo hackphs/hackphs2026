@@ -385,7 +385,7 @@ els.form.addEventListener("submit", async (event) => {
         entries[keyOf(set.id, project)] = result.entry;
         delete draft[keyOf(set.id, project)];
         saveDraft();
-        feedback("Score saved. Organizer reports refresh in about a minute. You can edit it until you finish the tableset.");
+        feedback("Score saved. Organizer reports update separately in the background. You can edit it until you finish the tableset.");
         els.sync.textContent = "Saved to judging sheet";
     } catch (error) {
         feedback(error.message + " Your draft remains on this device; retry saving.", true);
@@ -408,13 +408,22 @@ els.rankingForm.addEventListener("submit", async (event) => {
     els.rankingFeedback.textContent = "Finishing your tableset. Please keep this page open...";
     let completionError = "";
     try {
-        acceptSnapshot(await api("complete", { tableset: set.id, ranking }, judge, (message) => { els.rankingFeedback.textContent = message; }));
+        const result = await api("complete", { tableset: set.id, ranking, completionAck: true }, judge, (message) => { els.rankingFeedback.textContent = message; });
+        if (result.completedTableset === set.id) {
+            set.complete = true;
+            set.ranking = ranking;
+            assignmentMessage = "Tableset saved. You can request another tableset while availability updates.";
+        } else acceptSnapshot(result); // Compatible with the previous backend during rollout.
         renderApp();
         els.sync.textContent = "Tableset completed";
     } catch (error) { completionError = error.message + " You can retry the same ranking safely."; }
     finally {
         setBusy(false);
         if (completionError) els.rankingFeedback.textContent = completionError;
+        else {
+            lastRefreshStarted = 0;
+            void refresh();
+        }
     }
 });
 els.claim.addEventListener("click", async () => {
