@@ -16,7 +16,10 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
     const scores = [];
     let failSave = false;
     let failComplete = false;
+    let failAssignmentLoad = true;
     let configs = 0;
+    let releaseAssignments;
+    const assignmentsReady = new Promise((resolve) => { releaseAssignments = resolve; });
     let assignmentMessage = "";
     const snapshot = () => ({ ok: true, version: "tablesets-v2", judge: { name: "Judge A" }, tablesets: sets, scores, assignmentMessage });
     try {
@@ -27,7 +30,9 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                 const req = route.request().postDataJSON();
                 assert.equal(req.invitation, "Invitation");
                 let result;
-                if (req.action === "submit") {
+                if (req.action === "login") {
+                    result = { ok: true, version: "tablesets-v2", judge: { name: "Judge A" } };
+                } else if (req.action === "submit") {
                     if (failSave) result = { ok: false, error: "Temporary connection error" };
                     else {
                         const weights = { innovation: .25, functionality: .3, creativity: .25, theme: .1, technical: .1 };
@@ -46,7 +51,11 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                 } else if (req.action === "claim") {
                     if (sets.length === 1) sets.push({ id: "Set 2", complete: false, ranking: [], projects: [{ id: "new", name: "New Project", table: "6" }] });
                     result = snapshot();
-                } else { configs++; result = snapshot(); }
+                } else {
+                    configs++;
+                    await assignmentsReady;
+                    result = failAssignmentLoad ? { ok: false, error: "Temporary assignment delay" } : snapshot();
+                }
                 return route.fulfill({ contentType: "application/json", body: JSON.stringify(result), headers: { "Access-Control-Allow-Origin": "*" } });
             }
             if (url.hostname === "judging.test") {
@@ -62,6 +71,16 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.locator('[name="invitation"]').fill("Invitation");
         await page.getByRole("button", { name: "Start judging" }).click();
         await page.locator('[data-view="app"]').waitFor({ state: "visible" });
+        await page.getByText("You're signed in. Waiting for your assigned projects. Please keep this page open.", { exact: true }).waitFor();
+        assert.equal(await page.getByRole("button", { name: "Retry loading assignments" }).isVisible(), false);
+        assert.equal(await page.locator('[data-project]').count(), 0);
+        releaseAssignments();
+        await page.getByRole("button", { name: "Retry loading assignments" }).waitFor({ state: "visible" });
+        assert.equal(await page.locator('[data-view="signin"]').isVisible(), false);
+        assert.match(await page.locator('[data-tableset-status]').textContent(), /You're still signed in/);
+        failAssignmentLoad = false;
+        await page.getByRole("button", { name: "Retry loading assignments" }).click();
+        await page.locator('[data-project="p0"]').waitFor();
         assert.equal(await page.locator('[data-project]').count(), 5);
         const score = async (value = 8) => {
             for (const key of ["innovation", "functionality", "creativity", "theme", "technical"]) {

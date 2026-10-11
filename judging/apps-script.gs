@@ -10,6 +10,7 @@ const SOURCE_SPREADSHEET_ID = "1e7VEti7X3wOMY8BUuunV2pPakoqeuaP2rDj5lu060l0";
 const CRITERIA = { innovation: .25, functionality: .3, creativity: .25, theme: .1, technical: .1 };
 const POINTS = [15, 10, 5, 0, 0];
 const REVIEWS_PER_PROJECT = 3;
+let requestBooks = null;
 const PROGRESS_HEADERS = ["Judging reviews complete", "Judging reviewed by", "Judging in progress", "Judging reviews remaining", "Judging table check", "Reviews Remaining"];
 const TABS = {
   Tablesets: ["id", "projects", "judge", "ranking", "completedAt", "judgeId"],
@@ -24,15 +25,21 @@ function onOpen() {
     .addItem("Import Devpost CSV from Drive", "importDevpostCsv").addToUi();
 }
 function restrictedBook(property) {
+  if (requestBooks && requestBooks[property]) return requestBooks[property];
   const id = PropertiesService.getScriptProperties().getProperty(property);
   if (!id) throw new Error("An organizer must run setup first.");
   if (DriveApp.getFileById(id).getSharingAccess() !== DriveApp.Access.PRIVATE) {
     throw new Error("Judging paused: spreadsheets must have Restricted sharing. Contact an organizer.");
   }
-  return SpreadsheetApp.openById(id);
+  const book = SpreadsheetApp.openById(id);
+  if (requestBooks) requestBooks[property] = book;
+  return book;
 }
 function sourceBook() {
-  return SpreadsheetApp.openById(SOURCE_SPREADSHEET_ID);
+  if (requestBooks && requestBooks.source) return requestBooks.source;
+  const book = SpreadsheetApp.openById(SOURCE_SPREADSHEET_ID);
+  if (requestBooks) requestBooks.source = book;
+  return book;
 }
 function privateBook() { return restrictedBook("JUDGING_PRIVATE_SHEET_ID"); }
 function norm(value) { return String(value == null ? "" : value).trim().toLowerCase().replace(/\s+/g, " "); }
@@ -61,12 +68,14 @@ function writeTab(book, name, headers, data) {
     .setValues([headers, ...data].map((row) => row.map(literal)));
   sheet.setFrozenRows(1);
 }
-function readProjects(reportOnly = false) {
+function readProjects(reportOnly = false, readOnly = false) {
   const source = sourceBook();
   const sheet = source.getSheetByName("Expo");
   if (!sheet) throw new Error("Missing Expo tab.");
   const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(norm);
   let idColumn = headers.indexOf("judging id") + 1;
+  if (readOnly && (!idColumn || rows(source, "Expo").some((r) => text(r["project name"]) && !text(r["judging id"]))))
+    return withLock(() => readProjects(reportOnly));
   if (!idColumn) {
     idColumn = headers.length + 1;
     if (idColumn > sheet.getMaxColumns()) sheet.insertColumnAfter(sheet.getMaxColumns());
@@ -144,6 +153,16 @@ function currentJudge(book, judge) {
 function authenticate(request) {
   const invitation = PropertiesService.getScriptProperties().getProperty("JUDGE_INVITATION");
   if (!invitation || text(request.invitation) !== invitation) throw new Error("That password isn't right.");
+  // Unchanged rosters need no writes or global lock on every judge's refresh.
+  const book = privateBook();
+  const roster = rows(sourceBook(), "Judges").filter((r) => text(r.name)).map((r) =>
+    ({ name: text(r.name), id: text(r["judging judge id"]) }));
+  const signature = JSON.stringify([book.getId(), roster.map((r) => [r.id, r.name])]);
+  if (roster.every((r) => r.id) && PropertiesService.getScriptProperties().getProperty("JUDGING_ROSTER_SIGNATURE") === signature) {
+    const matches = roster.filter((r) => norm(request.judge) && norm(r.name) === norm(request.judge));
+    if (matches.length !== 1) throw new Error("Your name must match one unique Name in the Judges tab. Ask an organizer for help.");
+    return matches[0];
+  }
   return withLock(() => {
     const book = privateBook();
     const { roster, changed } = syncJudgeNames(book);
@@ -271,11 +290,15 @@ function chooseProjects(projects, all, judgeName) {
   return eligible.slice(0, 5);
 }
 function snapshot(judge) {
-  return withLock(() => {
   const book = privateBook();
-  judge = currentJudge(book, judge);
-  const projects = syncProjects(book);
+  const projects = readProjects(false, true);
   const all = sets(book);
+  const byId = new Map(projects.map((p) => [p.id, p]));
+  // Overlay live Expo details without writing every assignment during polling.
+  for (const set of all.filter((s) => text(s.judge))) set.projects = set.projects.map((p) => {
+    if (!byId.has(p.id)) throw new Error("An assigned Expo project was removed. Ask an organizer to restore it.");
+    return byId.get(p.id);
+  });
   const mine = all.filter((s) => norm(s.judge) === norm(judge.name));
   const ids = new Set(mine.map((s) => s.id));
   const coverage = reviewCoverage(projects, all);
@@ -291,7 +314,6 @@ function snapshot(judge) {
       .map((r) => ({ id: r.id, tableset: r.tableset, project: r.project,
         scores: Object.fromEntries(Object.keys(CRITERIA).map((key) => [key, Number(r[key])])),
         total: Number(r.total), notes: text(r.notes) })) };
-  });
 }
 // Stable IDs allow names/tables to change without moving a judge's saved scores.
 // Refresh assigned project details without changing membership or stable score IDs.
@@ -317,11 +339,17 @@ function syncProjects(book, projects = readProjects(), reportOnly = false) {
 }
 function doPost(e) {
   let result;
+  requestBooks = {};
   try {
     const request = JSON.parse(e.postData.contents);
     if (![VERSION, "tablesets-v1"].includes(request.version)) throw new Error("Judging has changed. Refresh this page before continuing.");
     const judge = authenticate(request);
-    if (request.action === "config") { claim(judge, true); result = snapshot(judge); }
+    if (request.action === "login") result = { version: VERSION, judge: { name: judge.name } };
+    else if (request.action === "config") {
+      // Already-preassigned judges only read. claim() still locks/rechecks new work.
+      if (!sets(privateBook()).some((s) => norm(s.judge) === norm(judge.name))) claim(judge, true);
+      result = snapshot(judge);
+    }
     else if (request.action === "claim") { claim(judge, false); result = snapshot(judge); }
     else if (request.action === "submit") result = { entry: submit(judge, request.entry) };
     else if (request.action === "complete") {
@@ -334,6 +362,7 @@ function doPost(e) {
     if (result.version) result.version = request.version;
     result.ok = true;
   } catch (error) { result = { ok: false, error: error.message }; }
+  finally { requestBooks = null; }
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
 }
 function validateScores(input) {

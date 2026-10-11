@@ -82,6 +82,7 @@ let judge = null;
 let tablesets = [];
 let entries = {};
 let assignmentMessage = "";
+let assignmentsLoaded = false;
 function judgingCompleted() {
     return assignmentMessage === "Every project has three completed reviews. Thank you!";
 }
@@ -118,7 +119,7 @@ async function api(action, payload = {}, identity = judge) {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({ version: VERSION, action, judge: identity.name, invitation: identity.invitation, ...payload }),
-        signal: AbortSignal.timeout(30000),
+        signal: AbortSignal.timeout(60000),
     });
     if (!response.ok) throw new Error("Could not reach judging. Please retry.");
     const data = await response.json();
@@ -128,6 +129,7 @@ async function api(action, payload = {}, identity = judge) {
     return data;
 }
 function acceptSnapshot(data) {
+    assignmentsLoaded = true;
     tablesets = data.tablesets;
     assignmentMessage = data.assignmentMessage || "";
     entries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
@@ -215,7 +217,7 @@ function renderQueue() {
             (saved ? "is-done" : "") + '" data-project="' + escapeHtml(p.id) + '">' +
             '<span class="queue__name">' + escapeHtml(p.name) + '<span class="queue__meta">Table ' + escapeHtml(p.table) +
             '</span></span><span class="queue__status">' + (unsaved ? "Draft" : saved ? saved.total.toFixed(1) : "To score") + '</span></button></li>';
-    }).join("") : '<li class="queue__empty">' + (judgingCompleted()
+    }).join("") : '<li class="queue__empty">' + (!assignmentsLoaded ? "Waiting for your assigned projects..." : judgingCompleted()
         ? "Judging is complete. No more projects need reviews."
         : "No active tableset. Request one below, or check with an organizer.") + '</li>';
 }
@@ -265,7 +267,8 @@ function renderRanking() {
 function renderApp() {
     const set = activeSet();
     els.form.hidden = !set;
-    els.claim.hidden = !!set || judgingCompleted();
+    els.claim.hidden = !!set || judgingCompleted() || (!assignmentsLoaded && busy);
+    els.claim.textContent = assignmentsLoaded ? "Get another tableset" : "Retry loading assignments";
     els.status.textContent = set ? "Score all " + set.projects.length + " projects. Their ranking is calculated automatically from saved rubric totals. " +
         (set.projects.length < 5 ? "Fewer than five eligible projects remain for you in this batch." : "") :
         assignmentStatus() || "You can request another random tableset of projects you have not reviewed.";
@@ -293,19 +296,31 @@ els.signinForm.addEventListener("submit", async (event) => {
     button.disabled = true;
     els.signinFeedback.textContent = "Checking your password and assigned name...";
     try {
-        const data = await api("config", {}, identity);
+        const data = await api("login", {}, identity);
         judge = { ...identity, name: data.judge.name };
-        acceptSnapshot(data);
+        assignmentsLoaded = false;
+        assignmentMessage = "You're signed in. Waiting for your assigned projects. Please keep this page open.";
         draft = readDraft(judge.name);
         els.signinView.hidden = true;
         els.appView.hidden = false;
         els.who.textContent = judge.name;
         els.who.hidden = els.signout.hidden = false;
         els.signinForm.reset();
-        els.sync.textContent = "Connected";
+        els.sync.textContent = "Signed in - loading assignments";
+        setBusy(true);
         renderApp();
-    } catch (error) { els.signinFeedback.textContent = error.message; }
-    finally { button.disabled = false; }
+        acceptSnapshot(await api("config"));
+        els.sync.textContent = "Connected";
+    } catch (error) {
+        if (judge) {
+            assignmentMessage = "You're still signed in. Assignments are taking longer than expected. Click Retry loading assignments. " + error.message;
+            els.sync.textContent = "Waiting for assignments";
+        } else els.signinFeedback.textContent = error.message;
+    } finally {
+        setBusy(false);
+        if (judge) renderApp();
+        button.disabled = false;
+    }
 });
 els.signout.addEventListener("click", () => {
     if (busy) return;
@@ -313,6 +328,7 @@ els.signout.addEventListener("click", () => {
     tablesets = [];
     entries = {};
     assignmentMessage = "";
+    assignmentsLoaded = false;
     draft = {};
     els.appView.hidden = true;
     els.signinView.hidden = false;
@@ -387,7 +403,7 @@ els.claim.addEventListener("click", async () => {
     if (busy || judgingCompleted()) return;
     setBusy(true);
     els.status.textContent = "Checking for an unassigned tableset...";
-    try { acceptSnapshot(await api("claim")); renderApp(); }
+    try { acceptSnapshot(await api(assignmentsLoaded ? "claim" : "config")); renderApp(); }
     catch (error) { els.status.textContent = error.message; }
     finally { setBusy(false); }
 });
@@ -403,7 +419,7 @@ async function refresh() {
         const data = await api("config");
         if (judge !== identity || busy || mutation !== revision) return;
         const nextEntries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
-        if (JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
+        if (assignmentsLoaded && JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
             assignmentMessage = data.assignmentMessage || "";
             els.claim.hidden = !!activeSet() || judgingCompleted();
             if (!activeSet()) {

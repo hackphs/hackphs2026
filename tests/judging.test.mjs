@@ -211,10 +211,28 @@ test("claims are locked, exclusive, idempotent, and limited to one unfinished se
     assert.notEqual(a.tablesets[0].id, b.tablesets[0].id);
     assert.equal(h.request("claim").tablesets.length, 1);
     assert.equal(h.request("config").tablesets[0].id, a.tablesets[0].id);
-    assert.ok(h.lockCount() >= 9);
+    assert.ok(h.lockCount() >= 3);
     finish(h);
     assert.equal(h.request("claim").tablesets.length, 2);
     assert.equal(h.request("claim").tablesets.length, 2);
+});
+
+test("preassigned sign-in and polling require no global write lock", () => {
+    const h = backend();
+    h.context.preassignFirstRound(false);
+    const before = h.lockCount();
+    const stored = plain(h.privateBook.tabs.Tablesets.data);
+    for (const name of ["Judge A", "Judge B", "Judge C"]) {
+        const login = h.request("login", name);
+        assert.equal(login.ok, true);
+        assert.equal(login.judge.name, name);
+        assert.equal(login.tablesets, undefined, "login authenticates before assignment loading");
+        for (let poll = 0; poll < 10; poll++) assert.equal(h.request("config", name).ok, true);
+    }
+    assert.equal(h.lockCount(), before, "read-only requests must not queue behind writes");
+    assert.deepEqual(plain(h.privateBook.tabs.Tablesets.data), stored);
+    assert.equal(h.request("login", "Unknown").ok, false);
+    assert.equal(h.request("login", "Judge A", { invitation: "wrong" }).ok, false);
 });
 
 test("judge cannot score or rank someone else's tableset; validate full rubric and membership", () => {
