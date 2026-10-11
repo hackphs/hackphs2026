@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261010vote";
+import { events } from "./events.js?v=20261011prizes";
 
 // 9 AM in Princeton/New York on October 10 is EDT (UTC-4), not winter EST.
 export const signupOpensAt = Date.parse("2026-10-10T09:00:00-04:00");
@@ -11,7 +11,9 @@ export function renderEventSignup(element, slug, now = Date.now()) {
     const heading = element.previousElementSibling;
     if (heading?.tagName === "DT") heading.textContent = event?.signupHeading || "Sign-up";
     element.replaceChildren();
-    if (!event?.signupUrl) {
+    if (event?.signupMessage) {
+        element.textContent = event.signupMessage;
+    } else if (!event?.signupUrl) {
         element.textContent = "Coming soon";
     } else if (!signupsAreOpen(now)) {
         element.textContent = "Opens Saturday at 9:00 AM ET";

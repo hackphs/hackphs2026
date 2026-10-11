@@ -200,11 +200,12 @@ export const events = {
         description: "Whether you are a beginner or grandmaster, enter the chess tournament for a chance to win a prize or simply have a good time.",
     },
     "movie-night": {
-        title: "Movie Night",
+        title: "Movie Night: WALL-E",
         time: "Sunday, October 11 · 1:00-3:00 AM",
         duration: "~2 hours",
         room: "Room 152",
-        description: "Join us for a fun and relaxing movie viewing. The movie selection is coming soon.",
+        description: "Join us for a screening of WALL-E in Room 152.",
+        signupMessage: "Go to Room 152",
     },
     "intro-to-vibe-coding": {
         title: "Intro to Vibe Coding",
@@ -226,13 +227,6 @@ export const events = {
         duration: "~1 hour",
         room: "Room 153",
         description: "An introductory experience covering the fundamentals of building web pages, including HTML structure and CSS styling.",
-    },
-    "intro-to-advanced-algorithms": {
-        title: "Intro to Advanced Algorithms",
-        time: "Sunday, October 11 · 7:00-8:00 AM",
-        duration: "~1 hour",
-        room: "Room 154",
-        description: "An introductory experience covering algorithmic analysis and problem-solving techniques used in competitive programming.",
     },
     "nathaniel-daw": {
         title: "Guest Talk: Nathaniel Daw",
@@ -277,10 +271,10 @@ export const scheduleEventSlugs = {
     "midnight snack": "midnight-snack",
     "chess tournament": "chess-tournament",
     "movie night": "movie-night",
+    "movie night: wall-e": "movie-night",
     "intro to vibe coding": "intro-to-vibe-coding",
     "vibe-coded video game contest": "vibe-coded-space-game",
     "intro to html and css for vibecoding": "intro-to-html-css-react",
-    "intro to advanced algorithms": "intro-to-advanced-algorithms",
     "intro to google ai studio": "intro-to-google-ai-studio",
     "hacking with github copilot": "hacking-with-github-copilot",
     "techtogether meetup": "techtogether-meetup",
@@ -291,7 +285,7 @@ export const workshopEventSlugs = [
     "intro-to-javascript", "intro-to-python", "intro-to-neural-networks",
     "intro-to-circuitry", "intro-to-generative-ai",
     "intro-to-ai-ethics", "intro-to-java", "intro-to-vibe-coding",
-    "intro-to-html-css-react", "intro-to-advanced-algorithms",
+    "intro-to-html-css-react",
     "intro-to-google-ai-studio", "hacking-with-github-copilot", "techtogether-meetup",
 ];
 
