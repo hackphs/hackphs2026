@@ -24,7 +24,8 @@ test("signup release is exactly 9 AM New York time on October 10", () => {
     assert.equal(Object.keys(competitiveSignupUrls).length, 6);
     for (const url of Object.values(competitiveSignupUrls)) assert.match(url, /^https:\/\/docs\.google\.com\/forms\/d\/(e\/)?[^/]+\/viewform$/);
     assert.equal(events["intro-to-swift-and-swiftui"], undefined);
-    for (const slug of ["intro-to-google-ai-studio", "hacking-with-github-copilot", "techtogether-meetup"]) assert.equal(events[slug].room, "Room 152");
+    assert.equal(events["intro-to-google-ai-studio"].room, "Room 152");
+    for (const slug of ["hacking-with-github-copilot", "techtogether-meetup"]) assert.equal(events[slug].room, "Room 154");
 });
 
 test("open workshop dialog updates at the release without reloading", async () => {

@@ -360,7 +360,7 @@ test("event popup accent matches the clicked category in both views and history"
             await page.goto(base);
             await page.locator(".schedule-block__room").first().waitFor({ state: "attached" });
             const view = width === 1440 ? ".schedule-table" : ".schedule-simple";
-            for (const [name, category] of [["Estimathon", "Activities"], ["Intro to Python", "Workshops"], ["Karaoke", "Late Night"]]) {
+            for (const [name, category] of [["Esthimathon Redo", "Activities"], ["Intro to Python", "Workshops"], ["Karaoke", "Late Night"]]) {
                 const link = page.locator(`${view} a`).filter({ hasText: name }).first();
                 const tint = await link.evaluate((element) => getComputedStyle(element.closest(".schedule-block, .schedule-simple__event")).getPropertyValue("--block-tint").trim());
                 const expected = `rgb(${tint.split(",").map((value) => value.trim()).join(", ")})`;
