@@ -157,6 +157,8 @@ export const events = {
     },
     "ai-ethics-panel": {
         title: "AI Panel Discussion",
+        signupLabel: 'Vote for "Best" Panelist',
+        signupHeading: "Voting",
         time: "Saturday, October 10 · Preparation 9:00-10:00 PM · Panel 10:00-11:00 PM",
         duration: "~2 hours",
         room: "Preparation: Room 153; discussion: New Gym",
@@ -299,7 +301,7 @@ export const competitiveSignupUrls = {
     "data-analytics-with-python": "https://docs.google.com/forms/d/e/1FAIpQLSfTfJR6Huz79AEWpnbHihXHtWfEFlzYnZ3dvv-zVGgXEueNEg/viewform",
     "web-design-for-awareness": "https://docs.google.com/forms/d/e/1FAIpQLSe3FjLtviG4B0E-ZAGNSt9_hBdh7X7s_WUfOHZypvNFjF5VNA/viewform",
     "environmental-ai-ml": "https://docs.google.com/forms/d/e/1FAIpQLSezOTq9TbIboQWL628ujDsL89sK9jCLBISDY4_x4kN1mgZpHg/viewform",
-    "ai-ethics-panel": "https://docs.google.com/forms/d/e/1FAIpQLSeP2ZFCxqNTHzLSllWeIqlAYe2BZfYSGbFUXMBnQHxXXgZh9A/viewform",
+    "ai-ethics-panel": "https://docs.google.com/forms/d/e/1FAIpQLScVx2ad9xYH_C93jcXc_pxUmKTGnMnnSvD74yPSVwo09fXdZA/viewform?usp=dialog",
     "vibe-coded-space-game": "https://docs.google.com/forms/d/e/1FAIpQLSf6-6uQQEhHVorTifInP_2Vy5lh7JAG0Phyw3h_-4weK2PV5Q/viewform",
 };
 

@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261010z";
+import { events } from "./events.js?v=20261010vote";
 
 // 9 AM in Princeton/New York on October 10 is EDT (UTC-4), not winter EST.
 export const signupOpensAt = Date.parse("2026-10-10T09:00:00-04:00");
@@ -8,6 +8,8 @@ export function renderEventSignup(element, slug, now = Date.now()) {
     if (!element) return;
     element.dataset.eventSlug = slug || "";
     const event = events[slug];
+    const heading = element.previousElementSibling;
+    if (heading?.tagName === "DT") heading.textContent = event?.signupHeading || "Sign-up";
     element.replaceChildren();
     if (!event?.signupUrl) {
         element.textContent = "Coming soon";
@@ -19,8 +21,8 @@ export function renderEventSignup(element, slug, now = Date.now()) {
         link.target = "_blank";
         link.rel = "noreferrer";
         link.className = "event-signup-link";
-        link.textContent = "Sign up →";
-        link.setAttribute("aria-label", `Sign up for ${event.title} (opens in a new tab)`);
+        link.textContent = `${event.signupLabel || "Sign up"} →`;
+        link.setAttribute("aria-label", `${event.signupLabel || "Sign up"} for ${event.title} (opens in a new tab)`);
         element.append(link);
     }
 }
