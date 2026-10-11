@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261010w";
+import { events } from "./events.js?v=20261010x";
 import { renderEventSignup } from "./event-signups.js?v=20261010v";
 import { renderEventRubric } from "./event-rubric.js?v=20261010v";
 

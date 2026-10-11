@@ -295,8 +295,7 @@ export const workshopEventSlugs = [
 
 // Public responder URLs read from the organizers' competition forms, not editor links.
 export const competitiveSignupUrls = {
-    // Verified respondent endpoint; Google currently reports this form as unpublished.
-    estimathon: "https://docs.google.com/forms/d/1oXAWkBYHWY4Qe28TcFDRzduvoOWWQdXZHVaad0hM5bA/viewform",
+    estimathon: "https://forms.gle/iAymDAY7uieyfLTD9",
     "data-analytics-with-python": "https://docs.google.com/forms/d/e/1FAIpQLSfTfJR6Huz79AEWpnbHihXHtWfEFlzYnZ3dvv-zVGgXEueNEg/viewform",
     "web-design-for-awareness": "https://docs.google.com/forms/d/e/1FAIpQLSe3FjLtviG4B0E-ZAGNSt9_hBdh7X7s_WUfOHZypvNFjF5VNA/viewform",
     "environmental-ai-ml": "https://docs.google.com/forms/d/e/1FAIpQLSezOTq9TbIboQWL628ujDsL89sK9jCLBISDY4_x4kN1mgZpHg/viewform",
