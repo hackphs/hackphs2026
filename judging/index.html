@@ -16,8 +16,8 @@
     />
     <link rel="stylesheet" href="/styles/base.css?v=20260827" />
     <link rel="stylesheet" href="/styles/donate.css?v=20260824g" />
-    <link rel="stylesheet" href="/judging/judging.css?v=20261011tablesets" />
-    <script src="/judging/judging.js?v=20261011deployed" defer></script>
+    <link rel="stylesheet" href="/judging/judging.css?v=20261011rankingtable" />
+    <script src="/judging/judging.js?v=20261011threereviews" defer></script>
 </head>
 <body class="donate-page">
     <div class="donate-sky" aria-hidden="true">
@@ -70,7 +70,7 @@
                 <p class="eyebrow">hackPHS 2026 / Judges</p>
                 <h1>Project judging</h1>
             </div>
-            <p class="round-intro">Each tableset contains up to five projects. Use the rubric for each project, then rank the set: 15 points for first, 10 for second, 5 for third, and 0 for fourth and fifth.</p>
+            <p class="round-intro">Each project receives three reviews from different judges. You get up to five randomly assigned projects you have not reviewed before. Saved rubric totals determine your set's ranking: 15, 10, 5, 0, and 0 points. Only equal totals need a tie decision.</p>
             <p class="notice" data-tableset-status aria-live="polite"></p>
             <button class="arrow-button" type="button" data-claim hidden>Get another tableset</button>
 
@@ -112,8 +112,8 @@
                 </form>
             </div>
             <section class="panel tableset-ranking" data-ranking hidden>
-                <h2>Rank your tableset</h2>
-                <p>Compare only the projects in this set. Submit once you have saved every rubric score.</p>
+                <h2>Your tableset ranking</h2>
+                <p>Highest saved score first. Review your ranking, then finish to award points.</p>
                 <form data-ranking-form>
                     <div class="ranking-fields" data-ranking-fields></div>
                     <button class="arrow-button" type="submit">Finish tableset</button>

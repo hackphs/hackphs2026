@@ -372,13 +372,65 @@ textarea {
 .tableset-ranking {
     margin-top: 2rem;
     padding: clamp(1rem, 4vw, 2rem);
+    border-top: 2px solid #284f70;
+    background: rgba(239, 248, 255, 0.42);
 }
 
 .ranking-fields {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-    gap: 1rem;
     margin: 1.5rem 0;
+}
+
+.tableset-ranking h2 { margin: 0 0 .5rem; }
+.tableset-ranking > p { margin: 0; color: var(--text-soft); line-height: 1.6; }
+.tableset-ranking .feedback { margin-top: .75rem; font-size: .85rem; }
+.ranking-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.ranking-table th, .ranking-table td { padding: 1rem .85rem; text-align: left; }
+.ranking-table thead th {
+    padding-top: .5rem;
+    padding-bottom: .65rem;
+    font-size: .7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text-soft);
+}
+.ranking-table th:first-child { width: 4rem; text-align: center; }
+.ranking-table th:nth-child(3) { width: 8rem; text-align: right; }
+.ranking-table th:nth-child(4) { width: 6rem; text-align: right; }
+.ranking-table tbody tr { border-top: 1px solid var(--line-soft); background: rgba(255, 255, 255, .2); }
+.ranking-table tbody tr:last-child { border-bottom: 1px solid var(--line-soft); }
+.ranking-table .ranking-first { background: rgba(255, 255, 255, .5); }
+.ranking-place {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.1rem;
+    border: 1px solid var(--line-soft);
+}
+.ranking-first .ranking-place { background: var(--gold); border-color: #a08034; }
+.ranking-project { display: block; font-size: 1rem; line-height: 1.45; overflow-wrap: anywhere; }
+.ranking-meta { display: block; margin-top: .25rem; font-size: .78rem; color: var(--text-soft); font-weight: 400; }
+.ranking-table .ranking-score, .ranking-table .ranking-points { text-align: right; font-variant-numeric: tabular-nums; }
+.ranking-score strong { font-size: 1.15rem; }
+.ranking-points span { display: inline-block; min-width: 2.6rem; padding: .35rem .5rem; text-align: center; font-weight: 800; }
+.points-earned { background: #284f70; color: #fff; }
+.points-zero { color: var(--text-faint); }
+.ranking-tie { min-width: 0; }
+.ranking-tie select { min-width: 0; max-width: 100%; }
+@media (max-width: 600px) {
+    .tableset-ranking { padding: 1rem .65rem; }
+    .ranking-table th, .ranking-table td { padding: .85rem .3rem; }
+    .ranking-table thead th { font-size: .6rem; letter-spacing: .03em; }
+    .ranking-table th:first-child { width: 2.75rem; }
+    .ranking-table th:nth-child(3) { width: 4.2rem; }
+    .ranking-table th:nth-child(4) { width: 3.2rem; }
+    .ranking-place { width: 1.65rem; height: 1.8rem; font-size: .9rem; }
+    .ranking-project { font-size: .85rem; }
+    .ranking-score strong { font-size: 1rem; }
+    .ranking-points span { min-width: 2rem; padding: .3rem; font-size: .85rem; }
+    .ranking-tie select { padding: .6rem .25rem; font-size: .8rem; }
 }
 
 .field select { width: 100%; font: inherit; }

@@ -1,6 +1,6 @@
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbw0ZaMsb6E1ew3aq128G1sfCnepMDAJbaemiFgy7sxy2rEefc5IELrx_2-X4o4UKz_Eng/exec";
 // The backend must return this version; old calibration/finals deployments fail closed.
-const VERSION = "tablesets-v1";
+const VERSION = "tablesets-v2";
 const STORAGE_KEY = "hackphs-judging-tablesets-v1";
 const MAX_TOTAL = 48;
 const BANDS = [[1, 4], [5, 8], [9, 12]];
@@ -81,6 +81,7 @@ const els = {
 let judge = null;
 let tablesets = [];
 let entries = {};
+let assignmentMessage = "";
 let busy = false;
 let mutation = 0;
 let refreshing = false;
@@ -120,6 +121,7 @@ async function api(action, payload = {}, identity = judge) {
 }
 function acceptSnapshot(data) {
     tablesets = data.tablesets;
+    assignmentMessage = data.assignmentMessage || "";
     entries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
 }
 function feedback(message, error = false) {
@@ -213,24 +215,52 @@ function renderRanking() {
     if (!set) return;
     const ready = set.projects.every((p) => currentEntry(p.id) && !draft[keyOf(set.id, p.id)]);
     els.rankingForm.querySelector("button").disabled = !ready || busy;
-    els.rankingFeedback.textContent = ready ? "Choose a different project for each place. Submission locks this tableset." :
-        "Save every rubric score, including any drafts, before submitting your ranking.";
+    if (!ready) {
+        els.rankingFields.replaceChildren();
+        delete els.rankingFields.dataset.signature;
+        els.rankingFeedback.textContent = "Save every rubric score, including any drafts. Your ranking will be calculated automatically.";
+        return;
+    }
+    const ranked = [...set.projects].sort((a, b) => currentEntry(b.id).total - currentEntry(a.id).total);
+    const signature = JSON.stringify([set.id, ranked.map((p) => [p.id, p.name, p.table, currentEntry(p.id).total])]);
+    const hasTies = new Set(ranked.map((p) => currentEntry(p.id).total)).size !== ranked.length;
+    // Keep tie choices across refreshes, but recalculate whenever saved scores change.
+    if (els.rankingFields.dataset.signature !== signature) {
+        els.rankingFields.innerHTML = '<table class="ranking-table" aria-label="Tableset ranking">' +
+            '<thead><tr><th scope="col">Place</th><th scope="col">Project</th>' +
+            '<th scope="col">Rubric score</th><th scope="col">Points</th></tr></thead><tbody>' + ranked.map((project, i) => {
+            const total = currentEntry(project.id).total;
+            const tied = ranked.filter((p) => currentEntry(p.id).total === total);
+            const projectCell = tied.length > 1 ?
+                '<label class="field ranking-tie"><span class="ranking-meta">Tied score: choose place ' + (i + 1) + '</span>' +
+                '<select name="place' + i + '" required><option value="">Order tied projects</option>' +
+                tied.map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + ' - Table ' + escapeHtml(p.table) + '</option>').join('') +
+                '</select></label>' :
+                '<strong class="ranking-project">' + escapeHtml(project.name) + '</strong>' +
+                '<span class="ranking-meta">Table ' + escapeHtml(project.table) + '</span>' +
+                '<input type="hidden" name="place' + i + '" value="' + escapeHtml(project.id) + '">';
+            return '<tr class="' + (i === 0 ? 'ranking-first' : '') + '"><th scope="row"><span class="ranking-place">' +
+                (i + 1) + '</span></th><td>' + projectCell + '</td><td class="ranking-score"><strong>' +
+                Number(total.toFixed(2)) + '</strong><span class="ranking-meta">/ 48</span></td>' +
+                '<td class="ranking-points"><span class="' + (POINTS[i] ? 'points-earned' : 'points-zero') + '">' +
+                POINTS[i] + '</span></td></tr>';
+        }).join('') + '</tbody></table>';
+        els.rankingFields.dataset.signature = signature;
+    }
+    els.rankingFields.querySelectorAll('select').forEach((el) => { el.disabled = busy; });
+    els.rankingFeedback.textContent = hasTies ?
+        "Choose the order of tied projects before finishing. Finishing locks your scores and ranking." :
+        "Finishing locks your scores and awards the points shown above.";
 }
 function renderApp() {
     const set = activeSet();
     els.form.hidden = !set;
     els.claim.hidden = !!set;
-    els.status.textContent = set ? "Score all " + set.projects.length + " projects, then rank them within this tableset. " +
-        (set.projects.length < 5 ? "This is the final, smaller tableset." : "") :
-        tablesets.length ? "Your tablesets are complete. You can request another unassigned tableset." :
-        "No tableset is available right now. Try again or ask an organizer.";
+    els.status.textContent = set ? "Score all " + set.projects.length + " projects. Their ranking is calculated automatically from saved rubric totals. " +
+        (set.projects.length < 5 ? "Fewer than five eligible projects remain for you in this batch." : "") :
+        assignmentMessage || "You can request another random tableset of projects you have not reviewed.";
     els.form.elements.project.innerHTML = '<option value="">Choose a project</option>' +
         (set?.projects || []).map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + " - Table " + escapeHtml(p.table) + "</option>").join("");
-    els.rankingFields.innerHTML = (set?.projects || []).map((_, i) =>
-        '<label class="field"><span class="field__label">Place ' + (i + 1) + " - " + POINTS[i] +
-        ' points</span><select name="place' + i + '" required><option value="">Choose a project</option>' +
-        set.projects.map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + "</option>").join("") +
-        "</select></label>").join("");
     renderQueue();
     renderRanking();
     if (set) loadProject(set.projects.find((p) => !currentEntry(p.id))?.id || set.projects[0].id);
@@ -272,6 +302,7 @@ els.signout.addEventListener("click", () => {
     judge = null;
     tablesets = [];
     entries = {};
+    assignmentMessage = "";
     draft = {};
     els.appView.hidden = true;
     els.signinView.hidden = false;
@@ -280,6 +311,7 @@ els.signout.addEventListener("click", () => {
     els.form.reset();
     els.queue.replaceChildren();
     els.rankingFields.replaceChildren();
+    delete els.rankingFields.dataset.signature;
 });
 els.form.addEventListener("input", (event) => {
     if (event.target.name === "project") return;
@@ -321,6 +353,7 @@ els.rankingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (busy) return;
     const set = activeSet();
+    if (!set || set.projects.some((p) => !currentEntry(p.id) || draft[keyOf(set.id, p.id)])) return;
     const data = new FormData(els.rankingForm);
     const ranking = set.projects.map((_, i) => String(data.get("place" + i) || ""));
     if (new Set(ranking).size !== ranking.length || ranking.some((id) => !set.projects.some((p) => p.id === id))) {
@@ -357,12 +390,13 @@ async function refresh() {
         if (judge !== identity || busy || mutation !== revision) return;
         const nextEntries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
         if (JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
+            assignmentMessage = data.assignmentMessage || "";
+            if (!activeSet()) els.status.textContent = assignmentMessage;
             els.sync.textContent = "Connected";
             return;
         }
         const selected = els.form.elements.project.value;
         const activeId = activeSet()?.id;
-        const ranking = [...els.rankingForm.querySelectorAll("select")].map((el) => el.value);
         acceptSnapshot(data);
         const liveIds = new Set(tablesets.filter((s) => !s.complete).flatMap((s) => s.projects.map((p) => keyOf(s.id, p.id))));
         for (const key of Object.keys(draft)) if (!liveIds.has(key)) delete draft[key];
@@ -370,7 +404,6 @@ async function refresh() {
         renderApp();
         if (activeId === activeSet()?.id) {
             if (selected) loadProject(selected);
-            els.rankingForm.querySelectorAll("select").forEach((el, i) => { el.value = ranking[i] || ""; });
         }
         els.sync.textContent = "Connected";
     } catch (error) {

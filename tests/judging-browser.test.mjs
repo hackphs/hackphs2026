@@ -11,11 +11,12 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    const sets = [{ id: "Set 1", complete: false, ranking: [], projects: Array.from({ length: 5 }, (_, i) => ({ id: "p" + i, name: "Project " + i, table: String(i + 1) })) }];
+    const names = ["AI-Driven Recycle Decision Maker", "Landslides Susceptibility Classifier", "Flame Finder", "Better Gator", "Carbon Calculator"];
+    const sets = [{ id: "Set 1", complete: false, ranking: [], projects: names.map((name, i) => ({ id: "p" + i, name, table: String(i + 1) })) }];
     const scores = [];
     let failSave = false;
     let configs = 0;
-    const snapshot = () => ({ ok: true, version: "tablesets-v1", judge: { name: "Judge A" }, tablesets: sets, scores });
+    const snapshot = () => ({ ok: true, version: "tablesets-v2", judge: { name: "Judge A" }, tablesets: sets, scores });
     try {
         await page.clock.install();
         await page.route("**/*", async (route) => {
@@ -27,7 +28,9 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                 if (req.action === "submit") {
                     if (failSave) result = { ok: false, error: "Temporary connection error" };
                     else {
-                        const entry = { ...req.entry, id: JSON.stringify([req.entry.tableset, req.entry.project]), total: 32 };
+                        const weights = { innovation: .25, functionality: .3, creativity: .25, theme: .1, technical: .1 };
+                        const total = Math.round(Object.entries(weights).reduce((sum, [key, weight]) => sum + weight * req.entry.scores[key] * 4, 0) * 100) / 100;
+                        const entry = { ...req.entry, id: JSON.stringify([req.entry.tableset, req.entry.project]), total };
                         const index = scores.findIndex((s) => s.id === entry.id);
                         if (index < 0) scores.push(entry); else scores[index] = entry;
                         result = { ok: true, entry };
@@ -56,9 +59,9 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.getByRole("button", { name: "Start judging" }).click();
         await page.locator('[data-view="app"]').waitFor({ state: "visible" });
         assert.equal(await page.locator('[data-project]').count(), 5);
-        const score = async () => {
+        const score = async (value = 8) => {
             for (const key of ["innovation", "functionality", "creativity", "theme", "technical"]) {
-                await page.locator('input[name="' + key + '"][value="8"]').check();
+                await page.locator('input[name="' + key + '"][value="' + value + '"]').check();
             }
         };
         await score();
@@ -87,19 +90,48 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
             await page.locator('[data-score-feedback]').filter({ hasText: "Score saved" }).waitFor();
         }
         assert.equal(scores.length, 5);
+        await page.setViewportSize({ width: 390, height: 844 });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+        assert.equal(await page.getByRole("table", { name: "Tableset ranking" }).count(), 1);
         for (let i = 0; i < 5; i++) await page.locator('[name="place' + i + '"]').selectOption("p0");
         await page.getByRole("button", { name: "Finish tableset" }).click();
         await page.locator('[data-ranking-feedback]').filter({ hasText: "exactly once" }).waitFor();
         for (let i = 0; i < 5; i++) await page.locator('[name="place' + i + '"]').selectOption("p" + i);
+        scores[0].notes = "Updated remotely";
+        await page.clock.fastForward(31000);
+        await page.waitForFunction(() => document.querySelector('[data-sync]').textContent === "Connected");
+        for (let i = 0; i < 5; i++) assert.equal(await page.locator('[name="place' + i + '"]').inputValue(), "p" + i);
+        // Distinct saved totals must fill every place without any manual selection.
+        for (const [id, value] of [["p4", 12], ["p0", 11], ["p1", 10], ["p2", 9]]) {
+            await page.locator('[data-project="' + id + '"]').click();
+            await score(value);
+            assert.equal(await page.getByRole("button", { name: "Finish tableset" }).isDisabled(), true);
+            await page.getByRole("button", { name: "Submit score" }).click();
+            await page.locator('[data-score-feedback]').filter({ hasText: "Score saved" }).waitFor();
+        }
+        const expected = ["p4", "p0", "p1", "p2", "p3"];
+        assert.equal(await page.locator('[data-ranking-fields] select').count(), 0);
+        for (let i = 0; i < 5; i++) assert.equal(await page.locator('[name="place' + i + '"]').inputValue(), expected[i]);
+        assert.deepEqual(await page.locator('.ranking-points').allTextContents(), ["15", "10", "5", "0", "0"]);
+        assert.equal(await page.locator('.ranking-table tbody tr').count(), 5);
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.locator('[data-ranking]').screenshot({ path: "/tmp/hackphs-ranking-desktop.png" });
         await page.setViewportSize({ width: 390, height: 844 });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
-        await page.screenshot({ path: "/tmp/hackphs-judging-tablesets-mobile.png", fullPage: true });
+        await page.locator('[data-ranking]').screenshot({ path: "/tmp/hackphs-ranking-mobile.png" });
+        await page.setViewportSize({ width: 320, height: 844 });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         page.on("dialog", (dialog) => dialog.accept());
         await page.getByRole("button", { name: "Finish tableset" }).click();
         await page.getByRole("button", { name: "Get another tableset" }).waitFor({ state: "visible" });
+        assert.deepEqual(sets[0].ranking, expected);
         await page.getByRole("button", { name: "Get another tableset" }).click();
         await page.locator('[data-project="new"]').waitFor();
         assert.equal(await page.locator('[data-project]').count(), 1);
+        await score(6);
+        await page.getByRole("button", { name: "Submit score" }).click();
+        await page.locator('[data-score-feedback]').filter({ hasText: "Score saved" }).waitFor();
+        assert.equal(await page.locator('[name="place0"]').inputValue(), "new");
         assert.deepEqual(errors, []);
         await page.getByRole("button", { name: "Sign out" }).click();
         await page.locator('[data-view="signin"]').waitFor({ state: "visible" });
