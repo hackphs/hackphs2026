@@ -114,7 +114,7 @@ export const events = {
         description: "Join guest workshop leader Aryahi Pimple for an introduction to generative AI.",
     },
     "estimathon": {
-        title: "Esthimathon Redo",
+        title: "Estimathon Redo",
         time: "Saturday, October 10 · 9:00-10:00 PM",
         duration: "~1 hour",
         room: "Room 152",
@@ -270,7 +270,7 @@ export const scheduleEventSlugs = {
     "intro to java": "intro-to-java",
     "preparation for ai ethics mock panel": "ai-ethics-panel",
     "ai panel discussion": "ai-ethics-panel",
-    "esthimathon redo": "estimathon",
+    "estimathon redo": "estimathon",
     karaoke: "karaoke",
     "midnight snack": "midnight-snack",
     "chess tournament": "chess-tournament",
@@ -295,7 +295,7 @@ export const workshopEventSlugs = [
 
 // Public responder URLs read from the organizers' competition forms, not editor links.
 export const competitiveSignupUrls = {
-    estimathon: "https://forms.gle/p5SyaZrFWAyZ7a63",
+    estimathon: "https://docs.google.com/forms/d/e/1FAIpQLSeR1ludcylq5beYo1SE-iKd1OfFHU6iVtPhHPj7aoBblPrjvQ/viewform?usp=dialog",
     "data-analytics-with-python": "https://docs.google.com/forms/d/e/1FAIpQLSfTfJR6Huz79AEWpnbHihXHtWfEFlzYnZ3dvv-zVGgXEueNEg/viewform",
     "web-design-for-awareness": "https://docs.google.com/forms/d/e/1FAIpQLSe3FjLtviG4B0E-ZAGNSt9_hBdh7X7s_WUfOHZypvNFjF5VNA/viewform",
     "environmental-ai-ml": "https://docs.google.com/forms/d/e/1FAIpQLSezOTq9TbIboQWL628ujDsL89sK9jCLBISDY4_x4kN1mgZpHg/viewform",

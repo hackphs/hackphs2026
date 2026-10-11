@@ -96,6 +96,17 @@
     font-variant-numeric: tabular-nums;
 }
 
+.registration-bar__next a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 241, 196, .5);
+    text-underline-offset: .2em;
+}
+
+.registration-bar__next a:hover {
+    text-decoration-color: currentColor;
+}
+
 .registration-bar__actions {
     display: flex;
     flex-wrap: wrap;
@@ -138,33 +149,6 @@
     text-decoration-color: currentColor;
 }
 
-.registration-bar__link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .8rem;
-    padding: .5rem 1rem;
-    color: var(--ink);
-    background: var(--ice);
-    border: 1px solid var(--ice);
-    font-weight: 700;
-    white-space: nowrap;
-    transition: background 160ms ease;
-}
-
-.registration-bar__link::after {
-    content: "\2197";
-    transition: transform 160ms ease;
-}
-
-.registration-bar__link:hover {
-    background: #d1efff;
-}
-
-.registration-bar__link:hover::after {
-    transform: translate(2px, -2px);
-}
-
 .registration-bar a:focus-visible {
     outline: 2px solid var(--ice);
     outline-offset: 4px;
@@ -190,20 +174,12 @@
         grid-column: 2;
         gap: .4rem .6rem;
     }
-    .registration-bar__link {
-        padding: .35rem .55rem;
-        gap: .5rem;
-        font-size: .7rem;
-    }
     .registration-bar__merch { font-size: .7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .registration-bar,
-    .registration-bar__merch,
-    .registration-bar__link,
-    .registration-bar__link::after { transition: none; }
-    .registration-bar__link:hover::after { transform: none; }
+    .registration-bar__merch { transition: none; }
 }
 
 /* the header stays light so the hero can do the talking */

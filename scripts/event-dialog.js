@@ -1,5 +1,5 @@
-import { events } from "./events.js?v=20261010y";
-import { renderEventSignup } from "./event-signups.js?v=20261010y";
+import { events } from "./events.js?v=20261010z";
+import { renderEventSignup } from "./event-signups.js?v=20261010z";
 import { renderEventRubric } from "./event-rubric.js?v=20261010v";
 
 const categoryLabels = {

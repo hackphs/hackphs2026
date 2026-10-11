@@ -78,8 +78,6 @@
     box-shadow: 0 0 12px rgba(169, 242, 208, .4);
 }
 
-#team-registration-note { color: var(--sun); }
-
 .event-countdown h2 {
     margin: 0 0 .4rem;
     color: var(--white);
@@ -232,41 +230,114 @@
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     gap: 1.2rem 1.8rem;
     margin-top: 2rem;
 }
 
-.hero-merch {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: .35rem 1rem;
-    margin: 1.2rem 0 0;
-    color: var(--soft-white);
-    font-size: .85rem;
-    line-height: 1.6;
+.live-schedule {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.75rem;
+    border: 1px solid rgba(173, 208, 248, .45);
+    background: rgba(13, 36, 67, .72);
+    color: var(--white);
 }
 
-.primary-action {
-    display: inline-flex;
-    align-items: center;
-    min-height: 4.1rem;
-    padding: 1rem 2.5rem 1rem 2rem;
-    color: var(--ink);
-    background: linear-gradient(135deg, #ffd36e, #ff9a68);
-    clip-path: polygon(0 0, calc(100% - 1.45rem) 0, 100% 50%, calc(100% - 1.45rem) 100%, 0 100%);
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: filter 180ms ease, transform 180ms ease;
+.live-schedule section {
+    min-width: 0;
+    padding: 1.1rem;
 }
 
-.primary-action:hover,
-.primary-action:focus-visible {
-    filter: brightness(1.08);
-    transform: translateY(-2px);
+.live-schedule section + section {
+    border-left: 1px solid rgba(173, 208, 248, .3);
+}
+
+.live-schedule h2 {
+    margin: 0;
+    color: #c4e1ff;
+    font: 600 1.15rem/1.3 "Space Grotesk", sans-serif;
+    letter-spacing: 0;
+}
+
+.live-schedule__caption {
+    margin: .25rem 0 .8rem;
+    color: #b7c9e0;
+    font-size: .75rem;
+}
+
+.live-schedule ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.live-schedule li + li {
+    border-top: 1px solid rgba(173, 208, 248, .18);
+}
+
+.live-schedule li a {
+    display: grid;
+    gap: .3rem;
+    padding: .75rem 0;
+    color: inherit;
+    overflow-wrap: anywhere;
+}
+
+.live-schedule li strong {
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.live-schedule li span,
+.live-schedule__empty {
+    color: #b7c9e0;
+    font-size: .72rem;
+    line-height: 1.5;
+}
+
+.live-schedule li a:hover strong {
+    text-decoration: underline;
+    text-underline-offset: .2em;
+}
+
+.live-schedule li .live-schedule__time {
+    color: #a9f2c2;
+}
+
+.live-schedule li a:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+.live-schedule__upcoming {
+    background: rgba(255, 209, 105, .06);
+    box-shadow: inset 0 3px 0 #edc66b;
+}
+
+.live-schedule__upcoming h2 {
+    color: #f4d37f;
+}
+
+.live-schedule__upcoming .live-schedule__caption {
+    color: #decea8;
+}
+
+.live-schedule__upcoming li + li {
+    border-top-color: rgba(244, 211, 127, .22);
+}
+
+@media (max-width: 600px) {
+    .live-schedule { grid-template-columns: 1fr; }
+    .live-schedule section + section {
+        border-left: 0;
+        border-top: 1px solid rgba(173, 208, 248, .3);
+    }
+}
+
+[id^="schedule-event-"] {
+    scroll-margin-top: 10rem;
 }
 
 .route-link {

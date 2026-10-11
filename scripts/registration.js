@@ -3,7 +3,7 @@ export function startRegistration() {
     const hero = document.querySelector(".hero-section");
     if (!bar || !hero) return;
 
-    // show the registration status and waiver reminder once the hero scrolls away
+    // show event updates once the hero scrolls away
     const observer = new IntersectionObserver(([entry]) => {
         const visible = entry.boundingClientRect.bottom <= 0;
         bar.classList.toggle("is-visible", visible);
