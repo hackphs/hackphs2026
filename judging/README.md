@@ -24,6 +24,8 @@ The source spreadsheet URL and ID are not in frontend JS/HTML. The local server 
 
 ## Judge flow and live edits
 
+- Heavy-load mode staggers background browser refreshes every 120-150 seconds and throttles repeated focus refreshes to at most one per 20 seconds. Saves and explicit assignment requests remain immediate. Only polling project metadata is cached for 15 seconds, with Expo-edit invalidation and uncached fallbacks for newly assigned projects or final completion checks. Authentication, scores, reservations, and write validation remain fresh and uncached.
+
 - Run `enableDeferredJudgingReports()` once, then deploy the updated backend and website. This installs an idempotent one-minute report worker and enables deferred reporting only after the trigger exists. Raw scores and assignments save before acknowledgment; Review Board, Judge Notes, Results, and Expo progress follow on the next background refresh, usually about a minute (longer under contention). Failed or busy refreshes retain a dirty marker for the next run. Until enabled, synchronous reporting remains the fallback. Do not delete the worker trigger while deferred reporting is enabled.
 - Judge writes retain the shared lock and three-review cap. Busy lock rejections are retried up to five times with increasing randomized delays and a visible waiting message. This is not a numbered FIFO queue. Network failures are not blindly retried as writes may already have committed; drafts are preserved and the UI says the save is unconfirmed. Locks are released only after pending spreadsheet writes are flushed.
 

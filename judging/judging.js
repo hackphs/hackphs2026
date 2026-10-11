@@ -94,6 +94,7 @@ function assignmentStatus() {
 let busy = false;
 let mutation = 0;
 let refreshing = false;
+let lastRefreshStarted = 0;
 let draft = {};
 // Persist drafts, not credentials or other judges' data. Each name has its own draft.
 function readDraft(name) {
@@ -433,6 +434,8 @@ window.addEventListener("beforeunload", (event) => {
 });
 async function refresh() {
     if (!judge || busy || refreshing || document.hidden) return;
+    if (Date.now() - lastRefreshStarted < 20000) return;
+    lastRefreshStarted = Date.now();
     refreshing = true;
     const identity = judge;
     const revision = mutation;
@@ -465,7 +468,8 @@ async function refresh() {
         if (judge === identity) els.sync.textContent = "Refresh failed: " + error.message;
     } finally { refreshing = false; }
 }
-window.setInterval(refresh, 30000);
+// Stagger clients and reserve request capacity for saves and new assignments.
+window.setInterval(refresh, 120000 + Math.floor(Math.random() * 30000));
 window.addEventListener("focus", refresh);
 window.addEventListener("online", refresh);
 renderCriteria();

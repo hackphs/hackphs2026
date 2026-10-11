@@ -37,7 +37,8 @@ function restrictedBook(property) {
 }
 function sourceBook() {
   if (requestBooks && requestBooks.source) return requestBooks.source;
-  const book = SpreadsheetApp.openById(SOURCE_SPREADSHEET_ID);
+  const existing = requestBooks && requestBooks.JUDGING_PRIVATE_SHEET_ID;
+  const book = existing && existing.getId() === SOURCE_SPREADSHEET_ID ? existing : SpreadsheetApp.openById(SOURCE_SPREADSHEET_ID);
   if (requestBooks) requestBooks.source = book;
   return book;
 }
@@ -81,7 +82,8 @@ function readProjects(reportOnly = false, readOnly = false) {
   if (!sheet) throw new Error("Missing Expo tab.");
   const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(norm);
   let idColumn = headers.indexOf("judging id") + 1;
-  if (readOnly && (!idColumn || rows(source, "Expo").some((r) => text(r["project name"]) && !text(r["judging id"]))))
+  const projectRows = rows(source, "Expo");
+  if (readOnly && (!idColumn || projectRows.some((r) => text(r["project name"]) && !text(r["judging id"]))))
     return withLock(() => readProjects(reportOnly));
   if (!idColumn) {
     idColumn = headers.length + 1;
@@ -90,7 +92,7 @@ function readProjects(reportOnly = false, readOnly = false) {
   }
   const seen = new Set();
   const ids = new Set();
-  const projects = rows(source, "Expo").filter((r) => text(r["project name"])).map((r) => {
+  const projects = projectRows.filter((r) => text(r["project name"])).map((r) => {
     const name = text(r["project name"]);
     const table = text(r["project table"] || r["table #"] || r.table);
     if (!table && !reportOnly) throw new Error("Missing table in Expo for " + name);
@@ -152,20 +154,22 @@ function syncJudgeNames(book) {
   return { roster, changed: true };
 }
 function currentJudge(book, judge) {
-  const { roster } = syncJudgeNames(book);
+  const roster = unchangedJudgeRoster(book) || syncJudgeNames(book).roster;
   const current = roster.find((r) => judge.id ? r.id === judge.id : norm(r.name) === norm(judge.name));
   if (!current) throw new Error("Your judge name has been removed. Contact an organizer.");
   return { name: current.name, id: current.id };
 }
-function authenticate(request) {
-  const invitation = PropertiesService.getScriptProperties().getProperty("JUDGE_INVITATION");
-  if (!invitation || text(request.invitation) !== invitation) throw new Error("That password isn't right.");
-  // Unchanged rosters need no writes or global lock on every judge's refresh.
-  const book = privateBook();
+function unchangedJudgeRoster(book) {
   const roster = rows(sourceBook(), "Judges").filter((r) => text(r.name)).map((r) =>
     ({ name: text(r.name), id: text(r["judging judge id"]) }));
   const signature = JSON.stringify([book.getId(), roster.map((r) => [r.id, r.name])]);
-  if (roster.every((r) => r.id) && PropertiesService.getScriptProperties().getProperty("JUDGING_ROSTER_SIGNATURE") === signature) {
+  return roster.every((r) => r.id) && PropertiesService.getScriptProperties().getProperty("JUDGING_ROSTER_SIGNATURE") === signature ? roster : null;
+}
+function authenticate(request) {
+  const invitation = PropertiesService.getScriptProperties().getProperty("JUDGE_INVITATION");
+  if (!invitation || text(request.invitation) !== invitation) throw new Error("That password isn't right.");
+  const roster = unchangedJudgeRoster(privateBook());
+  if (roster) {
     const matches = roster.filter((r) => norm(request.judge) && norm(r.name) === norm(request.judge));
     if (matches.length !== 1) throw new Error("Your name must match one unique Name in the Judges tab. Ask an organizer for help.");
     return matches[0];
@@ -193,7 +197,7 @@ function claim(judge, initial) {
   return withLock(() => {
     const book = privateBook();
     judge = currentJudge(book, judge);
-    const projects = syncProjects(book);
+    const projects = readProjects();
     const all = sets(book);
     const mine = all.filter((s) => norm(s.judge) === norm(judge.name));
     if (mine.some((s) => !s.ranking.length) || (initial && mine.length)) return;
@@ -296,10 +300,26 @@ function chooseProjects(projects, all, judgeName) {
   eligible.sort((a, b) => coverage.get(a.id).assigned.length - coverage.get(b.id).assigned.length);
   return eligible.slice(0, 5);
 }
-function snapshot(judge) {
-  const book = privateBook();
+function pollingProjects() {
+  // Cache only display metadata. Allocation and all writes still use fresh Expo rows.
+  const key = "poll-projects-v1:" + SOURCE_SPREADSHEET_ID;
+  let cache;
+  try {
+    cache = CacheService.getScriptCache();
+    const saved = cache.get(key);
+    if (saved) return JSON.parse(saved);
+  } catch (_) { /* Cache failures must not interrupt judging. */ }
   const projects = readProjects(false, true);
-  const all = sets(book);
+  try { if (cache) cache.put(key, JSON.stringify(projects), 15); } catch (_) {}
+  return projects;
+}
+function snapshot(judge, all) {
+  const book = privateBook();
+  let projects = pollingProjects();
+  all = all || sets(book);
+  const cachedIds = new Set(projects.map((p) => p.id));
+  if (all.some((s) => text(s.judge) && s.projects.some((p) => !cachedIds.has(p.id))) ||
+      all.every((s) => !text(s.judge) || s.ranking.length)) projects = readProjects(false, true);
   const byId = new Map(projects.map((p) => [p.id, p]));
   // Overlay live Expo details without writing every assignment during polling.
   for (const set of all.filter((s) => text(s.judge))) set.projects = set.projects.map((p) => {
@@ -310,7 +330,7 @@ function snapshot(judge) {
   const ids = new Set(mine.map((s) => s.id));
   const coverage = reviewCoverage(projects, all);
   const finished = [...coverage.values()].every((r) => r.complete.length === REVIEWS_PER_PROJECT);
-  const eligible = chooseProjects(projects, all, judge.name).length;
+  const eligible = [...coverage.values()].some((r) => r.assigned.length < REVIEWS_PER_PROJECT && !r.assigned.some((a) => norm(a.judge) === norm(judge.name)));
   // Explicit allowlist: no other judges, overall results, or top-five markers leave the server.
   return { version: VERSION, judge: { name: judge.name }, assignmentMessage: finished ? "Every project has three completed reviews. Thank you!" :
     eligible ? "You can request another random tableset of projects you have not reviewed." :
@@ -355,8 +375,9 @@ function doPost(e) {
     if (request.action === "login") result = { version: VERSION, judge: { name: judge.name } };
     else if (request.action === "config") {
       // Already-preassigned judges only read. claim() still locks/rechecks new work.
-      if (!sets(privateBook()).some((s) => norm(s.judge) === norm(judge.name))) claim(judge, true);
-      result = snapshot(judge);
+      const all = sets(privateBook());
+      if (all.some((s) => norm(s.judge) === norm(judge.name))) result = snapshot(judge, all);
+      else { claim(judge, true); result = snapshot(judge); }
     }
     else if (request.action === "claim") { claim(judge, false); result = snapshot(judge); }
     else if (request.action === "submit") result = { entry: submit(judge, request.entry) };
@@ -665,6 +686,7 @@ function projectSignature(projects) {
   return Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, JSON.stringify(projects)));
 }
 function refreshChangedExpo() {
+  try { CacheService.getScriptCache().remove("poll-projects-v1:" + SOURCE_SPREADSHEET_ID); } catch (_) {}
   withLock(() => {
     const book = privateBook();
     const projects = readProjects(true);

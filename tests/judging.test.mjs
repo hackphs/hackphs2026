@@ -152,6 +152,38 @@ test("score writes return before reports, busy requests do not write, and failed
     assert.equal(h.privateBook.tabs.Scores.data.length, 2, "same project save updates rather than duplicates");
 });
 
+test("project display cache expires safely, invalidates on Expo edits, and never authorizes allocation", () => {
+    const h = backend(5);
+    h.context.preassignFirstRound();
+    const cache = new Map();
+    h.context.CacheService = { getScriptCache: () => ({
+        get: (key) => cache.get(key),
+        put: (key, value, ttl) => { assert.equal(ttl, 15); cache.set(key, value); },
+        remove: (key) => cache.delete(key),
+    }) };
+    assert.equal(h.rawRequest("config").ok, true);
+    assert.equal(cache.size, 1);
+    h.sourceBook.tabs.Expo.data[1][1] = "Live rename";
+    h.context.refreshChangedExpo();
+    assert.equal(cache.size, 0);
+    assert.equal(h.rawRequest("config").ok, true);
+    assert.ok(h.context.pollingProjects().some((p) => p.name === "Live rename"));
+    h.setSharing("PUBLIC");
+    assert.equal(h.rawRequest("config").ok, false, "cached projects do not bypass private sharing checks");
+    h.setSharing("PRIVATE");
+    finish(h, "Judge A");
+    finish(h, "Judge B");
+    h.sourceBook.tabs.Expo.data.push([6, "New during judging", "", ""]);
+    finish(h, "Judge C");
+    const after = h.rawRequest("config", "Judge C");
+    assert.doesNotMatch(after.assignmentMessage, /Every project has three/);
+    const next = h.rawRequest("claim", "Judge C");
+    assert.equal(next.ok, true, next.error);
+    assert.ok(next.tablesets.some((s) => s.projects.some((p) => p.name === "New during judging")));
+    h.context.CacheService = { getScriptCache() { throw new Error("Cache unavailable"); } };
+    assert.equal(h.rawRequest("config").ok, true);
+});
+
 test("preassign first round reserves five projects per judge and is safe to rerun", () => {
     const h = backend(15);
     h.context.preassignFirstRound();
@@ -666,7 +698,7 @@ test("frontend never embeds source ID or publishes standings; rubric language re
     const html = readFileSync(new URL("../judging/index.html", import.meta.url), "utf8");
     assert.doesNotMatch(js + html, /1e7VEti7X3wOMY8BUuunV2pPakoqeuaP2rDj5lu060l0|docs\.google\.com\/spreadsheets|top five|top 5/i);
     assert.match(js, /Account for how much of the work was done by AI/);
-    assert.match(js, /setInterval\(refresh, 30000\)/);
+    assert.match(js, /setInterval\(refresh, 120000 \+ Math.floor\(Math.random\(\) \* 30000\)\)/);
     assert.match(html, /name="invitation"/);
     assert.doesNotMatch(html, /Calibration|Finalists|Exec panel/);
 });

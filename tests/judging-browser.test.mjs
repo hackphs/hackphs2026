@@ -97,7 +97,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         const prior = configs;
         sets[0].projects[0].name = "Renamed Project";
         sets[0].projects[0].table = "99";
-        await page.clock.fastForward(31000);
+        await page.clock.fastForward(151000);
         await page.getByRole("option", { name: "Renamed Project - Table 99", exact: true }).waitFor({ state: "attached" });
         assert.ok(configs > prior);
         assert.equal(await page.locator('[name="notes"]').inputValue(), "Keep my draft");
@@ -130,7 +130,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.locator('[data-ranking-feedback]').filter({ hasText: "exactly once" }).waitFor();
         for (let i = 0; i < 5; i++) await page.locator('[name="place' + i + '"]').selectOption("p" + i);
         scores[0].notes = "Updated remotely";
-        await page.clock.fastForward(31000);
+        await page.clock.fastForward(151000);
         await page.waitForFunction(() => document.querySelector('[data-sync]').textContent === "Connected");
         for (let i = 0; i < 5; i++) assert.equal(await page.locator('[name="place' + i + '"]').inputValue(), "p" + i);
         // Distinct saved totals must fill every place without any manual selection.
@@ -180,7 +180,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.getByRole("button", { name: "Finish tableset" }).click();
         await page.getByRole("button", { name: "Get another tableset" }).waitFor({ state: "visible" });
         assignmentMessage = "Every project has three completed reviews. Thank you!";
-        await page.clock.runFor(31000);
+        await page.clock.runFor(151000);
         await page.getByText("Every project has 3 completed reviews. Thank you so much for being at HackPHS this year, Judge A, and thank you so much for your time.", { exact: true }).waitFor();
         assert.equal(await page.getByRole("button", { name: "Get another tableset" }).isVisible(), false);
         assert.doesNotMatch(await page.locator('[data-queue]').textContent(), /Request one/);
