@@ -1,4 +1,4 @@
-export const SUBMISSION_DEADLINE = Date.parse("2026-10-11T10:30:00-04:00");
+export const SUBMISSION_DEADLINE = Date.parse("2026-10-11T10:45:00-04:00");
 
 export function submissionTimeLeft(now = Date.now()) {
     const minutes = Math.ceil((SUBMISSION_DEADLINE - now) / 60000);

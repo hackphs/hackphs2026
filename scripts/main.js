@@ -13,7 +13,7 @@ import { startRegistration } from "./registration.js?v=20261007";
 import { startEventCountdown } from "./event-countdown.js?v=20261010b";
 import { startNextEvent } from "./next-event.js?v=20261010f";
 import { startWinners } from "./winners.js?v=20261010v";
-import { startSubmissionCountdown } from "./submission-countdown.js?v=20261011-1030";
+import { startSubmissionCountdown } from "./submission-countdown.js?v=20261011-1045";
 
 // each part of the page owns its own behavior
 startJourney();
