@@ -119,6 +119,7 @@ export function startNextEvent() {
 import { getScheduleEventEnd } from "./schedule-now.js?v=20261010b";
 
 export function getLiveEvents(events, now) {
+    events = events.filter((event) => !event.hacking);
     return {
         current: events.filter((event) => event.start <= now && now < event.end),
         upcoming: events.filter((event) => now < event.start && event.start <= now + 3600000),
