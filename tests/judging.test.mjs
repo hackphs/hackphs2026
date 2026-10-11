@@ -502,6 +502,40 @@ test("every project receives exactly three distinct reviews across random batche
     assert.match(h.request("claim").assignmentMessage, /three completed/);
 });
 
+test("84 projects and 19 judges finish with exactly 252 reviews and no fourth assignments", () => {
+    const h = backend(84);
+    const judges = Array.from({ length: 19 }, (_, i) => "Event Judge " + (i + 1));
+    h.sourceBook.tabs.Judges.data = [["Name"], ...judges.map((name) => [name])];
+    h.context.preassignFirstRound(false);
+    let finished = 0;
+    for (let round = 0; round < 20; round++) {
+        let worked = false;
+        for (const judge of judges) {
+            const response = h.request("claim", judge);
+            assert.equal(response.ok, true, response.error);
+            if (!response.tablesets.some((set) => !set.complete)) continue;
+            finished += finish(h, judge).set.projects.length;
+            worked = true;
+        }
+        if (!worked) break;
+    }
+    assert.equal(finished, 252);
+    for (const row of h.context.reviewCoverage(h.context.readProjects(), h.context.sets(h.privateBook)).values()) {
+        assert.equal(row.assigned.length, 3);
+        assert.equal(row.complete.length, 3);
+        assert.equal(new Set(row.complete.map((review) => review.judge)).size, 3);
+    }
+    const before = plain(h.privateBook.tabs.Tablesets.data);
+    for (const judge of judges) {
+        const response = h.request("claim", judge);
+        assert.equal(response.ok, true, response.error);
+        assert.match(response.assignmentMessage, /Every project has three completed reviews/);
+        assert.ok(response.tablesets.every((set) => set.complete));
+    }
+    assert.deepEqual(plain(h.privateBook.tabs.Tablesets.data), before);
+    assert.equal(h.privateBook.tabs.Scores.data.length - 1, 252);
+});
+
 test("reservations count toward the three-review cap before any judge finishes", () => {
     const h = backend(5);
     h.sourceBook.tabs.Judges.appendRow(["Judge D"]);

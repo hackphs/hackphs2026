@@ -15,6 +15,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
     const sets = [{ id: "Set 1", complete: false, ranking: [], projects: names.map((name, i) => ({ id: "p" + i, name, table: String(i + 1) })) }];
     const scores = [];
     let failSave = false;
+    let failComplete = false;
     let configs = 0;
     let assignmentMessage = "";
     const snapshot = () => ({ ok: true, version: "tablesets-v2", judge: { name: "Judge A" }, tablesets: sets, scores, assignmentMessage });
@@ -37,6 +38,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                         result = { ok: true, entry };
                     }
                 } else if (req.action === "complete") {
+                    if (failComplete) return route.fulfill({ contentType: "application/json", body: JSON.stringify({ ok: false, error: "Temporary completion error" }), headers: { "Access-Control-Allow-Origin": "*" } });
                     const set = sets.find((s) => s.id === req.tableset);
                     set.ranking = req.ranking;
                     set.complete = true;
@@ -124,6 +126,13 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.setViewportSize({ width: 320, height: 844 });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         page.on("dialog", (dialog) => dialog.accept());
+        failComplete = true;
+        await page.getByRole("button", { name: "Finish tableset" }).click();
+        await page.getByRole("button", { name: "Finish tableset" }).waitFor({ state: "visible" });
+        await page.waitForFunction(() => !document.querySelector('[data-ranking-form] button').disabled);
+        assert.match(await page.locator('[data-ranking-feedback]').textContent(), /Temporary completion error.*retry/);
+        assert.equal(sets[0].complete, false);
+        failComplete = false;
         await page.getByRole("button", { name: "Finish tableset" }).click();
         await page.getByRole("button", { name: "Get another tableset" }).waitFor({ state: "visible" });
         assert.deepEqual(sets[0].ranking, expected);
@@ -140,6 +149,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.clock.runFor(31000);
         await page.getByText("Every project has 3 completed reviews. Thank you so much for being at HackPHS this year, Judge A, and thank you so much for your time.", { exact: true }).waitFor();
         assert.equal(await page.getByRole("button", { name: "Get another tableset" }).isVisible(), false);
+        assert.doesNotMatch(await page.locator('[data-queue]').textContent(), /Request one/);
         assert.deepEqual(errors, []);
         await page.getByRole("button", { name: "Sign out" }).click();
         await page.locator('[data-view="signin"]').waitFor({ state: "visible" });

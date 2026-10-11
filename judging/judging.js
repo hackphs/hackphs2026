@@ -215,7 +215,9 @@ function renderQueue() {
             (saved ? "is-done" : "") + '" data-project="' + escapeHtml(p.id) + '">' +
             '<span class="queue__name">' + escapeHtml(p.name) + '<span class="queue__meta">Table ' + escapeHtml(p.table) +
             '</span></span><span class="queue__status">' + (unsaved ? "Draft" : saved ? saved.total.toFixed(1) : "To score") + '</span></button></li>';
-    }).join("") : '<li class="queue__empty">No active tableset. Request one below, or check with an organizer.</li>';
+    }).join("") : '<li class="queue__empty">' + (judgingCompleted()
+        ? "Judging is complete. No more projects need reviews."
+        : "No active tableset. Request one below, or check with an organizer.") + '</li>';
 }
 function renderRanking() {
     const set = activeSet();
@@ -370,12 +372,16 @@ els.rankingForm.addEventListener("submit", async (event) => {
     }
     if (!window.confirm("Submit and lock this tableset ranking? Scores and order cannot be edited afterward.")) return;
     setBusy(true);
+    let completionError = "";
     try {
         acceptSnapshot(await api("complete", { tableset: set.id, ranking }));
         renderApp();
         els.sync.textContent = "Tableset completed";
-    } catch (error) { els.rankingFeedback.textContent = error.message + " You can retry the same ranking safely."; }
-    finally { setBusy(false); }
+    } catch (error) { completionError = error.message + " You can retry the same ranking safely."; }
+    finally {
+        setBusy(false);
+        if (completionError) els.rankingFeedback.textContent = completionError;
+    }
 });
 els.claim.addEventListener("click", async () => {
     if (busy || judgingCompleted()) return;
@@ -400,7 +406,10 @@ async function refresh() {
         if (JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
             assignmentMessage = data.assignmentMessage || "";
             els.claim.hidden = !!activeSet() || judgingCompleted();
-            if (!activeSet()) els.status.textContent = assignmentStatus();
+            if (!activeSet()) {
+                els.status.textContent = assignmentStatus();
+                renderQueue();
+            }
             els.sync.textContent = "Connected";
             return;
         }
