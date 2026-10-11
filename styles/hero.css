@@ -227,12 +227,21 @@
     line-height: 1.8;
 }
 
-.hero-actions {
+.hero-registration {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 1.2rem 1.8rem;
-    margin-top: 2rem;
+    align-items: baseline;
+    gap: .4rem 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.hero-registration .registration-note {
+    margin: 0;
+}
+
+.hero-registration .route-link {
+    padding: 0;
+    font-size: .9rem;
 }
 
 .live-schedule {
