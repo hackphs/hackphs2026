@@ -48,8 +48,15 @@ function text(value) { return String(value == null ? "" : value).trim(); }
 function literal(value) { return typeof value === "string" && /^[=+@-]/.test(value) ? "'" + value : value; }
 function withLock(fn) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
-  try { return fn(); } finally { lock.releaseLock(); }
+  if (requestBooks && requestBooks.retryBusy) {
+    if (!lock.tryLock(1000)) {
+      const error = new Error("Another judging update is saving. Please wait while we retry.");
+      error.retryable = true;
+      throw error;
+    }
+  } else lock.waitLock(20000);
+  try { return fn(); }
+  finally { try { SpreadsheetApp.flush(); } finally { lock.releaseLock(); } }
 }
 function rows(book, name) {
   const sheet = book.getSheetByName(name);
@@ -199,7 +206,7 @@ function claim(judge, initial) {
     const sheet = book.getSheetByName("Tablesets");
     if (next) sheet.getRange(next._row, 1, 1, row.length).setValues([row]);
     else sheet.appendRow(row);
-    updateReports(book, projects);
+    requestReportRefresh(book, projects);
   });
 }
 function preassignFirstRound(showAlert = true) {
@@ -342,6 +349,7 @@ function doPost(e) {
   requestBooks = {};
   try {
     const request = JSON.parse(e.postData.contents);
+    requestBooks.retryBusy = request.retryBusy === true;
     if (![VERSION, "tablesets-v1"].includes(request.version)) throw new Error("Judging has changed. Refresh this page before continuing.");
     const judge = authenticate(request);
     if (request.action === "login") result = { version: VERSION, judge: { name: judge.name } };
@@ -354,14 +362,13 @@ function doPost(e) {
     else if (request.action === "submit") result = { entry: submit(judge, request.entry) };
     else if (request.action === "complete") {
       complete(judge, request.tableset, request.ranking);
-      computeResults();
       result = snapshot(judge);
     }
     else throw new Error("Unknown action.");
     // The prior tableset UI uses the same request/response contract during rollout.
     if (result.version) result.version = request.version;
     result.ok = true;
-  } catch (error) { result = { ok: false, error: error.message }; }
+  } catch (error) { result = { ok: false, error: error.message, retryable: error.retryable === true }; }
   finally { requestBooks = null; }
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
 }
@@ -392,7 +399,7 @@ function submit(judge, entry) {
     const existing = rows(book, "Scores").find((r) => r.id === id);
     const sheet = book.getSheetByName("Scores");
     sheet.getRange(existing ? existing._row : sheet.getLastRow() + 1, 1, 1, row.length).setValues([row.map(literal)]);
-    updateOrganizerViews(book, readProjects());
+    requestReportRefresh(book);
     return { id, tableset: set.id, project: entry.project, scores, total, notes: row[10] };
   });
 }
@@ -415,7 +422,40 @@ function complete(judge, id, ranking) {
       throw new Error("Scores changed. Refresh and review the automatic ranking before finishing.");
     // One range write commits the whole ranking, avoiding partial point awards.
     book.getSheetByName("Tablesets").getRange(set._row, 4, 1, 2).setValues([[JSON.stringify(ranking), new Date()]]);
+    requestReportRefresh(book);
   });
+}
+function requestReportRefresh(book, projects) {
+  const props = PropertiesService.getScriptProperties();
+  if (props.getProperty("JUDGING_DEFER_REPORTS") === "true")
+    props.setProperty("JUDGING_REPORTS_DIRTY", "true");
+  else updateReports(book, projects || readProjects());
+}
+function enableDeferredJudgingReports() {
+  const handler = "flushJudgingReports";
+  if (!ScriptApp.getProjectTriggers().some((t) => t.getHandlerFunction() === handler))
+    ScriptApp.newTrigger(handler).timeBased().everyMinutes(1).create();
+  // Enable only after the background worker exists. No judging data is reset.
+  const props = PropertiesService.getScriptProperties();
+  props.setProperty("JUDGING_REPORTS_DIRTY", "true");
+  props.setProperty("JUDGING_DEFER_REPORTS", "true");
+}
+function flushJudgingReports() {
+  const props = PropertiesService.getScriptProperties();
+  if (props.getProperty("JUDGING_REPORTS_DIRTY") !== "true") return;
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) return; // Leave dirty; the next scheduled run retries.
+  requestBooks = {};
+  try {
+    const book = privateBook();
+    updateReports(book, syncProjects(book, readProjects(true), true));
+    SpreadsheetApp.flush();
+    // Keep the marker on failure, and clear it under the same lock as score writes.
+    props.deleteProperty("JUDGING_REPORTS_DIRTY");
+  } finally {
+    requestBooks = null;
+    lock.releaseLock();
+  }
 }
 function setup() {
   const props = PropertiesService.getScriptProperties();

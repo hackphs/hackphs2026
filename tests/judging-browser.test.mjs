@@ -17,6 +17,7 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
     let failSave = false;
     let failComplete = false;
     let failAssignmentLoad = true;
+    const busyResponses = { submit: 0, complete: 0, claim: 0 };
     let configs = 0;
     let releaseAssignments;
     const assignmentsReady = new Promise((resolve) => { releaseAssignments = resolve; });
@@ -29,6 +30,10 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
             if (url.hostname === "script.google.com") {
                 const req = route.request().postDataJSON();
                 assert.equal(req.invitation, "Invitation");
+                if (busyResponses[req.action] > 0) {
+                    busyResponses[req.action]--;
+                    return route.fulfill({ contentType: "application/json", body: JSON.stringify({ ok: false, retryable: true, error: "Another judge is saving" }), headers: { "Access-Control-Allow-Origin": "*" } });
+                }
                 let result;
                 if (req.action === "login") {
                     result = { ok: true, version: "tablesets-v2", judge: { name: "Judge A" } };
@@ -103,7 +108,11 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.locator('[data-score-feedback]').filter({ hasText: "Your draft remains" }).waitFor();
         assert.equal(scores.length, 0);
         failSave = false;
+        busyResponses.submit = 1;
         await page.getByRole("button", { name: "Submit score" }).click();
+        await page.locator('[data-score-feedback]').filter({ hasText: "Retrying automatically" }).waitFor();
+        assert.equal(await page.getByRole("button", { name: "Submit score" }).isDisabled(), true);
+        await page.clock.runFor(3000);
         await page.locator('[data-score-feedback]').filter({ hasText: "Score saved" }).waitFor();
         for (let i = 1; i < 5; i++) {
             await page.locator('[data-project="p' + i + '"]').click();
@@ -152,10 +161,16 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         assert.match(await page.locator('[data-ranking-feedback]').textContent(), /Temporary completion error.*retry/);
         assert.equal(sets[0].complete, false);
         failComplete = false;
+        busyResponses.complete = 1;
         await page.getByRole("button", { name: "Finish tableset" }).click();
+        await page.locator('[data-ranking-feedback]').filter({ hasText: "Retrying automatically" }).waitFor();
+        await page.clock.runFor(3000);
         await page.getByRole("button", { name: "Get another tableset" }).waitFor({ state: "visible" });
         assert.deepEqual(sets[0].ranking, expected);
+        busyResponses.claim = 1;
         await page.getByRole("button", { name: "Get another tableset" }).click();
+        await page.locator('[data-tableset-status]').filter({ hasText: "Retrying automatically" }).waitFor();
+        await page.clock.runFor(3000);
         await page.locator('[data-project="new"]').waitFor();
         assert.equal(await page.locator('[data-project]').count(), 1);
         await score(6);

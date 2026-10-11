@@ -75,7 +75,7 @@ function backend(count = 15) {
     const privateBook = new Book();
     sourceBook.id = "source";
     const properties = {};
-    let held = false, lockCount = 0, uuid = 0, sharing = "PRIVATE";
+    let held = false, blocked = false, lockCount = 0, uuid = 0, sharing = "PRIVATE";
     const context = vm.createContext({
         SpreadsheetApp: {
             newConditionalFormatRule: () => ({
@@ -94,19 +94,21 @@ function backend(count = 15) {
             getActiveSpreadsheet: () => sourceBook,
             getUi: () => ({ alert() {} }),
         },
-        PropertiesService: { getScriptProperties: () => ({ getProperty: (key) => properties[key], setProperty: (key, value) => { properties[key] = value; } }) },
+        PropertiesService: { getScriptProperties: () => ({ getProperty: (key) => properties[key], setProperty: (key, value) => { properties[key] = value; }, deleteProperty: (key) => { delete properties[key]; } }) },
         DriveApp: { Access: { PRIVATE: "PRIVATE" }, getFileById: () => ({ getSharingAccess: () => sharing }) },
         Utilities: { getUuid: () => "project-id-" + (++uuid), DigestAlgorithm: { SHA_256: "sha256" },
             computeDigest: (algorithm, input) => [...createHash(algorithm).update(input).digest()],
             base64Encode: (bytes) => Buffer.from(bytes).toString("base64") },
-        LockService: { getScriptLock: () => ({ waitLock() { assert.equal(held, false, "no nested lock"); held = true; lockCount++; }, releaseLock() { held = false; } }) },
+        LockService: { getScriptLock: () => ({ tryLock() { if (blocked) return false; assert.equal(held, false, "no nested lock"); held = true; lockCount++; return true; }, waitLock() { assert.equal(held, false, "no nested lock"); held = true; lockCount++; }, releaseLock() { held = false; } }) },
         ContentService: { MimeType: { JSON: "json" }, createTextOutput: (value) => ({ setMimeType: () => JSON.parse(value) }) },
     });
     vm.runInContext(source, context);
     context.setup();
     context.buildTablesets();
-    const request = (action, judge = "Judge A", extra = {}) => context.doPost({ postData: { contents: JSON.stringify({ version: "tablesets-v2", invitation: "Invitation", judge, action, ...extra }) } });
-    return { context, request, sourceBook, privateBook, properties, setSharing: (value) => { sharing = value; }, lockCount: () => lockCount };
+    properties.JUDGING_DEFER_REPORTS = "true";
+    const rawRequest = (action, judge = "Judge A", extra = {}) => context.doPost({ postData: { contents: JSON.stringify({ version: "tablesets-v2", invitation: "Invitation", retryBusy: true, judge, action, ...extra }) } });
+    const request = (...args) => { const result = rawRequest(...args); context.flushJudgingReports(); return result; };
+    return { context, request, rawRequest, sourceBook, privateBook, properties, setBlocked: (value) => { blocked = value; }, setSharing: (value) => { sharing = value; }, lockCount: () => lockCount };
 }
 const rubric = (value = 8) => Object.fromEntries(["innovation", "functionality", "creativity", "theme", "technical"].map((key) => [key, value]));
 function finish(h, judge = "Judge A") {
@@ -119,6 +121,36 @@ function finish(h, judge = "Judge A") {
     assert.equal(h.request("complete", judge, { tableset: set.id, ranking }).ok, true);
     return { set, ranking };
 }
+
+test("score writes return before reports, busy requests do not write, and failed reports retry", () => {
+    const h = backend(5);
+    const set = h.request("config").tablesets[0];
+    const entry = { tableset: set.id, project: set.projects[0].id, scores: rubric(), notes: "Saved first" };
+    const boardBefore = plain(h.privateBook.tabs["Review Board"].data);
+    h.setBlocked(true);
+    const rejected = h.rawRequest("submit", "Judge A", { entry });
+    assert.equal(rejected.retryable, true);
+    assert.equal(h.privateBook.tabs.Scores.data.length, 1);
+    h.setBlocked(false);
+    assert.equal(h.rawRequest("submit", "Judge A", { entry }).ok, true);
+    assert.equal(h.privateBook.tabs.Scores.data.length, 2);
+    assert.deepEqual(plain(h.privateBook.tabs["Review Board"].data), boardBefore);
+    assert.equal(h.privateBook.tabs["Judge Notes"].data.length, 1);
+    assert.equal(h.properties.JUDGING_REPORTS_DIRTY, "true");
+    h.setBlocked(true);
+    h.context.flushJudgingReports();
+    assert.equal(h.properties.JUDGING_REPORTS_DIRTY, "true");
+    h.setBlocked(false);
+    h.setSharing("PUBLIC");
+    assert.throws(() => h.context.flushJudgingReports(), /Restricted/);
+    assert.equal(h.properties.JUDGING_REPORTS_DIRTY, "true");
+    h.setSharing("PRIVATE");
+    h.context.flushJudgingReports();
+    assert.equal(h.properties.JUDGING_REPORTS_DIRTY, undefined);
+    assert.equal(h.privateBook.tabs["Judge Notes"].data[1][3], "Saved first");
+    assert.equal(h.rawRequest("submit", "Judge A", { entry }).ok, true);
+    assert.equal(h.privateBook.tabs.Scores.data.length, 2, "same project save updates rather than duplicates");
+});
 
 test("preassign first round reserves five projects per judge and is safe to rerun", () => {
     const h = backend(15);

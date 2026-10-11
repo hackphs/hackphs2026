@@ -113,17 +113,33 @@ function totalOf(scores) {
     if (CRITERIA.some((c) => !Number.isInteger(Number(scores[c.key])) || Number(scores[c.key]) < 1 || Number(scores[c.key]) > 12)) return null;
     return Math.round(CRITERIA.reduce((sum, c) => sum + c.weight * Number(scores[c.key]) * 4, 0) * 100) / 100;
 }
-async function api(action, payload = {}, identity = judge) {
+async function api(action, payload = {}, identity = judge, onWait = () => {}) {
+    for (let attempt = 0; attempt < 6; attempt++) {
+        const slow = window.setTimeout(() => onWait("Still waiting for server confirmation. Please keep this page open."), 6000);
+        try { return await apiOnce(action, payload, identity); }
+        catch (error) {
+            // Only retry an explicit lock rejection: the server has not performed the write.
+            if (!error.retryable || attempt === 5) throw error;
+        } finally { window.clearTimeout(slow); }
+        onWait("Waiting for another judging update to finish. Retrying automatically (" + (attempt + 1) + "/5)...");
+        await new Promise((resolve) => window.setTimeout(resolve, Math.min(8000, 1500 * 2 ** attempt) + Math.random() * 1000));
+    }
+}
+async function apiOnce(action, payload, identity) {
     if (!ENDPOINT) throw new Error("Judging is not connected. Ask an organizer for help.");
     const response = await fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ version: VERSION, action, judge: identity.name, invitation: identity.invitation, ...payload }),
+        body: JSON.stringify({ version: VERSION, action, judge: identity.name, invitation: identity.invitation, retryBusy: true, ...payload }),
         signal: AbortSignal.timeout(60000),
     });
     if (!response.ok) throw new Error("Could not reach judging. Please retry.");
     const data = await response.json();
-    if (!data.ok) throw new Error(data.error || "Request failed.");
+    if (!data.ok) {
+        const error = new Error(data.error || "Request failed.");
+        error.retryable = data.retryable === true;
+        throw error;
+    }
     if (action !== "submit" && data.version !== VERSION)
         throw new Error("The organizer needs to deploy the updated judging backend. No scores were changed.");
     return data;
@@ -364,15 +380,15 @@ els.form.addEventListener("submit", async (event) => {
     setBusy(true);
     feedback("Saving...");
     try {
-        const result = await api("submit", { entry: { tableset: set.id, project, scores, notes: String(data.get("notes") || "") } });
+        const result = await api("submit", { entry: { tableset: set.id, project, scores, notes: String(data.get("notes") || "") } }, judge, (message) => feedback(message));
         entries[keyOf(set.id, project)] = result.entry;
         delete draft[keyOf(set.id, project)];
         saveDraft();
-        feedback("Score saved. You can edit it until you submit the tableset ranking.");
+        feedback("Score saved. Organizer reports refresh in about a minute. You can edit it until you finish the tableset.");
         els.sync.textContent = "Saved to judging sheet";
     } catch (error) {
         feedback(error.message + " Your draft remains on this device; retry saving.", true);
-        els.sync.textContent = "Not saved";
+        els.sync.textContent = "Save not confirmed";
     } finally { setBusy(false); renderQueue(); renderRanking(); }
 });
 els.rankingForm.addEventListener("submit", async (event) => {
@@ -388,9 +404,10 @@ els.rankingForm.addEventListener("submit", async (event) => {
     }
     if (!window.confirm("Submit and lock this tableset ranking? Scores and order cannot be edited afterward.")) return;
     setBusy(true);
+    els.rankingFeedback.textContent = "Finishing your tableset. Please keep this page open...";
     let completionError = "";
     try {
-        acceptSnapshot(await api("complete", { tableset: set.id, ranking }));
+        acceptSnapshot(await api("complete", { tableset: set.id, ranking }, judge, (message) => { els.rankingFeedback.textContent = message; }));
         renderApp();
         els.sync.textContent = "Tableset completed";
     } catch (error) { completionError = error.message + " You can retry the same ranking safely."; }
@@ -403,7 +420,11 @@ els.claim.addEventListener("click", async () => {
     if (busy || judgingCompleted()) return;
     setBusy(true);
     els.status.textContent = "Checking for an unassigned tableset...";
-    try { acceptSnapshot(await api(assignmentsLoaded ? "claim" : "config")); renderApp(); }
+    try {
+        acceptSnapshot(await api(assignmentsLoaded ? "claim" : "config", {}, judge, (message) => { els.status.textContent = message; }));
+        renderApp();
+        els.sync.textContent = "Connected";
+    }
     catch (error) { els.status.textContent = error.message; }
     finally { setBusy(false); }
 });
