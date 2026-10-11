@@ -10,6 +10,7 @@ const SOURCE_SPREADSHEET_ID = "1e7VEti7X3wOMY8BUuunV2pPakoqeuaP2rDj5lu060l0";
 const CRITERIA = { innovation: .25, functionality: .3, creativity: .25, theme: .1, technical: .1 };
 const POINTS = [15, 10, 5, 0, 0];
 const REVIEWS_PER_PROJECT = 3;
+const NEW_ASSIGNMENTS_CLOSED = true;
 let requestBooks = null;
 const PROGRESS_HEADERS = ["Judging reviews complete", "Judging reviewed by", "Judging in progress", "Judging reviews remaining", "Judging table check", "Reviews Remaining"];
 const TABS = {
@@ -194,6 +195,8 @@ function ownedSet(book, judge, id) {
   return set;
 }
 function claim(judge, initial) {
+  // Organizers closed new assignments; existing sets remain writable.
+  if (NEW_ASSIGNMENTS_CLOSED) return;
   return withLock(() => {
     const book = privateBook();
     judge = currentJudge(book, judge);
@@ -214,6 +217,7 @@ function claim(judge, initial) {
   });
 }
 function preassignFirstRound(showAlert = true) {
+  if (NEW_ASSIGNMENTS_CLOSED) throw new Error("New tableset assignments are closed.");
   const summary = withLock(() => {
     const book = privateBook();
     const roster = syncJudgeNames(book).roster.slice();
@@ -333,6 +337,7 @@ function snapshot(judge, all) {
   const eligible = [...coverage.values()].some((r) => r.assigned.length < REVIEWS_PER_PROJECT && !r.assigned.some((a) => norm(a.judge) === norm(judge.name)));
   // Explicit allowlist: no other judges, overall results, or top-five markers leave the server.
   return { version: VERSION, judge: { name: judge.name }, assignmentMessage: finished ? "Every project has three completed reviews. Thank you!" :
+    NEW_ASSIGNMENTS_CLOSED ? "New tableset assignments are closed. Please finish your current tableset. Thank you for judging!" :
     eligible ? "You can request another random tableset of projects you have not reviewed." :
     "No projects are available for you right now. Remaining reviews need other judges or are already assigned.",
     tablesets: mine.map((s) => ({ id: s.id, projects: s.projects,

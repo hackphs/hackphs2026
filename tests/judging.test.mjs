@@ -67,7 +67,7 @@ class Book {
     getId() { return this.id || "private"; }
     getUrl() { return "private-workbook"; }
 }
-function backend(count = 15) {
+function backend(count = 15, closed = false) {
     const sourceBook = new Book({
         Judges: [["Name", "Phone Number"], ["Judge A", "private-phone"], ["Judge B"], ["Judge C"]],
         Expo: [["Table #", "Project Name", "Project Link", "Track"], ...Array.from({ length: count }, (_, i) => [i + 1, "Project " + (i + 1), "", ""])],
@@ -102,7 +102,7 @@ function backend(count = 15) {
         LockService: { getScriptLock: () => ({ tryLock() { if (blocked) return false; assert.equal(held, false, "no nested lock"); held = true; lockCount++; return true; }, waitLock() { assert.equal(held, false, "no nested lock"); held = true; lockCount++; }, releaseLock() { held = false; } }) },
         ContentService: { MimeType: { JSON: "json" }, createTextOutput: (value) => ({ setMimeType: () => JSON.parse(value) }) },
     });
-    vm.runInContext(source, context);
+    vm.runInContext(source.replace("const NEW_ASSIGNMENTS_CLOSED = true;", "let NEW_ASSIGNMENTS_CLOSED = " + closed + ";"), context);
     context.setup();
     context.buildTablesets();
     properties.JUDGING_DEFER_REPORTS = "true";
@@ -121,6 +121,22 @@ function finish(h, judge = "Judge A") {
     assert.equal(h.request("complete", judge, { tableset: set.id, ranking }).ok, true);
     return { set, ranking };
 }
+
+test("assignment closure blocks new claims and preassignment but preserves scoring and completion", () => {
+    const h = backend(10);
+    const set = h.request("config").tablesets[0];
+    vm.runInContext("NEW_ASSIGNMENTS_CLOSED = true", h.context);
+    assert.equal(h.request("config", "Judge B").tablesets.length, 0);
+    assert.throws(() => h.context.preassignFirstRound(), /closed/);
+    for (const p of set.projects) assert.equal(h.rawRequest("submit", "Judge A", {
+        entry: { tableset: set.id, project: p.id, scores: rubric() }
+    }).ok, true);
+    assert.equal(h.rawRequest("complete", "Judge A", { tableset: set.id, ranking: set.projects.map(p => p.id), completionAck: true }).ok, true);
+    const response = h.request("claim");
+    assert.equal(response.tablesets.length, 1);
+    assert.equal(response.tablesets[0].complete, true);
+    assert.match(response.assignmentMessage, /assignments are closed/);
+});
 
 test("fast completion acknowledges durable ranking without a snapshot and safely retries", () => {
     const h = backend(5);

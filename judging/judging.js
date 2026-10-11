@@ -236,7 +236,7 @@ function renderQueue() {
             '</span></span><span class="queue__status">' + (unsaved ? "Draft" : saved ? saved.total.toFixed(1) : "To score") + '</span></button></li>';
     }).join("") : '<li class="queue__empty">' + (!assignmentsLoaded ? "Waiting for your assigned projects..." : judgingCompleted()
         ? "Judging is complete. No more projects need reviews."
-        : "No active tableset. Request one below, or check with an organizer.") + '</li>';
+        : "New tableset assignments are closed. Thank you for judging!") + '</li>';
 }
 function renderRanking() {
     const set = activeSet();
@@ -284,7 +284,7 @@ function renderRanking() {
 function renderApp() {
     const set = activeSet();
     els.form.hidden = !set;
-    els.claim.hidden = !!set || judgingCompleted() || (!assignmentsLoaded && busy);
+    els.claim.hidden = assignmentsLoaded || busy;
     els.claim.textContent = assignmentsLoaded ? "Get another tableset" : "Retry loading assignments";
     els.status.textContent = set ? "Score all " + set.projects.length + " projects. Their ranking is calculated automatically from saved rubric totals. " +
         (set.projects.length < 5 ? "Fewer than five eligible projects remain for you in this batch." : "") :
@@ -412,7 +412,7 @@ els.rankingForm.addEventListener("submit", async (event) => {
         if (result.completedTableset === set.id) {
             set.complete = true;
             set.ranking = ranking;
-            assignmentMessage = "Tableset saved. You can request another tableset while availability updates.";
+            assignmentMessage = "Tableset saved. New tableset assignments are closed. Thank you for judging!";
         } else acceptSnapshot(result); // Compatible with the previous backend during rollout.
         renderApp();
         els.sync.textContent = "Tableset completed";
@@ -427,7 +427,7 @@ els.rankingForm.addEventListener("submit", async (event) => {
     }
 });
 els.claim.addEventListener("click", async () => {
-    if (busy || judgingCompleted()) return;
+    if (busy || judgingCompleted() || assignmentsLoaded) return;
     setBusy(true);
     els.status.textContent = "Checking for an unassigned tableset...";
     try {
@@ -454,7 +454,7 @@ async function refresh() {
         const nextEntries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
         if (assignmentsLoaded && JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
             assignmentMessage = data.assignmentMessage || "";
-            els.claim.hidden = !!activeSet() || judgingCompleted();
+            els.claim.hidden = true;
             if (!activeSet()) {
                 els.status.textContent = assignmentStatus();
                 renderQueue();
