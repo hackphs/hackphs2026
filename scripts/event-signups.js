@@ -1,4 +1,4 @@
-import { events } from "./events.js?v=20261010v";
+import { events } from "./events.js?v=20261010y";
 
 // 9 AM in Princeton/New York on October 10 is EDT (UTC-4), not winter EST.
 export const signupOpensAt = Date.parse("2026-10-10T09:00:00-04:00");

@@ -22,7 +22,7 @@ test("signup release is exactly 9 AM New York time on October 10", () => {
     assert.equal(signupsAreOpen(signupOpensAt), true);
     for (const slug of workshopEventSlugs) assert.equal(events[slug].signupUrl, workshopSignupUrl);
     assert.equal(Object.keys(competitiveSignupUrls).length, 6);
-    assert.equal(competitiveSignupUrls.estimathon, "https://forms.gle/iAymDAY7uieyfLTD9");
+    assert.equal(competitiveSignupUrls.estimathon, "https://forms.gle/p5SyaZrFWAyZ7a63");
     for (const url of Object.values(competitiveSignupUrls)) assert.match(url, /^https:\/\/(?:docs\.google\.com\/forms\/d\/(?:e\/)?[^/]+\/viewform|forms\.gle\/[A-Za-z0-9]+)$/);
     assert.equal(events["intro-to-swift-and-swiftui"], undefined);
     assert.equal(events["intro-to-google-ai-studio"].room, "Room 152");
