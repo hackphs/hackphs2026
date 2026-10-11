@@ -82,6 +82,14 @@ let judge = null;
 let tablesets = [];
 let entries = {};
 let assignmentMessage = "";
+function judgingCompleted() {
+    return assignmentMessage === "Every project has three completed reviews. Thank you!";
+}
+function assignmentStatus() {
+    return judgingCompleted()
+        ? "Every project has 3 completed reviews. Thank you so much for being at HackPHS this year, " + judge.name + ", and thank you so much for your time."
+        : assignmentMessage;
+}
 let busy = false;
 let mutation = 0;
 let refreshing = false;
@@ -255,10 +263,10 @@ function renderRanking() {
 function renderApp() {
     const set = activeSet();
     els.form.hidden = !set;
-    els.claim.hidden = !!set;
+    els.claim.hidden = !!set || judgingCompleted();
     els.status.textContent = set ? "Score all " + set.projects.length + " projects. Their ranking is calculated automatically from saved rubric totals. " +
         (set.projects.length < 5 ? "Fewer than five eligible projects remain for you in this batch." : "") :
-        assignmentMessage || "You can request another random tableset of projects you have not reviewed.";
+        assignmentStatus() || "You can request another random tableset of projects you have not reviewed.";
     els.form.elements.project.innerHTML = '<option value="">Choose a project</option>' +
         (set?.projects || []).map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + " - Table " + escapeHtml(p.table) + "</option>").join("");
     renderQueue();
@@ -370,7 +378,7 @@ els.rankingForm.addEventListener("submit", async (event) => {
     finally { setBusy(false); }
 });
 els.claim.addEventListener("click", async () => {
-    if (busy) return;
+    if (busy || judgingCompleted()) return;
     setBusy(true);
     els.status.textContent = "Checking for an unassigned tableset...";
     try { acceptSnapshot(await api("claim")); renderApp(); }
@@ -391,7 +399,8 @@ async function refresh() {
         const nextEntries = Object.fromEntries(data.scores.map((entry) => [keyOf(entry.tableset, entry.project), entry]));
         if (JSON.stringify(tablesets) === JSON.stringify(data.tablesets) && JSON.stringify(entries) === JSON.stringify(nextEntries)) {
             assignmentMessage = data.assignmentMessage || "";
-            if (!activeSet()) els.status.textContent = assignmentMessage;
+            els.claim.hidden = !!activeSet() || judgingCompleted();
+            if (!activeSet()) els.status.textContent = assignmentStatus();
             els.sync.textContent = "Connected";
             return;
         }

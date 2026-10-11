@@ -16,7 +16,8 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
     const scores = [];
     let failSave = false;
     let configs = 0;
-    const snapshot = () => ({ ok: true, version: "tablesets-v2", judge: { name: "Judge A" }, tablesets: sets, scores });
+    let assignmentMessage = "";
+    const snapshot = () => ({ ok: true, version: "tablesets-v2", judge: { name: "Judge A" }, tablesets: sets, scores, assignmentMessage });
     try {
         await page.clock.install();
         await page.route("**/*", async (route) => {
@@ -36,8 +37,9 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
                         result = { ok: true, entry };
                     }
                 } else if (req.action === "complete") {
-                    sets[0].ranking = req.ranking;
-                    sets[0].complete = true;
+                    const set = sets.find((s) => s.id === req.tableset);
+                    set.ranking = req.ranking;
+                    set.complete = true;
                     result = snapshot();
                 } else if (req.action === "claim") {
                     if (sets.length === 1) sets.push({ id: "Set 2", complete: false, ranking: [], projects: [{ id: "new", name: "New Project", table: "6" }] });
@@ -132,6 +134,12 @@ test("judge flow, live refresh, retries, ranking, and mobile layout", async () =
         await page.getByRole("button", { name: "Submit score" }).click();
         await page.locator('[data-score-feedback]').filter({ hasText: "Score saved" }).waitFor();
         assert.equal(await page.locator('[name="place0"]').inputValue(), "new");
+        await page.getByRole("button", { name: "Finish tableset" }).click();
+        await page.getByRole("button", { name: "Get another tableset" }).waitFor({ state: "visible" });
+        assignmentMessage = "Every project has three completed reviews. Thank you!";
+        await page.clock.runFor(31000);
+        await page.getByText("Every project has 3 completed reviews. Thank you so much for being at HackPHS this year, Judge A, and thank you so much for your time.", { exact: true }).waitFor();
+        assert.equal(await page.getByRole("button", { name: "Get another tableset" }).isVisible(), false);
         assert.deepEqual(errors, []);
         await page.getByRole("button", { name: "Sign out" }).click();
         await page.locator('[data-view="signin"]').waitFor({ state: "visible" });
