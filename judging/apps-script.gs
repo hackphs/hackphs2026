@@ -1,348 +1,329 @@
 /**
- * hackPHS 2026 judging backend (Google Apps Script, bound to a Google Sheet).
- *
- * Setup:
- *   1. Create a Google Sheet, open Extensions > Apps Script, and paste this file in as Code.gs.
- *   2. Project Settings > Script properties: add JUDGE_CODE (the code judges sign in with).
- *      Optionally add SAMPLE_PROJECT (defaults to "Sample project (hackPHS 2025)").
- *   3. Reload the sheet and run hackPHS Judging > Set up sheets.
- *   4. Fill in the Judges tab (name, role = judge or exec) and the Projects tab
- *      (name, table, tracks as a comma-separated list).
- *   5. Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone.
- *      Copy the URL into ENDPOINT at the top of judging/judging.js.
- *
- * Judging day (all from the hackPHS Judging menu):
- *   - Assign projects: gives every judge an even share, with each project getting >= 2 judges.
- *   - Compute round 1: applies the calibration weights, ranks all projects, writes the top 10 to Finalists.
- *   - Compute finals & tracks: averages the executive panel's finals scores and each track's scores.
+ * Bind to the organizer's source sheet. Run setup(), then buildTablesets().
+ * Deploy as web app, execute as the organizer, accessible to Anyone.
+ * Source spreadsheet ID and invitation stay server-side, not in browser data.
+ * Scoring workbook MUST be Restricted and never published. Source ID stays server-side.
+ * See judging/README.md for deployment and migration.
  */
-
-const JUDGES_PER_PROJECT = 2;
-const FINALIST_COUNT = 10;
-const WINNER_COUNT = 3;
-const MAX_TOTAL = 48;
-const CRITERIA = { innovation: 0.25, functionality: 0.3, creativity: 0.25, theme: 0.1, technical: 0.1 };
-const ROUNDS = ["calibration", "round1", "finals", "tracks"];
-
+const VERSION = "tablesets-v1";
+const SOURCE_SPREADSHEET_ID = "1e7VEti7X3wOMY8BUuunV2pPakoqeuaP2rDj5lu060l0";
+const CRITERIA = { innovation: .25, functionality: .3, creativity: .25, theme: .1, technical: .1 };
+const POINTS = [15, 10, 5, 0, 0];
 const TABS = {
-  Judges: ["name", "role"],
-  Projects: ["name", "table", "tracks"],
-  Assignments: ["judge", "project"],
-  Finalists: ["project"],
-  Scores: ["id", "judge", "round", "track", "project", ...Object.keys(CRITERIA), "total", "notes", "updatedAt"],
+  Tablesets: ["id", "projects", "judge", "ranking", "completedAt"],
+  Scores: ["id", "judge", "tableset", "project", ...Object.keys(CRITERIA), "total", "notes", "updatedAt"],
 };
-
 function onOpen() {
-  SpreadsheetApp.getUi()
-    .createMenu("hackPHS Judging")
-    .addItem("Set up sheets", "setup")
-    .addItem("Assign projects", "assignProjects")
-    .addItem("Compute round 1", "computeRound1")
-    .addItem("Compute finals & tracks", "computeFinals")
-    .addToUi();
+  SpreadsheetApp.getUi().createMenu("hackPHS Judging")
+    .addItem("Set up private judging", "setup")
+    .addItem("Build tablesets from Expo", "buildTablesets")
+    .addItem("Refresh private results / top five", "computeResults")
+    .addItem("Import Devpost CSV from Drive", "importDevpostCsv").addToUi();
 }
-
-/* ---------- Web app ---------- */
-
-function doPost(e) {
-  let out;
-  try {
-    const request = JSON.parse(e.postData.contents);
-    const judge = authenticate(request);
-    if (request.action === "config") {
-      out = { judge, config: configFor(judge), scores: scoresFor(judge) };
-    } else if (request.action === "submit") {
-      out = { entry: submit(judge, request.entry) };
-    } else {
-      throw new Error("Unknown action.");
-    }
-    out.ok = true;
-  } catch (error) {
-    out = { ok: false, error: error.message };
+function restrictedBook(property) {
+  const id = PropertiesService.getScriptProperties().getProperty(property);
+  if (!id) throw new Error("An organizer must run setup first.");
+  if (DriveApp.getFileById(id).getSharingAccess() !== DriveApp.Access.PRIVATE) {
+    throw new Error("Judging paused: spreadsheets must have Restricted sharing. Contact an organizer.");
   }
-  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+  return SpreadsheetApp.openById(id);
 }
-
-function authenticate(request) {
-  const code = PropertiesService.getScriptProperties().getProperty("JUDGE_CODE");
-  if (!code || String(request.code || "").trim() !== code) {
-    throw new Error("That judging code isn't right.");
-  }
-  const judge = readRows("Judges").find((row) => norm(row.name) === norm(request.judge));
-  if (!judge) {
-    throw new Error("We don't have you on the judge list. Check the spelling of your name or ask an organizer.");
-  }
-  return { name: String(judge.name).trim(), role: norm(judge.role) === "exec" ? "exec" : "judge" };
+function sourceBook() {
+  return SpreadsheetApp.openById(SOURCE_SPREADSHEET_ID);
 }
-
-function configFor(judge) {
-  const projects = readRows("Projects").map((row) => ({
-    name: String(row.name).trim(),
-    table: String(row.table || "").trim(),
-    tracks: String(row.tracks || "").split(",").map((t) => t.trim()).filter(Boolean),
-  }));
-  return {
-    sampleProject: sampleProject(),
-    projects,
-    assignments: readRows("Assignments")
-      .filter((row) => norm(row.judge) === norm(judge.name))
-      .map((row) => String(row.project).trim()),
-    finalists: readRows("Finalists").map((row) => String(row.project).trim()),
-  };
-}
-
-function scoresFor(judge) {
-  return readRows("Scores")
-    .filter((row) => norm(row.judge) === norm(judge.name))
-    .map((row) => ({
-      id: row.id,
-      judge: row.judge,
-      round: row.round,
-      track: String(row.track || ""),
-      project: String(row.project),
-      scores: Object.fromEntries(Object.keys(CRITERIA).map((key) => [key, Number(row[key])])),
-      total: Number(row.total),
-      notes: String(row.notes || ""),
-      updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : String(row.updatedAt),
-    }));
-}
-
-function submit(judge, entry) {
-  if (!entry || !ROUNDS.includes(entry.round)) {
-    throw new Error("Unknown judging round.");
-  }
-  if (entry.round === "finals" && judge.role !== "exec") {
-    throw new Error("Only the executive panel scores finals.");
-  }
-  const project = String(entry.project || "").trim();
-  const track = entry.round === "tracks" ? String(entry.track || "").trim() : "";
-  if (!project || (entry.round === "tracks" && !track)) {
-    throw new Error("Missing project or track.");
-  }
-
-  let total = 0;
-  const scores = {};
-  for (const [key, weight] of Object.entries(CRITERIA)) {
-    const score = Number(entry.scores && entry.scores[key]);
-    if (!Number.isInteger(score) || score < 1 || score > 12) {
-      throw new Error(`Score for ${key} must be 1 to 12.`);
-    }
-    scores[key] = score;
-    total += weight * score;
-  }
-  total = Math.round(total * (MAX_TOTAL / 12) * 100) / 100;
-
-  const id = [judge.name, entry.round, track, project].map(norm).join("|");
-  const row = [id, judge.name, entry.round, track, project, ...Object.keys(CRITERIA).map((k) => scores[k]), total,
-    String(entry.notes || ""), new Date()];
-
+function privateBook() { return restrictedBook("JUDGING_PRIVATE_SHEET_ID"); }
+function norm(value) { return String(value == null ? "" : value).trim().toLowerCase().replace(/\s+/g, " "); }
+function text(value) { return String(value == null ? "" : value).trim(); }
+// Treat project names and notes as literal text, never formulas.
+function literal(value) { return typeof value === "string" && /^[=+@-]/.test(value) ? "'" + value : value; }
+function withLock(fn) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
-  try {
-    const sheet = tab("Scores");
-    const ids = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues().flat() : [];
-    const index = ids.indexOf(id);
-    if (index === -1) {
-      sheet.appendRow(row);
-    } else {
-      sheet.getRange(index + 2, 1, 1, row.length).setValues([row]);
-    }
-  } finally {
-    lock.releaseLock();
-  }
-  return { id, total };
+  try { return fn(); } finally { lock.releaseLock(); }
 }
-
-/* ---------- Organizer menu actions ---------- */
-
-function setup() {
-  for (const [name, headers] of Object.entries(TABS)) {
-    const sheet = tab(name);
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(headers);
-      sheet.setFrozenRows(1);
-    }
-  }
-  toast("Sheets are ready. Fill in Judges and Projects.");
+function rows(book, name) {
+  const sheet = book.getSheetByName(name);
+  if (!sheet) throw new Error("Missing " + name + " tab. Ask an organizer to run setup.");
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0].map(norm);
+  return values.slice(1).map((row, i) => Object.assign({ _row: i + 2 },
+    Object.fromEntries(headers.map((h, j) => [h, row[j]]))))
+    .filter((row) => headers.some((h) => row[h] !== ""));
 }
-
-function assignProjects() {
-  const judges = readRows("Judges").map((row) => String(row.name).trim()).filter(Boolean);
-  const projects = readRows("Projects").map((row) => String(row.name).trim()).filter(Boolean);
-  if (judges.length < JUDGES_PER_PROJECT) {
-    throw new Error(`Need at least ${JUDGES_PER_PROJECT} judges.`);
-  }
-  if (readRows("Assignments").length && !confirm("Replace the existing assignments?")) {
-    return;
-  }
-
-  // Greedy: each slot goes to the least-loaded judge not already on that project (random tie-break),
-  // which keeps everyone within one project of each other.
-  const load = Object.fromEntries(judges.map((judge) => [judge, 0]));
-  const rows = [];
-  for (const project of shuffle(projects)) {
-    const picked = [];
-    for (let slot = 0; slot < JUDGES_PER_PROJECT; slot++) {
-      const candidates = shuffle(judges.filter((judge) => !picked.includes(judge)));
-      candidates.sort((a, b) => load[a] - load[b]);
-      const judge = candidates[0];
-      picked.push(judge);
-      load[judge]++;
-      rows.push([judge, project]);
-    }
-  }
-  rows.sort((a, b) => a[0].localeCompare(b[0]));
-  writeTab("Assignments", TABS.Assignments, rows);
-  toast(`Assigned ${projects.length} projects across ${judges.length} judges.`);
-}
-
-function computeRound1() {
-  const scores = readRows("Scores");
-
-  // Calibration: a judge's weight is (average sample score across judges) / (their sample score),
-  // so a harsh judge gets a weight above 1 and a generous one below 1. No calibration score = weight 1.
-  const calibration = scores.filter((row) => row.round === "calibration");
-  const meanSample = average(calibration.map((row) => Number(row.total)));
-  const weights = {};
-  for (const row of calibration) {
-    weights[norm(row.judge)] = meanSample / Number(row.total);
-  }
-
-  const byProject = groupBy(scores.filter((row) => row.round === "round1"), (row) => norm(row.project));
-  const results = Object.values(byProject).map((rows) => {
-    const raw = average(rows.map((row) => Number(row.total)));
-    const compensation = average(rows.map((row) => weights[norm(row.judge)] || 1));
-    return {
-      project: String(rows[0].project).trim(),
-      judges: rows.map((row) => row.judge).join(", "),
-      count: rows.length,
-      raw,
-      compensation,
-      adjusted: raw * compensation,
-    };
-  });
-  results.sort((a, b) => b.adjusted - a.adjusted);
-
-  // Top 10, but if 10th and 11th tie, drop back to the top 9 (and so on).
-  let cutoff = Math.min(FINALIST_COUNT, results.length);
-  while (cutoff > 0 && cutoff < results.length && same(results[cutoff - 1].adjusted, results[cutoff].adjusted)) {
-    cutoff--;
-  }
-
-  writeTab(
-    "Round 1 Results",
-    ["rank", "project", "adjusted /48", "raw avg /48", "compensation", "# judges", "judges", "finalist"],
-    results.map((r, i) => [i + 1, r.project, round2(r.adjusted), round2(r.raw), round2(r.compensation), r.count, r.judges,
-      i < cutoff ? "yes" : ""])
-  );
-  writeTab(
-    "Calibration Weights",
-    ["judge", "sample score /48", "weight"],
-    calibration.map((row) => [row.judge, Number(row.total), round2(weights[norm(row.judge)])])
-  );
-  writeTab("Finalists", TABS.Finalists, results.slice(0, cutoff).map((r) => [r.project]));
-
-  const thin = results.filter((r) => r.count < JUDGES_PER_PROJECT).length;
-  toast(`${cutoff} finalists selected.` + (thin ? ` ${thin} project(s) have fewer than ${JUDGES_PER_PROJECT} scores.` : ""));
-}
-
-function computeFinals() {
-  const scores = readRows("Scores");
-
-  const finals = Object.values(groupBy(scores.filter((row) => row.round === "finals"), (row) => norm(row.project)))
-    .map((rows) => ({ project: String(rows[0].project).trim(), avg: average(rows.map((row) => Number(row.total))), count: rows.length }))
-    .sort((a, b) => b.avg - a.avg);
-
-  const tracks = Object.values(groupBy(scores.filter((row) => row.round === "tracks"),
-    (row) => norm(row.track) + "|" + norm(row.project)))
-    .map((rows) => ({
-      track: String(rows[0].track).trim(),
-      project: String(rows[0].project).trim(),
-      avg: average(rows.map((row) => Number(row.total))),
-      count: rows.length,
-    }))
-    .sort((a, b) => a.track.localeCompare(b.track) || b.avg - a.avg);
-
-  writeTab(
-    "Finals Results",
-    ["rank", "project", "avg /48", "# exec votes", "winner"],
-    finals.map((r, i) => [i + 1, r.project, round2(r.avg), r.count, i < WINNER_COUNT ? `#${i + 1}` : ""])
-  );
-  writeTab("Track Results", ["track", "project", "avg /48", "# judges"], tracks.map((r) => [r.track, r.project, round2(r.avg), r.count]));
-  toast("Finals and track results updated.");
-}
-
-/* ---------- Helpers ---------- */
-
-function sampleProject() {
-  return PropertiesService.getScriptProperties().getProperty("SAMPLE_PROJECT") || "Sample project (hackPHS 2025)";
-}
-
-function tab(name) {
-  const book = SpreadsheetApp.getActiveSpreadsheet();
-  return book.getSheetByName(name) || book.insertSheet(name);
-}
-
-function readRows(name) {
-  const values = tab(name).getDataRange().getValues();
-  if (values.length < 2) {
-    return [];
-  }
-  const headers = values[0].map((h) => String(h).trim());
-  return values
-    .slice(1)
-    .filter((row) => row.some((cell) => cell !== ""))
-    .map((row) => Object.fromEntries(headers.map((h, i) => [h, row[i]])));
-}
-
-function writeTab(name, headers, rows) {
-  const sheet = tab(name);
+function writeTab(book, name, headers, data) {
+  const sheet = book.getSheetByName(name) || book.insertSheet(name);
   sheet.clearContents();
-  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-  if (rows.length) {
-    sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
-  }
+  sheet.getRange(1, 1, data.length + 1, headers.length)
+    .setValues([headers, ...data].map((row) => row.map(literal)));
   sheet.setFrozenRows(1);
 }
-
-function groupBy(items, keyOf) {
-  const groups = {};
-  for (const item of items) {
-    (groups[keyOf(item)] = groups[keyOf(item)] || []).push(item);
+function readProjects() {
+  const source = sourceBook();
+  const sheet = source.getSheetByName("Expo");
+  if (!sheet) throw new Error("Missing Expo tab.");
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(norm);
+  let idColumn = headers.indexOf("judging id") + 1;
+  if (!idColumn) {
+    idColumn = headers.length + 1;
+    if (idColumn > sheet.getMaxColumns()) sheet.insertColumnAfter(sheet.getMaxColumns());
+    sheet.getRange(1, idColumn).setValue("Judging ID");
   }
-  return groups;
+  const seen = new Set();
+  const ids = new Set();
+  const projects = rows(source, "Expo").filter((r) => text(r["project name"])).map((r) => {
+    const name = text(r["project name"]);
+    const table = text(r["project table"] || r["table #"] || r.table);
+    if (!table) throw new Error("Missing table in Expo for " + name);
+    if (seen.has(norm(name))) throw new Error("Duplicate project name in Expo: " + name);
+    seen.add(norm(name));
+    let id = text(r["judging id"]);
+    if (!id) { id = Utilities.getUuid(); sheet.getRange(r._row, idColumn).setValue(id); }
+    if (ids.has(id)) throw new Error("Duplicate Judging ID in Expo. Contact an organizer.");
+    ids.add(id);
+    return { id, name, table, link: text(r["project link"]), tracks: text(r.track) };
+  });
+  if (!projects.length) throw new Error("Expo has no projects. Check Project Name and Table # headers.");
+  return projects.sort((a, b) => a.table.localeCompare(b.table, undefined, { numeric: true }) || a.name.localeCompare(b.name));
 }
-
-function shuffle(items) {
-  const copy = items.slice();
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
+function authenticate(request) {
+  const invitation = PropertiesService.getScriptProperties().getProperty("JUDGE_INVITATION");
+  if (!invitation || text(request.invitation) !== invitation) throw new Error("That password isn't right.");
+  const name = norm(request.judge);
+  const matches = rows(sourceBook(), "Judges").filter((r) => name && norm(r.name) === name);
+  if (matches.length !== 1) throw new Error("Your name must match one unique Name in the Judges tab. Ask an organizer for help.");
+  return { name: text(matches[0].name) };
+}
+function sets(book) {
+  return rows(book, "Tablesets").map((r) => ({ ...r, projects: JSON.parse(r.projects),
+    ranking: r.ranking ? JSON.parse(r.ranking) : [] }));
+}
+function ownedSet(book, judge, id) {
+  const set = sets(book).find((s) => s.id === id && norm(s.judge) === norm(judge.name));
+  if (!set) throw new Error("This tableset is not assigned to you.");
+  return set;
+}
+function claim(judge, initial) {
+  return withLock(() => {
+    const book = privateBook();
+    syncProjects(book);
+    const all = sets(book);
+    const mine = all.filter((s) => norm(s.judge) === norm(judge.name));
+    if (mine.some((s) => !s.ranking.length) || (initial && mine.length)) return;
+    // All claim, score, and completion writes share a lock. Completed sets stay closed.
+    const next = all.find((s) => !text(s.judge));
+    if (next) book.getSheetByName("Tablesets").getRange(next._row, 3).setValue(literal(judge.name));
+  });
+}
+function snapshot(judge) {
+  return withLock(() => {
+  const book = privateBook();
+  syncProjects(book);
+  const mine = sets(book).filter((s) => norm(s.judge) === norm(judge.name));
+  const ids = new Set(mine.map((s) => s.id));
+  // Explicit allowlist: no other judges, overall results, or top-five markers leave the server.
+  return { version: VERSION, judge, tablesets: mine.map((s) => ({ id: s.id, projects: s.projects,
+    ranking: s.ranking, complete: !!s.ranking.length })),
+    scores: rows(book, "Scores").filter((r) => norm(r.judge) === norm(judge.name) && ids.has(r.tableset))
+      .map((r) => ({ id: r.id, tableset: r.tableset, project: r.project,
+        scores: Object.fromEntries(Object.keys(CRITERIA).map((key) => [key, Number(r[key])])),
+        total: Number(r.total), notes: text(r.notes) })) };
+  });
+}
+// Stable IDs allow names/tables to change without moving a judge's saved scores.
+// Read current Expo values at each refresh; new projects fill unclaimed sets only.
+function syncProjects(book) {
+  const projects = readProjects();
+  const byId = new Map(projects.map((p) => [p.id, p]));
+  const all = sets(book);
+  if (!all.length) throw new Error("An organizer must build tablesets before judging starts.");
+  const original = new Map(all.map((set) => [set.id, JSON.stringify(set.projects)]));
+  const seen = new Set();
+  for (const set of all) {
+    set.projects = set.projects.map((p) => {
+      const current = byId.get(p.id);
+      if (!current) throw new Error("An assigned Expo project was removed. Ask an organizer to restore it.");
+      seen.add(p.id);
+      return current;
+    });
   }
-  return copy;
+  const added = projects.filter((p) => !seen.has(p.id));
+  if (added.length && book.getSheetByName("Results")) book.getSheetByName("Results").clearContents();
+  for (const set of all.filter((s) => !text(s.judge))) {
+    while (set.projects.length < 5 && added.length) set.projects.push(added.shift());
+  }
+  const sheet = book.getSheetByName("Tablesets");
+  for (const set of all) {
+    const serialized = JSON.stringify(set.projects);
+    if (serialized !== original.get(set.id)) sheet.getRange(set._row, 2).setValue(serialized);
+  }
+  while (added.length) {
+    const id = "Set " + (all.length + 1);
+    const group = added.splice(0, 5);
+    sheet.appendRow([id, JSON.stringify(group), "", "", ""]);
+    all.push({ id });
+  }
 }
-
-function average(values) {
-  return values.length ? values.reduce((sum, v) => sum + v, 0) / values.length : 0;
+function doPost(e) {
+  let result;
+  try {
+    const request = JSON.parse(e.postData.contents);
+    if (request.version !== VERSION) throw new Error("Judging has changed. Refresh this page before continuing.");
+    const judge = authenticate(request);
+    if (request.action === "config") { claim(judge, true); result = snapshot(judge); }
+    else if (request.action === "claim") { claim(judge, false); result = snapshot(judge); }
+    else if (request.action === "submit") result = { entry: submit(judge, request.entry) };
+    else if (request.action === "complete") {
+      complete(judge, request.tableset, request.ranking);
+      computeResults();
+      result = snapshot(judge);
+    }
+    else throw new Error("Unknown action.");
+    result.ok = true;
+  } catch (error) { result = { ok: false, error: error.message }; }
+  return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
 }
-
-function same(a, b) {
-  return Math.abs(a - b) < 1e-9;
+function validateScores(input) {
+  const scores = {};
+  let total = 0;
+  for (const [key, weight] of Object.entries(CRITERIA)) {
+    const score = input && input[key];
+    if (typeof score !== "number" || !Number.isInteger(score) || score < 1 || score > 12)
+      throw new Error("Score for " + key + " must be an integer from 1 to 12.");
+    scores[key] = score;
+    total += score * weight * 4;
+  }
+  return { scores, total: Math.round(total * 100) / 100 };
 }
-
-function round2(value) {
-  return Math.round(value * 100) / 100;
+function submit(judge, entry) {
+  return withLock(() => {
+    if (!entry) throw new Error("Missing score.");
+    const book = privateBook();
+    const set = ownedSet(book, judge, entry.tableset);
+    if (set.ranking.length) throw new Error("This tableset is complete; scores are locked.");
+    if (!set.projects.some((p) => p.id === entry.project)) throw new Error("Project is not in your tableset.");
+    const { scores, total } = validateScores(entry.scores);
+    const id = JSON.stringify([set.id, entry.project]);
+    const row = [id, judge.name, set.id, entry.project, ...Object.keys(CRITERIA).map((k) => scores[k]),
+      total, text(entry.notes).slice(0, 5000), new Date()];
+    const existing = rows(book, "Scores").find((r) => r.id === id);
+    const sheet = book.getSheetByName("Scores");
+    sheet.getRange(existing ? existing._row : sheet.getLastRow() + 1, 1, 1, row.length).setValues([row.map(literal)]);
+    return { id, tableset: set.id, project: entry.project, scores, total, notes: row[row.length - 2] };
+  });
 }
-
-function norm(value) {
-  return String(value || "").trim().toLowerCase();
+function complete(judge, id, ranking) {
+  return withLock(() => {
+    const book = privateBook();
+    const set = ownedSet(book, judge, id);
+    if (!Array.isArray(ranking) || ranking.length !== set.projects.length || new Set(ranking).size !== ranking.length ||
+        ranking.some((p) => !set.projects.some((project) => project.id === p)))
+      throw new Error("Rank every project in your tableset exactly once.");
+    if (set.ranking.length) {
+      if (JSON.stringify(ranking) === JSON.stringify(set.ranking)) return; // Network retry.
+      throw new Error("This tableset's ranking is already locked.");
+    }
+    const scores = rows(book, "Scores").filter((r) => r.tableset === id && norm(r.judge) === norm(judge.name));
+    if (!set.projects.every((p) => scores.some((r) => r.project === p.id))) throw new Error("Save all rubric scores before ranking.");
+    // One range write commits the whole ranking, avoiding partial point awards.
+    book.getSheetByName("Tablesets").getRange(set._row, 4, 1, 2).setValues([[JSON.stringify(ranking), new Date()]]);
+  });
 }
-
-function confirm(message) {
+function setup() {
+  const props = PropertiesService.getScriptProperties();
+  sourceBook();
+  if (!props.getProperty("JUDGING_PRIVATE_SHEET_ID")) {
+    const book = SpreadsheetApp.create("hackPHS 2026 - PRIVATE Judging");
+    props.setProperty("JUDGING_PRIVATE_SHEET_ID", book.getId());
+  }
+  const book = privateBook();
+  for (const [name, headers] of Object.entries(TABS)) {
+    if (!book.getSheetByName(name)) writeTab(book, name, headers, []);
+  }
+  props.setProperty("JUDGE_INVITATION", "Invitation");
+  SpreadsheetApp.getUi().alert("Private judging workbook: " + book.getUrl() +
+    "\nKeep access restricted to organizers only. Do not publish it. Now run Build tablesets from Expo.");
+}
+function buildTablesets() {
+  withLock(() => {
+    const book = privateBook();
+    if (sets(book).some((s) => text(s.judge)) || rows(book, "Scores").length)
+      throw new Error("Judging has started. Do not rebuild tablesets; ask an organizer to migrate them.");
+    const projects = readProjects();
+    const data = [];
+    for (let i = 0; i < projects.length; i += 5)
+      data.push(["Set " + (data.length + 1), JSON.stringify(projects.slice(i, i + 5)), "", "", ""]);
+    writeTab(book, "Tablesets", TABS.Tablesets, data);
+    if (book.getSheetByName("Results")) book.getSheetByName("Results").clearContents();
+    sourceBook().toast(data.length + " tablesets created. Last set has " + JSON.parse(data[data.length - 1][1]).length + " projects.");
+  });
+}
+function resultRows(all, scores) {
+  const finished = all.length > 0 && all.every((s) => s.ranking.length);
+  const results = all.flatMap((s) => s.projects.map((p) => {
+    const score = scores.find((r) => r.tableset === s.id && r.project === p.id);
+    const place = s.ranking.indexOf(p.id);
+    return { ...p, set: s.id, place: place < 0 ? "" : place + 1, points: place < 0 ? 0 : POINTS[place],
+      total: score ? Number(score.total) : 0, complete: !!s.ranking.length };
+  })).sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
+  // Equal points stay tied. Rubric totals do NOT break ties; name only stabilizes display.
+  let rank = 0;
+  return results.map((r, i) => {
+    if (!i || r.points !== results[i - 1].points) rank = i + 1;
+    const tiedGroupEnd = results.filter((other) => other.points >= r.points).length - 1;
+    const marker = !finished ? "PROVISIONAL - judging incomplete" :
+      rank <= 5 && tiedGroupEnd >= 5 ? "TIED FOR TOP 5 - organizer decision needed" :
+      rank <= 5 ? "TOP 5" : "";
+    return [rank, r.name, r.table, r.set, r.place, r.points, r.total, r.complete ? "Complete" : "Pending", marker];
+  });
+}
+function computeResults() {
+  withLock(() => {
+    const book = privateBook();
+    syncProjects(book);
+    writeTab(book, "Results", ["Rank (ties shared)", "Project", "Table", "Tableset", "Set place", "Points", "Rubric /48", "Status", "Top 5 (organizers only)"],
+      resultRows(sets(book), rows(book, "Scores")));
+    sourceBook().toast("Private results updated. Resolve cutoff ties in the private Results tab; nothing is sent to judges.");
+  });
+}
+// Official Devpost CSV export. Import before building/claiming tablesets.
+function importDevpostCsv() {
   const ui = SpreadsheetApp.getUi();
-  return ui.alert(message, ui.ButtonSet.YES_NO) === ui.Button.YES;
-}
-
-function toast(message) {
-  SpreadsheetApp.getActiveSpreadsheet().toast(message, "hackPHS Judging", 8);
+  const prompt = ui.prompt("Import Devpost projects", "Paste the Drive file ID of a completed-submissions CSV export. Existing Expo rows are preserved; new projects are appended.", ui.ButtonSet.OK_CANCEL);
+  if (prompt.getSelectedButton() !== ui.Button.OK) return;
+  const csv = Utilities.parseCsv(DriveApp.getFileById(text(prompt.getResponseText())).getBlob().getDataAsString("UTF-8"));
+  const headers = csv.shift().map((h) => norm(h).replace(/^\uFEFF/, ""));
+  const column = (aliases) => headers.findIndex((h) => aliases.includes(h));
+  const nameCol = column(["project name", "project title", "title", "name", "submission title"]);
+  const linkCol = column(["project link", "project url", "url", "submission url"]);
+  const tableCol = column(["project table", "table #", "table number", "table"]);
+  if (nameCol < 0) throw new Error("CSV needs a Project Name or Project Title column.");
+  withLock(() => {
+    if (sets(privateBook()).length) throw new Error("Import before building tablesets. Existing sets are preserved.");
+    const sheet = sourceBook().getSheetByName("Expo");
+    const dest = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(norm);
+    const destName = dest.indexOf("project name"), destLink = dest.indexOf("project link");
+    const destTable = dest.findIndex((h) => ["table #", "project table", "table"].includes(h));
+    if (destName < 0 || destTable < 0) throw new Error("Expo needs Project Name and Table # headers.");
+    const existing = rows(sourceBook(), "Expo").filter((r) => text(r["project name"]));
+    const names = new Set(existing.map((r) => norm(r["project name"])));
+    const usedTables = new Set(existing.map((r) => text(r[dest[destTable]])));
+    let nextTable = 1;
+    const imported = [];
+    for (const row of csv) {
+      const name = text(row[nameCol]);
+      if (!name || names.has(norm(name))) continue;
+      names.add(norm(name));
+      let table = tableCol < 0 ? "" : text(row[tableCol]);
+      if (!table) { while (usedTables.has(String(nextTable))) nextTable++; table = String(nextTable++); }
+      usedTables.add(table);
+      const result = Array(dest.length).fill("");
+      result[destName] = name;
+      result[destTable] = table;
+      if (destLink >= 0 && linkCol >= 0) result[destLink] = text(row[linkCol]);
+      imported.push(result);
+    }
+    if (imported.length) sheet.getRange(Math.max(2, sheet.getLastRow() + 1), 1, imported.length, dest.length)
+      .setValues(imported.map((row) => row.map(literal)));
+    sourceBook().toast(imported.length + " projects appended. Review table numbers and remove sample rows, then Build tablesets from Expo.");
+  });
 }

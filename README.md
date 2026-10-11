@@ -97,7 +97,9 @@ Test teams are browser-only fixtures and are never written to the Google Sheet.
 
 ## Judging portal
 
-`/judging` (`judging/`) is where judges enter rubric scores for calibration, round 1, finals, and track prizes.
-Scores go to a Google Sheet through the Apps Script in `judging/apps-script.gs`; setup steps are at the top of that file.
-The deployed web app URL is set in `ENDPOINT` in `judging/judging.js`. If it is left empty the page runs in local mode
-(scores stay in the browser and can be exported as CSV).
+`/judging` uses exclusive tablesets of five projects, the existing rubric, and a final within-set ranking
+worth 15/10/5/0/0 points. There is no calibration or finals round. Ties remain for organizers to resolve.
+Names come from the source spreadsheet's Judges tab and project details from Expo, through server-side Apps Script.
+The browser never receives the source spreadsheet ID, judge roster, or overall standings.
+See `judging/README.md` for required backend deployment, private results setup, and Devpost CSV import.
+The Apps Script backend must be redeployed alongside the frontend; mismatched versions refuse sign-in.

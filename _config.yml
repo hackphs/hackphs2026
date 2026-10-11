@@ -1,0 +1,9 @@
+# Keep organizer-only backend source out of the GitHub Pages output.
+exclude:
+  - judging/apps-script.gs
+  - judging/README.md
+  - tests
+  - tmp
+  - wsgi.py
+  - requirements.txt
+  - README.md

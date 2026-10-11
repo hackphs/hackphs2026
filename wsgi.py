@@ -23,7 +23,8 @@ def application(environ, start_response):
     if file_path.is_dir():
         file_path = file_path / "index.html"
 
-    if not file_path.is_relative_to(ROOT) or not file_path.is_file():
+    private_path = any(part.startswith(".") for part in Path(path).parts) or file_path.suffix == ".gs"
+    if private_path or not file_path.is_relative_to(ROOT) or not file_path.is_file():
         body = b"Not found"
         start_response(
             "404 Not Found",

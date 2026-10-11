@@ -159,6 +159,7 @@ textarea {
     color: var(--text-faint);
 }
 
+.field select,
 .field input,
 .field textarea {
     width: 100%;
@@ -175,6 +176,7 @@ textarea {
     line-height: 1.6;
 }
 
+.field select:focus,
 .field input:focus,
 .field textarea:focus {
     outline: none;
@@ -366,6 +368,22 @@ textarea {
     gap: 3rem;
     align-items: start;
 }
+
+.tableset-ranking {
+    margin-top: 2rem;
+    padding: clamp(1rem, 4vw, 2rem);
+}
+
+.ranking-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.field select { width: 100%; font: inherit; }
+.field select option { color: #172d45; background: #fff; }
+button:disabled { opacity: .55; cursor: not-allowed; }
 
 /* queue */
 .queue {

@@ -16,8 +16,8 @@
     />
     <link rel="stylesheet" href="/styles/base.css?v=20260827" />
     <link rel="stylesheet" href="/styles/donate.css?v=20260824g" />
-    <link rel="stylesheet" href="/judging/judging.css?v=20261005b" />
-    <script src="/judging/judging.js?v=20261005a" defer></script>
+    <link rel="stylesheet" href="/judging/judging.css?v=20261011tablesets" />
+    <script src="/judging/judging.js?v=20261011deployed" defer></script>
 </head>
 <body class="donate-page">
     <div class="donate-sky" aria-hidden="true">
@@ -48,7 +48,7 @@
             <div class="signin__intro">
                 <p class="eyebrow">hackPHS 2026 / Judges</p>
                 <h1 class="signin__title">Judging</h1>
-                <p class="deck">Sign in with your name and the judging code from the organizers.</p>
+                <p class="deck">Enter your name exactly as registered by the organizers, plus your password.</p>
             </div>
 
             <form class="signin__form" data-signin-form>
@@ -57,8 +57,8 @@
                     <input name="name" type="text" required autocomplete="name" />
                 </label>
                 <label class="field">
-                    <span class="field__label">Judging code</span>
-                    <input name="code" type="password" required autocomplete="current-password" />
+                    <span class="field__label">Password</span>
+                    <input name="invitation" type="password" required autocomplete="current-password" />
                 </label>
                 <button class="arrow-button" type="submit">Start judging</button>
                 <p class="feedback" data-signin-feedback aria-live="polite"></p>
@@ -70,13 +70,9 @@
                 <p class="eyebrow">hackPHS 2026 / Judges</p>
                 <h1>Project judging</h1>
             </div>
-            <p class="notice" data-local-notice hidden>
-                Not connected to the score sheet. Scores are only saved on this device, so use
-                <strong>Export CSV</strong> and send the file to an organizer.
-            </p>
-
-            <nav class="tabs" role="tablist" aria-label="Judging round" data-tabs></nav>
-            <p class="round-intro" data-round-intro></p>
+            <p class="round-intro">Each tableset contains up to five projects. Use the rubric for each project, then rank the set: 15 points for first, 10 for second, 5 for third, and 0 for fourth and fifth.</p>
+            <p class="notice" data-tableset-status aria-live="polite"></p>
+            <button class="arrow-button" type="button" data-claim hidden>Get another tableset</button>
 
             <div class="layout">
                 <aside class="panel queue">
@@ -85,20 +81,13 @@
                         <span class="queue__progress" data-queue-progress></span>
                     </div>
                     <ul class="queue__list" data-queue></ul>
-                    <button class="text-button" type="button" data-export>Export CSV</button>
                 </aside>
 
                 <form class="panel score-form" data-score-form novalidate>
                     <div class="score-form__fields">
-                        <label class="field" data-track-field hidden>
-                            <span class="field__label">Track</span>
-                            <input name="track" type="text" list="track-options" autocomplete="off" />
-                            <datalist id="track-options"></datalist>
-                        </label>
                         <label class="field">
                             <span class="field__label">Project</span>
-                            <input name="project" type="text" list="project-options" autocomplete="off" required />
-                            <datalist id="project-options"></datalist>
+                            <select name="project" required><option value="">Choose a project</option></select>
                         </label>
                     </div>
 
@@ -116,13 +105,21 @@
                             <span class="total__max">/ 48</span>
                         </div>
                         <div class="score-form__actions">
-                            <button class="text-button" type="reset">Clear</button>
                             <button class="arrow-button" type="submit">Submit score</button>
                         </div>
                     </div>
                     <p class="feedback" data-score-feedback aria-live="polite"></p>
                 </form>
             </div>
+            <section class="panel tableset-ranking" data-ranking hidden>
+                <h2>Rank your tableset</h2>
+                <p>Compare only the projects in this set. Submit once you have saved every rubric score.</p>
+                <form data-ranking-form>
+                    <div class="ranking-fields" data-ranking-fields></div>
+                    <button class="arrow-button" type="submit">Finish tableset</button>
+                    <p class="feedback" data-ranking-feedback aria-live="polite"></p>
+                </form>
+            </section>
         </section>
     </main>
 </body>
