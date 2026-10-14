@@ -14,6 +14,7 @@ after(async () => { await browser?.close(); });
 
 async function pageForTest(width = 1440) {
     const page = await browser.newPage({ viewport: { width, height: 960 }, reducedMotion: "reduce" });
+    await page.addInitScript(() => sessionStorage.setItem("hackphs2026-recap-seen", "1"));
     page.errors = [];
     page.on("pageerror", (error) => page.errors.push(error.message));
     return page;

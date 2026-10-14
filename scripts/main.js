@@ -4,8 +4,8 @@ import { startReveals } from "./reveals.js?v=20260827";
 import { startRocket } from "./rocket.js?v=20260925";
 import { startSchedule } from "./schedule.js?v=20261011judging1015";
 import { startScheduleNow } from "./schedule-now.js?v=20261010b";
-import { startEventDialog } from "./event-dialog.js?v=20261011prizes";
-import { startEventSignups } from "./event-signups.js?v=20261011prizes";
+import { startEventDialog } from "./event-dialog.js?v=20261013closed";
+import { startEventSignups } from "./event-signups.js?v=20261013closed";
 import { startParticipantMap } from "./participant-map.js?v=20261009";
 import { startCopyEmail } from "./copy-email.js?v=20260821";
 import { startPrizePreviews } from "./prize-previews.js?v=20260917";
@@ -14,6 +14,7 @@ import { startEventCountdown } from "./event-countdown.js?v=20261010b";
 import { startNextEvent } from "./next-event.js?v=20261010f";
 import { startWinners } from "./winners.js?v=20261010v";
 import { startSubmissionCountdown } from "./submission-countdown.js?v=20261011-1045";
+import { startRecap } from "./recap.js?v=20261013";
 
 // each part of the page owns its own behavior
 startJourney();
@@ -32,3 +33,4 @@ startEventCountdown();
 startNextEvent();
 startWinners();
 startSubmissionCountdown();
+startRecap();

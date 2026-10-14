@@ -16,6 +16,24 @@ Press `Ctrl+C` in the same terminal to stop the server
 
 ## Project structure
 
+### Post-event recap and team page (local review)
+
+The homepage links to `team.html`. Team names and assignments are stored in
+`scripts/team-data.js`, using the organizer-approved October 13 roster. The two
+directors share a row, and section directors appear before each section's organizer
+list. Finance has two section directors. The page also thanks the volunteers. Keep the
+`team.html` no-JavaScript roster in sync when changing the structured roster.
+
+The completed Canva recap has a web-ready copy in `assets/videos/`, with its
+original video preserved separately. Visitors get a dismissible welcome once per
+tab session when opening the homepage; Watch the 2026 recap always reopens it.
+`/#recap` opens it directly, while schedule/map anchor visits are not interrupted.
+No audio/video autoplays. Closing pauses playback and restores keyboard focus.
+The local Python server streams byte ranges so video playback and seeking work.
+
+Run `node --test tests/recap-team.test.mjs` with Playwright available to check the
+welcome, playback, seeking, dismissal, team hierarchy, links and phone layouts.
+
 - `index.html` contains the page content and accessible markup
 - `styles/` contains focused stylesheets for the layout and each visual area
 - `scripts/` contains the page behavior split by responsibility
@@ -72,10 +90,15 @@ event pages, including pages left open at the release time. This is a display
 schedule based on the visitor's device clock, not an access-control boundary.
 The code must be deployed before release for this behavior to appear publicly.
 
-Competition URLs are in `competitiveSignupUrls` in `scripts/events.js`. The
-Estimathon form was unpublished when checked on October 9; its verified
-respondent endpoint is connected but its owner still needs to publish it. No Google Form
-publishing settings were changed as part of this local website update.
+Sign-ups close on the website at the event's end, **noon New York time on
+Sunday, October 11, 2026** (`2026-10-11T16:00:00Z`). The notice, event dialogs,
+and standalone event pages show closed status and no responder links afterward.
+Pages already open also update at the closing boundary.
+
+Competition URLs remain archived in `competitiveSignupUrls` in `scripts/events.js`.
+On October 13, the workshop form and all six competition/voting forms still
+displayed questions and a Submit button. Their owners need to stop accepting
+responses in Google Forms separately. No form settings or responses were changed.
 
 The participant map PDF is an unchanged copy of the organizer's supplied file.
 Its PNG preview supports zoom, pan, pinch, keyboard controls and full screen;

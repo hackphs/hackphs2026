@@ -2,12 +2,18 @@ import test, { before, after } from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { events, workshopEventSlugs, workshopSignupUrl, competitiveSignupUrls } from "../scripts/events.js";
-import { signupOpensAt, signupsAreOpen } from "../scripts/event-signups.js";
+import { signupOpensAt, signupClosesAt, signupsAreOpen } from "../scripts/event-signups.js";
 
 const { chromium } = createRequire(import.meta.url)("playwright");
 const base = process.env.TEST_SITE_URL || "http://localhost:3000";
 let browser;
+async function sitePage(options = {}) {
+    const page = await browser.newPage(options);
+    await page.addInitScript(() => sessionStorage.setItem("hackphs2026-recap-seen", "1"));
+    return page;
+}
 before(async () => { browser = await chromium.launch({ channel: "msedge", headless: true }); });
 after(async () => {
     let timeout;
@@ -20,6 +26,9 @@ test("signup release is exactly 9 AM New York time on October 10", () => {
     assert.equal(new Date(signupOpensAt).toISOString(), "2026-10-10T13:00:00.000Z");
     assert.equal(signupsAreOpen(signupOpensAt - 1), false);
     assert.equal(signupsAreOpen(signupOpensAt), true);
+    assert.equal(new Date(signupClosesAt).toISOString(), "2026-10-11T16:00:00.000Z");
+    assert.equal(signupsAreOpen(signupClosesAt - 1), true);
+    assert.equal(signupsAreOpen(signupClosesAt), false);
     for (const slug of workshopEventSlugs) assert.equal(events[slug].signupUrl, workshopSignupUrl);
     assert.equal(Object.keys(competitiveSignupUrls).length, 6);
     assert.equal(competitiveSignupUrls.estimathon, "https://docs.google.com/forms/d/e/1FAIpQLSeR1ludcylq5beYo1SE-iKd1OfFHU6iVtPhHPj7aoBblPrjvQ/viewform?usp=dialog");
@@ -30,7 +39,7 @@ test("signup release is exactly 9 AM New York time on October 10", () => {
 });
 
 test("open workshop dialog updates at the release without reloading", async () => {
-    const page = await browser.newPage({ reducedMotion: "reduce", timezoneId: "America/Los_Angeles" });
+    const page = await sitePage({ reducedMotion: "reduce", timezoneId: "America/Los_Angeles" });
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
     try {
@@ -61,7 +70,7 @@ test("open workshop dialog updates at the release without reloading", async () =
 });
 
 test("standalone events use the same timed responder links", async () => {
-    const page = await browser.newPage();
+    const page = await sitePage();
     try {
         await page.clock.install({ time: new Date(signupOpensAt - 3_600_000) });
         await page.goto(`${base}/events.html?event=intro-to-google-ai-studio`);
@@ -74,8 +83,56 @@ test("standalone events use the same timed responder links", async () => {
     } finally { await page.close(); }
 });
 
+test("open event dialog closes sign-ups at the event end without reloading", async () => {
+    const page = await sitePage({ reducedMotion: "reduce" });
+    try {
+        await page.clock.install({ time: new Date(signupClosesAt - 3_600_000) });
+        await page.goto(base);
+        await page.locator('.schedule-table [data-event="intro-to-python"] a').click();
+        const signup = page.locator('[data-event-dialog] [data-event-signup]');
+        assert.equal(await signup.locator("a").getAttribute("href"), workshopSignupUrl);
+        await page.clock.pauseAt(new Date(signupClosesAt - 1000));
+        await page.clock.runFor(1000);
+        assert.equal(await signup.textContent(), "Sign-ups are closed.");
+        assert.equal(await signup.locator("a").count(), 0);
+        assert.equal(await page.locator("[data-signup-notice]").textContent(), "Workshop and event sign-ups are closed.");
+    } finally { await page.close(); }
+});
+
+test("post-event homepage and all responder links are closed, including without JavaScript", async () => {
+    const page = await sitePage({ viewport: { width: 1280, height: 960 }, reducedMotion: "reduce" });
+    const errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    try {
+        await page.clock.install({ time: new Date("2026-10-13T12:00:00-04:00") });
+        await page.goto(`${base}/#schedule`);
+        await page.locator("[data-participant-map].is-interactive").waitFor();
+        assert.equal(await page.locator("[data-live-schedule]").count(), 0);
+        assert.equal(await page.locator("[data-signup-notice]").textContent(), "Workshop and event sign-ups are closed.");
+        for (const width of [1280, 768, 390, 320]) {
+            await page.setViewportSize({ width, height: 960 });
+            assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `post-event overflow at ${width}`);
+        }
+        await page.locator("#schedule").screenshot({ path: join(process.cwd(), "tmp", "schedule-closed-mobile.png") });
+        for (const slug of ["intro-to-python", ...Object.keys(competitiveSignupUrls)]) {
+            await page.goto(`${base}/events.html?event=${slug}`);
+            const signup = page.locator("[data-event-signup]");
+            await signup.getByText(slug === "ai-ethics-panel" ? "Voting is closed." : "Sign-ups are closed.", { exact: true }).waitFor();
+            assert.equal(await signup.locator("a").count(), 0);
+        }
+        assert.deepEqual(errors, []);
+    } finally { await page.close(); }
+    const staticPage = await browser.newPage({ javaScriptEnabled: false });
+    try {
+        await staticPage.goto(base);
+        assert.equal(await staticPage.locator("[data-signup-notice]").textContent(), "Workshop and event sign-ups are closed.");
+        await staticPage.goto(`${base}/events.html?event=intro-to-python`);
+        assert.equal(await staticPage.locator("[data-event-signup]").textContent(), "Sign-ups are closed.");
+    } finally { await staticPage.close(); }
+});
+
 test("map zoom, drag, keyboard, full screen and prize feature work on desktop and mobile", async () => {
-    const page = await browser.newPage({ viewport: { width: 1440, height: 960 }, reducedMotion: "reduce" });
+    const page = await sitePage({ viewport: { width: 1440, height: 960 }, reducedMotion: "reduce" });
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
     try {
@@ -111,7 +168,7 @@ test("map zoom, drag, keyboard, full screen and prize feature work on desktop an
         await page.getByRole("button", { name: "Exit full screen", exact: true }).waitFor();
         await page.getByRole("button", { name: "Exit full screen", exact: true }).click();
         await page.getByRole("button", { name: "Full screen", exact: true }).waitFor();
-        await page.locator("#participant-map").screenshot({ path: join(process.cwd(), "tmp", "map-desktop.png") });
+        await page.locator("#participant-map").screenshot({ path: join(tmpdir(), "hackphs-map-desktop.png") });
         const drone = page.getByRole("button", { name: "Tilt the drone grand prize preview" });
         await drone.scrollIntoViewIfNeeded();
         await drone.locator("img").evaluate(image => image.decode());
@@ -123,7 +180,7 @@ test("map zoom, drag, keyboard, full screen and prize feature work on desktop an
         assert.match(competitive, /Wireless earbuds/);
         assert.doesNotMatch(competitive, /Monitor light|Plushie/);
         assert.equal(await page.locator(".prize-raffles__more li").count(), 6);
-        await page.locator(".prize-raffles").screenshot({ path: join(process.cwd(), "tmp", "raffles-desktop.png") });
+        await page.locator(".prize-raffles").screenshot({ path: join(tmpdir(), "hackphs-raffles-desktop.png") });
         for (const width of [390, 320]) {
             await page.setViewportSize({ width, height: 844 });
             await map.scrollIntoViewIfNeeded();
@@ -133,13 +190,13 @@ test("map zoom, drag, keyboard, full screen and prize feature work on desktop an
             await assertMapInsets();
             assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         }
-        await page.locator("#participant-map").screenshot({ path: join(process.cwd(), "tmp", "map-mobile.png") });
+        await page.locator("#participant-map").screenshot({ path: join(tmpdir(), "hackphs-map-mobile.png") });
         assert.deepEqual(errors, []);
     } finally { await page.close(); }
 });
 
 test("map supports touch pinch and clamps zoom to 100–400 percent", async () => {
-    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
+    const page = await sitePage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
     try {
         await page.goto(base);
         const viewport = page.locator("[data-map-viewport]");

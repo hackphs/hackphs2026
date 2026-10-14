@@ -26,8 +26,9 @@
     <link rel="stylesheet" href="/styles/schedule.css?v=20261010n" />
     <link rel="stylesheet" href="/styles/event.css?v=20261010v" />
     <link rel="stylesheet" href="/styles/participant-map.css?v=20261010b" />
+    <link rel="stylesheet" href="/styles/recap.css?v=20261013" />
     <link rel="stylesheet" href="/styles/responsive.css?v=20261007c" />
-    <script type="module" src="/scripts/main.js?v=20261011judging1045"></script>
+    <script type="module" src="/scripts/main.js?v=20261013closed"></script>
 </head>
 <body>
 
@@ -94,6 +95,7 @@
                 <a href="#schedule">Schedule</a>
                 <a href="#prizes">Prizes</a>
                 <a href="/leaderboard.html">Leaderboard</a>
+                <a href="/team.html">Meet the team</a>
                 <a href="#faqs">FAQs</a>
                 <details class="years-menu">
                     <summary>Past years</summary>
@@ -143,23 +145,12 @@
                     <p class="hero-summary">hackPHS brings high school students from across New Jersey together for 24 hours of building, learning, meeting new people, and making something awesome.</p>
                     <div class="hero-registration">
                         <p class="registration-note" data-registration-status>Registration and the waitlist are closed.</p>
+                        <a class="route-link" id="recap" href="/assets/videos/hackphs-2026-recap.mp4?v=20261013music" data-recap-open>Watch the 2026 recap</a>
                         <a class="route-link" href="https://2025.hackphs.tech/" target="_blank" rel="noreferrer">View 2025</a>
                     </div>
                     <div class="hero-submission">
                         <a class="hero-submission__button" href="https://hackphs2026.devpost.com/" target="_blank" rel="noreferrer">Submit Project</a>
                         <p>Submissions end at <time datetime="2026-10-11T10:45:00-04:00">10:45 AM ET</time><br><strong data-submission-countdown aria-live="polite"></strong></p>
-                    </div>
-                    <div class="live-schedule" data-live-schedule>
-                        <section aria-labelledby="in-session-title">
-                            <h2 id="in-session-title">In session</h2>
-                            <p class="live-schedule__caption">Happening now</p>
-                            <ul data-current-events><li><a href="#schedule">View the schedule</a></li></ul>
-                        </section>
-                        <section class="live-schedule__upcoming" aria-labelledby="next-up-title">
-                            <h2 id="next-up-title">Next Up</h2>
-                            <p class="live-schedule__caption">Starting in the next hour</p>
-                            <ul data-upcoming-events><li><a href="#schedule">View the schedule</a></li></ul>
-                        </section>
                     </div>
                 </div>
 
@@ -253,7 +244,7 @@
                 <div class="about-followup reveal">
                     <div class="about-guide">
                         <a class="event-guide-button" href="https://docs.google.com/document/d/1oJstxHqrqHVHGFbPfbR71k5Ym46MFbWzPM7raaO5_0s/edit?tab=t.0" target="_blank" rel="noreferrer">Read the hackPHS event guide <span aria-hidden="true">↗</span></a>
-                        <p class="about-fun-fact"><strong>Fun fact:</strong> We're the largest hackathon hosted at a high school in the world.</p>
+                        <p class="about-fun-fact"><strong>Fun fact:</strong> We're one of the largest high-school-hosted hackathons internationally.</p>
                     </div>
                     <p class="about-statement">
                         You don't need a perfect idea or years of experience. Just bring a laptop, some curiosity, and a
@@ -276,7 +267,7 @@
                     </p>
                 </div>
 
-                <p class="schedule-signup-notice" data-signup-notice aria-live="polite">Workshop and event sign-ups will be posted at 9:00 AM on Saturday, October 10 (ET).</p>
+                <p class="schedule-signup-notice" data-signup-notice aria-live="polite">Workshop and event sign-ups are closed.</p>
                 <p class="schedule-map-link"><a href="#participant-map">Need directions? View the interactive participant map ↓</a></p>
                 <div class="schedule-views" data-schedule data-active-view="table">
                     <div class="schedule-view-toolbar reveal">
@@ -1118,10 +1109,29 @@
                     </div>
                     <div>
                         <dt>Sign-up</dt>
-                        <dd data-event-signup aria-live="polite">Opens Saturday at 9:00 AM ET</dd>
+                        <dd data-event-signup aria-live="polite">Sign-ups are closed.</dd>
                     </div>
                 </dl>
                 <section class="event-rubric" data-event-rubric hidden></section>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog class="recap-dialog" data-recap-dialog aria-labelledby="recap-title" aria-describedby="recap-intro">
+        <div class="recap-dialog__header">
+            <p>hackPHS / 2026 recap</p>
+            <button type="button" data-recap-close autofocus aria-label="Close recap">Close <span aria-hidden="true">×</span></button>
+        </div>
+        <div class="recap-dialog__body">
+            <h2 id="recap-title">Thanks for coming to hackPHS 2026!</h2>
+            <p id="recap-intro">Here's a recap of the weekend.</p>
+            <video data-recap-video data-video-src="/assets/videos/hackphs-2026-recap.mp4?v=20261013music" controls playsinline preload="none" poster="/assets/videos/hackphs-2026-recap-poster.jpg?v=20261013music" aria-label="hackPHS 2026 event recap video">
+                Your browser does not support embedded video. Use the video link below to watch the recap.
+            </video>
+            <p class="recap-dialog__error" data-recap-error role="status" hidden>The video couldn't load. You can try opening it directly using the link below.</p>
+            <div class="recap-dialog__footer">
+                <span>3 minutes, 38 seconds · Music included</span>
+                <a href="/assets/videos/hackphs-2026-recap.mp4?v=20261013music" target="_blank" rel="noreferrer">Open video directly ↗</a>
             </div>
         </div>
     </dialog>
