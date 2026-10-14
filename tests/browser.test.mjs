@@ -208,7 +208,7 @@ test("new sponsor logos load and PREA has a transparent background", async () =>
         await page.evaluate(() => document.fonts.load('64px Audiowide'));
         assert.ok(await page.evaluate(() => document.fonts.check('64px Audiowide')), "Henry's display font loads locally");
         const featuredWidth = await page.locator('.sponsor-featured__burgerrunn img').evaluate((image) => image.getBoundingClientRect().width);
-        const secondaryWidth = await page.locator('.sponsor-field a[href="https://nordvpn.com/"] img').evaluate((image) => image.getBoundingClientRect().width);
+        const secondaryWidth = await page.locator('.sponsor-field a[href="https://nordvpn.com/hackathons"] img').evaluate((image) => image.getBoundingClientRect().width);
         assert.ok(featuredWidth > secondaryWidth, "featured logos are larger than secondary logos");
         assert.ok(featuredWidth >= 192, "featured logos remain prominent after resizing");
         assert.equal(await page.locator("#mlh-trust-badge").count(), 1);
