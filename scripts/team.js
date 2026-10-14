@@ -1,4 +1,4 @@
-import { teamRoster } from "./team-data.js?v=20261013";
+import { teamRoster } from "./team-data.js?v=20261014name";
 
 function element(tag, className, text) {
     const node = document.createElement(tag);

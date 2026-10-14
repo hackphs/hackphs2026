@@ -8,7 +8,7 @@ export const teamRoster = {
         },
         {
             id: "logistics", name: "Logistics", heads: ["Shaurya Ranjan"],
-            organizers: ["Eitan Daw-Niv", "Derek Hu", "Gavin Josh Macatangay", "John Patrick", "Yejoon Na"],
+            organizers: ["Eitan Daw-Niv", "Derek Hu", "Gavin Josh Macatangay", "John Patrick-Aguilar", "Yejoon Na"],
         },
         {
             id: "outreach", name: "Outreach", heads: ["Aidan Sutphin"],
