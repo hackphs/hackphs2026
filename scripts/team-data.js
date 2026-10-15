@@ -11,12 +11,12 @@ export const teamRoster = {
             organizers: ["Eitan Daw-Niv", "Derek Hu", "Gavin Josh Macatangay", "John Patrick-Aguilar", "Yejoon Na"],
         },
         {
-            id: "outreach", name: "Outreach", heads: ["Aidan Sutphin"],
-            organizers: ["Nikolai Morozov", "Daniel Gu"],
-        },
-        {
             id: "tech", name: "Tech", heads: ["Aryan Singla"],
             organizers: ["Rohan Srivastava"],
+        },
+        {
+            id: "outreach", name: "Outreach", heads: ["Aidan Sutphin"],
+            organizers: ["Nikolai Morozov", "Daniel Gu"],
         },
         {
             id: "design", name: "Design", heads: ["Katherine Chen"],

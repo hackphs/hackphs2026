@@ -92,7 +92,7 @@ test("team has two aligned directors and five approved groups with heads above o
         assert.equal(await page.getByRole("heading", { name: "Section Directors", exact: true }).count(), 5);
         assert.equal(await page.locator("[data-team-preview]").isVisible(), false);
         assert.deepEqual(await page.locator(".team-director h3").allTextContents(), ["Oscar Huang", "Alex Sheng"]);
-        assert.deepEqual(await page.locator(".team-group > h3").allTextContents(), ["Finance", "Logistics", "Outreach", "Tech", "Design"]);
+        assert.deepEqual(await page.locator(".team-group > h3").allTextContents(), ["Finance", "Logistics", "Tech", "Outreach", "Design"]);
         assert.deepEqual(await page.locator('.team-group[aria-labelledby="finance-title"] .team-heads li').allTextContents(), ["Felix Yu", "Isaac Son"]);
         assert.equal(await page.locator(".team-organizers li").count(), 13);
         assert.match(await page.locator(".team-thanks").textContent(), /everyone who volunteered/);
